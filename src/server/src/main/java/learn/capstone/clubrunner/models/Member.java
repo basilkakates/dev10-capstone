@@ -5,7 +5,7 @@ public class Member {
     private int member_id;
     private int user_id;
     private int club_id;
-    private boolean isAdmin;
+    private int isAdmin;
 
     //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
 
@@ -33,11 +33,11 @@ public class Member {
         this.club_id = club_id;
     }
 
-    public boolean isAdmin() {
+    public int isAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setAdmin(int admin) {
         isAdmin = admin;
     }
 }
