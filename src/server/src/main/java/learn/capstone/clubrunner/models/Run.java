@@ -2,7 +2,7 @@ package learn.capstone.clubrunner.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +15,7 @@ public class Run {
     private int club_id;
     private int user_id;
     private int max_capacity;
-    private LocalDateTime start_time;
+    private LocalTime start_time;
     private int run_status_id;
     private BigDecimal latitude;
     private BigDecimal longitude;
@@ -71,11 +71,11 @@ public class Run {
         this.max_capacity = max_capacity;
     }
 
-    public LocalDateTime getStart_time() {
+    public LocalTime getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(LocalDateTime start_time) {
+    public void setStart_time(LocalTime start_time) {
         this.start_time = start_time;
     }
 
