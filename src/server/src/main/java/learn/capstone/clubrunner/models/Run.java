@@ -3,6 +3,8 @@ package learn.capstone.clubrunner.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Run {
 
@@ -16,7 +18,8 @@ public class Run {
     private int run_status_id;
     private BigDecimal latitude;
     private BigDecimal longitude;
-
+    private List<Runner> runners = new ArrayList<>();
+    //have a list of runners
     //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
 
     public int getRun_id() {
@@ -97,5 +100,13 @@ public class Run {
 
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
+    }
+
+    public List<Runner> getRunners() {
+        return runners;
+    }
+
+    public void setRunners(List<Runner> runners) {
+        this.runners = runners;
     }
 }
