@@ -1,5 +1,7 @@
 package learn.capstone.clubrunner.models;
 
+import java.util.Objects;
+
 public class Runner {
 
     private int runner_id;
@@ -30,5 +32,18 @@ public class Runner {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Runner runner = (Runner) o;
+        return runner_id == runner.runner_id && run_id == runner.run_id && user_id == runner.user_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(runner_id, run_id, user_id);
     }
 }

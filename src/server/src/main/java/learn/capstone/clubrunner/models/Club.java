@@ -2,6 +2,7 @@ package learn.capstone.clubrunner.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Club {
 
@@ -54,4 +55,18 @@ public class Club {
     public void setRuns(List<Run> runs) {
         this.runs = runs;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Club club = (Club) o;
+        return club_id == club.club_id && name.equals(club.name) && Objects.equals(description, club.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(club_id, name, description);
+    }
+
 }

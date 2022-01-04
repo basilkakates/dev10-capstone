@@ -1,5 +1,7 @@
 package learn.capstone.clubrunner.models;
 
+import java.util.Objects;
+
 public class Member {
 
     private int member_id;
@@ -39,5 +41,18 @@ public class Member {
 
     public void setAdmin(int admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return member_id == member.member_id && user_id == member.user_id && club_id == member.club_id && isAdmin == member.isAdmin;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(member_id, user_id, club_id, isAdmin);
     }
 }

@@ -1,5 +1,7 @@
 package learn.capstone.clubrunner.models;
 
+import java.util.Objects;
+
 public class RunStatus {
 
     private int run_status_id;
@@ -21,5 +23,18 @@ public class RunStatus {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RunStatus runStatus = (RunStatus) o;
+        return run_status_id == runStatus.run_status_id && status.equals(runStatus.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(run_status_id, status);
     }
 }

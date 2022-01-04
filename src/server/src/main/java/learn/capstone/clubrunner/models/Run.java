@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Run {
 
@@ -109,4 +110,19 @@ public class Run {
     public void setRunners(List<Runner> runners) {
         this.runners = runners;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Run run = (Run) o;
+        return run_id == run.run_id && club_id == run.club_id && user_id == run.user_id && max_capacity == run.max_capacity && run_status_id == run.run_status_id && date.equals(run.date) && address.equals(run.address) && start_time.equals(run.start_time) && latitude.equals(run.latitude) && longitude.equals(run.longitude);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(run_id, date, address, club_id, user_id, max_capacity, start_time, run_status_id, latitude, longitude);
+    }
+
 }
