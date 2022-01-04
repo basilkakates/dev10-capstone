@@ -6,6 +6,8 @@ public class Runner {
     private int run_id;
     private int user_id;
 
+    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
+
     public int getRunner_id() {
         return runner_id;
     }

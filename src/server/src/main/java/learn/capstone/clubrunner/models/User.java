@@ -8,6 +8,8 @@ public class User {
     private String email;
     private String password;
 
+    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
+
     public int getUser_id() {
         return user_id;
     }
