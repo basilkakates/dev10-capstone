@@ -46,4 +46,12 @@ public class Club {
     public void setMembers(List<Member> members) {
         this.members = members;
     }
+
+    public List<Run> getRuns() {
+        return runs;
+    }
+
+    public void setRuns(List<Run> runs) {
+        this.runs = runs;
+    }
 }
