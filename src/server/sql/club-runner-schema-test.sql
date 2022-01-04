@@ -21,11 +21,11 @@ USE `club-runner-test` ;
 DROP TABLE IF EXISTS `club-runner-test`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`user` (
-  `user_id` INT NOT NULL,
+  `user_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -37,9 +37,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `club-runner-test`.`club` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`club` (
-  `club_id` INT NOT NULL,
+  `club_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NULL,
+  `description` VARCHAR(150) NULL,
   PRIMARY KEY (`club_id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -51,7 +51,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `club-runner-test`.`run_status` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`run_status` (
-  `run_status_id` INT NOT NULL,
+  `run_status_id` INT NOT NULL AUTO_INCREMENT,
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`run_status_id`),
   UNIQUE INDEX `status_UNIQUE` (`status` ASC) VISIBLE)
@@ -103,7 +103,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `club-runner-test`.`runner` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`runner` (
-  `runner_id` INT NOT NULL,
+  `runner_id` INT NOT NULL AUTO_INCREMENT,
   `run_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`runner_id`, `run_id`, `user_id`),
@@ -128,13 +128,14 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `club-runner-test`.`member` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`member` (
-  `member_id` INT NOT NULL,
+  `member_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `club_id` INT NOT NULL,
   `isAdmin` TINYINT(1) NOT NULL,
   PRIMARY KEY (`member_id`, `user_id`, `club_id`),
   INDEX `fk_member_club_idx` (`club_id` ASC) VISIBLE,
   INDEX `fk_member_user_idx` (`user_id` ASC) VISIBLE,
+  UNIQUE INDEX `isAdmin_UNIQUE` (`isAdmin` ASC, `user_id` ASC) VISIBLE,
   CONSTRAINT `fk_member_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `club-runner-test`.`user` (`user_id`)
@@ -145,6 +146,16 @@ CREATE TABLE IF NOT EXISTS `club-runner-test`.`member` (
     REFERENCES `club-runner-test`.`club` (`club_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `club-runner-test`.`table1`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `club-runner-test`.`table1` ;
+
+CREATE TABLE IF NOT EXISTS `club-runner-test`.`table1` (
+)
 ENGINE = InnoDB;
 
 
