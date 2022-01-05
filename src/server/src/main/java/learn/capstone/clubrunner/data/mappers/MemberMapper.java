@@ -1,20 +1,21 @@
 package learn.capstone.clubrunner.data.mappers;
 
-import learn.capstone.clubrunner.models.Club;
+import learn.capstone.clubrunner.models.Member;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ClubMapper implements RowMapper<Club> {
+public class MemberMapper implements RowMapper<Member> {
 
     @Override
-    public Club mapRow(ResultSet resultSet, int i) throws SQLException {
+    public Member mapRow(ResultSet resultSet, int i) throws SQLException {
 
-        Club club = new Club();
-        club.setClub_id(resultSet.getInt("club_id"));
-        club.setName(resultSet.getString("name"));
-        club.setDescription(resultSet.getString("description"));
+        Member member = new Member();
+        member.setMember_id(resultSet.getInt("member_id"));
+        member.setUser_id(resultSet.getInt("user_id"));
+        member.setClub_id(resultSet.getInt("club_id"));
+        member.setAdmin(resultSet.getInt("isAdmin"));
 
 //        SecurityClearanceMapper securityClearanceMapper = new SecurityClearanceMapper();
 //        agencyAgent.setSecurityClearance(securityClearanceMapper.mapRow(resultSet, i));
@@ -23,7 +24,7 @@ public class ClubMapper implements RowMapper<Club> {
 
 //        AgentMapper agentMapper = new AgentMapper();
 //        agencyAgent.setAgent(agentMapper.mapRow(resultSet, i));
-        
-        return club;
+
+        return member;
     }
 }

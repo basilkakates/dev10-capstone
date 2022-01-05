@@ -1,20 +1,19 @@
 package learn.capstone.clubrunner.data.mappers;
 
-import learn.capstone.clubrunner.models.Club;
+import learn.capstone.clubrunner.models.RunStatus;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ClubMapper implements RowMapper<Club> {
+public class RunStatusMapper implements RowMapper<RunStatus> {
 
     @Override
-    public Club mapRow(ResultSet resultSet, int i) throws SQLException {
+    public RunStatus mapRow(ResultSet resultSet, int i) throws SQLException {
 
-        Club club = new Club();
-        club.setClub_id(resultSet.getInt("club_id"));
-        club.setName(resultSet.getString("name"));
-        club.setDescription(resultSet.getString("description"));
+        RunStatus runStatus = new RunStatus();
+        runStatus.setRun_status_id(resultSet.getInt("run_status_id"));
+        runStatus.setStatus(resultSet.getString("status"));
 
 //        SecurityClearanceMapper securityClearanceMapper = new SecurityClearanceMapper();
 //        agencyAgent.setSecurityClearance(securityClearanceMapper.mapRow(resultSet, i));
@@ -23,7 +22,7 @@ public class ClubMapper implements RowMapper<Club> {
 
 //        AgentMapper agentMapper = new AgentMapper();
 //        agencyAgent.setAgent(agentMapper.mapRow(resultSet, i));
-        
-        return club;
+
+        return runStatus;
     }
 }
