@@ -17,7 +17,7 @@ function DeleteRun() {
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/run/${run_id}`)
+    fetch(`http://localhost:8080/run/${run_id}`)
       .then((response) => {
         if (response.status === 404) {
           return Promise.reject(`Received 404 Not Found for Run ID: ${run_id}`);
@@ -54,7 +54,7 @@ function DeleteRun() {
       body: JSON.stringify(run),
     };
 
-    fetch(`http://localhost:8080/api/run/${run.run_id}`, init)
+    fetch(`http://localhost:8080/run/${run.run_id}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;

@@ -37,7 +37,7 @@ function EditRun() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/run/${run_id}`)
+    fetch(`http://localhost:8080/run/${run_id}`)
       .then((response) => {
         if (response.status === 404) {
           return Promise.reject(`Received 404 Not Found for Run ID: ${run_id}`);
@@ -79,7 +79,7 @@ function EditRun() {
       body: JSON.stringify(updatedRun),
     };
 
-    fetch(`http://localhost:8080/api/run/${updatedRun.run_id}`, init)
+    fetch(`http://localhost:8080/run/${updatedRun.run_id}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;

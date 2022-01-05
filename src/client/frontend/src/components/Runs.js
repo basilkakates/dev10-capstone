@@ -5,7 +5,7 @@ function Runs() {
   const [runs, setRuns] = useState([]);
 
   const getRuns = () => {
-    fetch("http://localhost:8080/api/run")
+    fetch("http://localhost:8080/run")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
@@ -25,7 +25,7 @@ function Runs() {
       method: "DELETE",
     };
 
-    fetch(`http://localhost:8080/api/agent/${run_id}`, init)
+    fetch(`http://localhost:8080/run/${run_id}`, init)
       .then((response) => {
         if (response.status === 204) {
           getRuns();
@@ -70,7 +70,7 @@ function Runs() {
                     <i className="bi bi-pencil"></i> Edit
                   </Link>
                   <Link
-                    to={`/agents/delete/${run.run_id}`}
+                    to={`/runs/delete/${run.run_id}`}
                     className="btn btn-danger btn-sm"
                   >
                     <i className="bi bi-pencil"></i> Delete

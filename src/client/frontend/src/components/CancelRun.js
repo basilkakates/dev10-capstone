@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import Errors from "./Errors";
 
-function AddRun() {
+function CancelRun() {
   const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -13,44 +13,40 @@ function AddRun() {
   const [max_capacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
+  const { run_id } = useParams();
   const history = useHistory();
 
-  const dateOnChangeHandler = (event) => {
-    setDate(event.target.value);
-  };
+  useEffect(() => {
+    fetch(`http://localhost:8080/run/${run_id}`)
+      .then((response) => {
+        if (response.status === 404) {
+          return Promise.reject(`Received 404 Not Found for Run ID: ${run_id}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setDate(data.date);
+        setStartTime(data.start_time);
+        setAddress(data.address);
+        setDescription(data.description);
+        setClubId(data.club_id);
+        setUserId(data.user_id);
+        setMaxCapacity(data.max_capacity);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [run_id]);
 
-  const startTimeOnChangeHandler = (event) => {
-    setStartTime(event.target.value);
-  };
-
-  const addressOnChangeHandler = (event) => {
-    setAddress(event.target.value);
-  };
-
-  const descriptionOnChangeHandler = (event) => {
-    setDescription(event.target.value);
-  };
-
-  const maxCapacityOnChangeHandler = (event) => {
-    setMaxCapacity(event.target.value);
-  };
-
-  const addRunFormSubmitHandler = (event) => {
+  const cancelRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const run = {
-      run_id: 0,
-      date,
-      start_time,
-      address,
-      description,
-      club_id,
-      user_id,
-      max_capacity,
+      run_id: run_id,
     };
 
     const init = {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -58,16 +54,17 @@ function AddRun() {
       body: JSON.stringify(run),
     };
 
-    fetch("http://localhost:8080/run", init)
+    fetch(`http://localhost:8080/run/${run.run_id}`, init)
       .then((response) => {
-        if (response.status === 201 || response.status === 400) {
+        if (response.status === 204) {
+          return null;
+        } else if (response.status === 404) {
           return response.json();
         }
         return Promise.reject("Something unexpected went wrong :)");
       })
       .then((data) => {
-        // TODO: This needs to be changed to run_id. The test api required it to be id.
-        if (data.id) {
+        if (!data) {
           history.push("/runs");
         } else {
           setErrors(data);
@@ -78,9 +75,9 @@ function AddRun() {
 
   return (
     <>
-      <h2 className="my-4">Add Run</h2>
+      <h2 className="my-4">Cancel Run</h2>
       <Errors errors={errors} />
-      <form onSubmit={addRunFormSubmitHandler}>
+      <form onSubmit={cancelRunFormSubmitHandler}>
         <table className="table">
           <tbody>
             <tr>
@@ -91,7 +88,7 @@ function AddRun() {
                   id="date"
                   name="date"
                   value={date}
-                  onChange={dateOnChangeHandler}
+                  readOnly
                 />
               </td>
             </tr>
@@ -103,7 +100,7 @@ function AddRun() {
                   id="start_time"
                   name="start_time"
                   value={start_time}
-                  onChange={startTimeOnChangeHandler}
+                  readOnly
                 />
               </td>
             </tr>
@@ -115,7 +112,7 @@ function AddRun() {
                   id="address"
                   name="address"
                   value={address}
-                  onChange={addressOnChangeHandler}
+                  readOnly
                 />
               </td>
             </tr>
@@ -127,7 +124,7 @@ function AddRun() {
                   id="description"
                   name="description"
                   value={description}
-                  onChange={descriptionOnChangeHandler}
+                  readOnly
                 />
               </td>
             </tr>
@@ -139,7 +136,7 @@ function AddRun() {
                   id="maxCapacity"
                   name="maxCapacity"
                   value={max_capacity}
-                  onChange={maxCapacityOnChangeHandler}
+                  readOnly
                 />
               </td>
             </tr>
@@ -147,7 +144,7 @@ function AddRun() {
         </table>
         <div className="mt-5">
           <button className="btn btn-success" type="submit">
-            <i className="bi bi-plus-circle-fill"></i> Add Run
+            <i className="bi bi-plus-circle-fill"></i> Cancel Run
           </button>
           <Link to="/runs" className="btn btn-warning ml-2">
             <i className="bi bi-x"></i> Cancel
@@ -158,4 +155,4 @@ function AddRun() {
   );
 }
 
-export default AddRun;
+export default CancelRun;

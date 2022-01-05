@@ -26,7 +26,7 @@ function NavBar() {
         <li>
           <Link to="/runs/pending">Pending Runs</Link>
         </li>
-        {!auth.user && (
+        {/* {!auth.user && (
           <>
             <li>
               <Link to="/login">Login</Link>
@@ -35,16 +35,16 @@ function NavBar() {
               <Link to="/register">Register</Link>
             </li>
           </>
-        )}
+        )} */}
       </ul>
-      {auth.user && (
+      {/* {auth.user && (
         <div>
           <p>Hello {auth.user.username}!</p>
           <button onClick={() => auth.logout()} className="btn btn-primary">
             Logout
           </button>
         </div>
-      )}
+      )} */}
     </>
   );
 }

@@ -5,7 +5,7 @@ function Clubs() {
   const [clubs, setClubs] = useState([]);
 
   const getClubs = () => {
-    fetch("http://localhost:8080/api/club")
+    fetch("http://localhost:8080/club")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("clubs fetch failed");
