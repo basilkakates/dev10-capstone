@@ -3,11 +3,8 @@ package learn.capstone.clubrunner.models;
 import java.util.Objects;
 
 public class RunStatus {
-
     private int run_status_id;
     private String status;
-
-    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
 
     public int getRun_status_id() {
         return run_status_id;

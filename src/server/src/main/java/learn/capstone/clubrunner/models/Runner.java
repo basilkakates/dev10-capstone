@@ -3,12 +3,10 @@ package learn.capstone.clubrunner.models;
 import java.util.Objects;
 
 public class Runner {
-
     private int runner_id;
-    private int run_id;
-    private int user_id;
 
-    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
+    private User user;
+    private Run run;
 
     public int getRunner_id() {
         return runner_id;
@@ -18,20 +16,20 @@ public class Runner {
         this.runner_id = runner_id;
     }
 
-    public int getRun_id() {
-        return run_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setRun_id(int run_id) {
-        this.run_id = run_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public Run getRun() {
+        return run;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setRun(Run run) {
+        this.run = run;
     }
 
     @Override
@@ -39,11 +37,11 @@ public class Runner {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Runner runner = (Runner) o;
-        return runner_id == runner.runner_id && run_id == runner.run_id && user_id == runner.user_id;
+        return runner_id == runner.runner_id && Objects.equals(user, runner.user) && Objects.equals(run, runner.run);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(runner_id, run_id, user_id);
+        return Objects.hash(runner_id, user, run);
     }
 }
