@@ -8,20 +8,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class Run {
-
     private int run_id;
     private LocalDate date;
     private String address;
-    private int club_id;
-    private int user_id;
+    private String description;
     private int max_capacity;
     private LocalTime start_time;
-    private int run_status_id;
     private BigDecimal latitude;
     private BigDecimal longitude;
+
+    private Club club;
+    private User user;
+    private RunStatus runStatus;
+
     private List<Runner> runners = new ArrayList<>();
-    //have a list of runners
-    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
 
     public int getRun_id() {
         return run_id;
@@ -47,20 +47,12 @@ public class Run {
         this.address = address;
     }
 
-    public int getClub_id() {
-        return club_id;
+    public String getDescription() {
+        return description;
     }
 
-    public void setClub_id(int club_id) {
-        this.club_id = club_id;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getMax_capacity() {
@@ -79,14 +71,6 @@ public class Run {
         this.start_time = start_time;
     }
 
-    public int getRun_status_id() {
-        return run_status_id;
-    }
-
-    public void setRun_status_id(int run_status_id) {
-        this.run_status_id = run_status_id;
-    }
-
     public BigDecimal getLatitude() {
         return latitude;
     }
@@ -103,6 +87,30 @@ public class Run {
         this.longitude = longitude;
     }
 
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public RunStatus getRunStatus() {
+        return runStatus;
+    }
+
+    public void setRunStatus(RunStatus runStatus) {
+        this.runStatus = runStatus;
+    }
+
     public List<Runner> getRunners() {
         return runners;
     }
@@ -111,18 +119,16 @@ public class Run {
         this.runners = runners;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Run run = (Run) o;
-        return run_id == run.run_id && club_id == run.club_id && user_id == run.user_id && max_capacity == run.max_capacity && run_status_id == run.run_status_id && date.equals(run.date) && address.equals(run.address) && start_time.equals(run.start_time) && latitude.equals(run.latitude) && longitude.equals(run.longitude);
+        return run_id == run.run_id && max_capacity == run.max_capacity && date.equals(run.date) && address.equals(run.address) && Objects.equals(description, run.description) && start_time.equals(run.start_time) && latitude.equals(run.latitude) && longitude.equals(run.longitude) && club.equals(run.club) && user.equals(run.user) && runStatus.equals(run.runStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(run_id, date, address, club_id, user_id, max_capacity, start_time, run_status_id, latitude, longitude);
+        return Objects.hash(run_id, date, address, description, max_capacity, start_time, latitude, longitude, club, user, runStatus);
     }
-
 }

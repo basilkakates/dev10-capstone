@@ -5,17 +5,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-
     private int user_id;
     private String first_name;
     private String last_name;
     private String email;
     private String password;
-    private List<Club> clubs = new ArrayList<>();
-    private List<Run> runs = new ArrayList<>();
-    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
-    //user list of clubs
-    //user have list of runs
+
+    private List<Runner> runsParticipating = new ArrayList<>();
+    private List<Member> memberships = new ArrayList<>();
+    private List<Run> runsCreated = new ArrayList<>();
 
     public int getUser_id() {
         return user_id;
@@ -57,20 +55,28 @@ public class User {
         this.password = password;
     }
 
-    public List<Club> getClubs() {
-        return clubs;
+    public List<Runner> getRunsParticipating() {
+        return runsParticipating;
     }
 
-    public void setClubs(List<Club> clubs) {
-        this.clubs = clubs;
+    public void setRunsParticipating(List<Runner> runsParticipating) {
+        this.runsParticipating = runsParticipating;
     }
 
-    public List<Run> getRuns() {
-        return runs;
+    public List<Member> getMemberships() {
+        return memberships;
     }
 
-    public void setRuns(List<Run> runs) {
-        this.runs = runs;
+    public void setMemberships(List<Member> memberships) {
+        this.memberships = memberships;
+    }
+
+    public List<Run> getRunsCreated() {
+        return runsCreated;
+    }
+
+    public void setRunsCreated(List<Run> runsCreated) {
+        this.runsCreated = runsCreated;
     }
 
     @Override

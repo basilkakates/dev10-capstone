@@ -5,16 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Club {
-
     private int club_id;
     private String name;
     private String description;
-    private List<Member> members = new ArrayList<>();
-    private List<Run> runs = new ArrayList<>();
 
-    //Do I need to add an arraylist for matching bridge tables? like in fieldagent?
-    //club will have list of members
-    //club will have a list of run
+    private List<Member> members = new ArrayList<>();
+    private List<Run> runsHosted = new ArrayList<>();
 
     public int getClub_id() {
         return club_id;
@@ -48,12 +44,12 @@ public class Club {
         this.members = members;
     }
 
-    public List<Run> getRuns() {
-        return runs;
+    public List<Run> getRunsHosted() {
+        return runsHosted;
     }
 
-    public void setRuns(List<Run> runs) {
-        this.runs = runs;
+    public void setRunsHosted(List<Run> runsHosted) {
+        this.runsHosted = runsHosted;
     }
 
     @Override
@@ -68,5 +64,4 @@ public class Club {
     public int hashCode() {
         return Objects.hash(club_id, name, description);
     }
-
 }
