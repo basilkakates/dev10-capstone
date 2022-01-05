@@ -3,7 +3,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 
 import Errors from "./Errors";
 
-function CancelRun() {
+function ApproveRun() {
   const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -36,7 +36,7 @@ function CancelRun() {
       });
   }, [run_id]);
 
-  const cancelRunFormSubmitHandler = (event) => {
+  const approveRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const updatedRun = {
@@ -48,7 +48,7 @@ function CancelRun() {
       club_id,
       user_id,
       max_capacity,
-      status: "canceled",
+      status: "approved",
     };
 
     const init = {
@@ -81,9 +81,9 @@ function CancelRun() {
 
   return (
     <>
-      <h2 className="my-4">Cancel Run</h2>
+      <h2 className="my-4">Approve Run</h2>
       <Errors errors={errors} />
-      <form onSubmit={cancelRunFormSubmitHandler}>
+      <form onSubmit={approveRunFormSubmitHandler}>
         <table className="table">
           <tbody>
             <tr>
@@ -150,7 +150,7 @@ function CancelRun() {
         </table>
         <div className="mt-5">
           <button className="btn btn-success" type="submit">
-            <i className="bi bi-plus-circle-fill"></i> Cancel Run
+            <i className="bi bi-plus-circle-fill"></i> Approve Run
           </button>
           <Link to="/runs" className="btn btn-warning ml-2">
             <i className="bi bi-x"></i> Cancel
@@ -161,4 +161,4 @@ function CancelRun() {
   );
 }
 
-export default CancelRun;
+export default ApproveRun;

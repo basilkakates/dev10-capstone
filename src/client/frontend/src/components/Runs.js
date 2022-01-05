@@ -57,26 +57,36 @@ function Runs() {
         <tbody>
           {runs.map((run) => (
             <tr key={run.run_id}>
-              <td>
-                {run.date} {run.start_time} {run.address} {run.description}{" "}
-                {run.club_id} {run.user_id} {run.max_capacity}
-              </td>
-              <td>
-                <div className="float-right">
-                  <Link
-                    to={`/runs/edit/${run.run_id}`}
-                    className="btn btn-primary btn-sm"
-                  >
-                    <i className="bi bi-pencil"></i> Edit
-                  </Link>
-                  <Link
-                    to={`/runs/delete/${run.run_id}`}
-                    className="btn btn-danger btn-sm"
-                  >
-                    <i className="bi bi-pencil"></i> Delete
-                  </Link>
+              {run.status === "approved" && (
+                <div>
+                  <td>
+                    {run.date} {run.start_time} {run.address} {run.description}{" "}
+                    {run.club_id} {run.user_id} {run.max_capacity}
+                  </td>
+                  <td>
+                    <div className="float-right">
+                      <Link
+                        to={`/runs/edit/${run.run_id}`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        <i className="bi bi-pencil"></i> Edit
+                      </Link>
+                      <Link
+                        to={`/runs/cancel/${run.run_id}`}
+                        className="btn btn-danger btn-sm"
+                      >
+                        <i className="bi bi-pencil"></i> Cancel
+                      </Link>
+                    </div>
+                  </td>
                 </div>
-              </td>
+              )}
+              {run.status === "canceled" && (
+                <td>
+                  {run.date} {run.start_time} {run.address} {run.description}{" "}
+                  {run.club_id} {run.user_id} {run.max_capacity} CANCELED
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

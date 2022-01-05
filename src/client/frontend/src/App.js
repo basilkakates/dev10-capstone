@@ -13,6 +13,7 @@ import Runs from "./components/Runs";
 import PendingRuns from "./components/PendingRuns";
 import AddRun from "./components/AddRun";
 import EditRun from "./components/EditRun";
+import ApproveRun from "./components/ApproveRun";
 import DeleteRun from "./components/DeleteRun";
 import CancelRun from "./components/CancelRun";
 import Clubs from "./components/Clubs";
@@ -88,8 +89,9 @@ function App() {
           <About />
         </Route>
 
-        <Route exact path="/userprofile/:user_id">
+        <Route exact path="/userprofile">
           {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
+          <UserProfile />
         </Route>
 
         <Route exact path="/runs">
@@ -97,7 +99,7 @@ function App() {
           <Runs />
         </Route>
 
-        <Route path="/runs/pending">
+        <Route exact path="/runs/pending">
           <PendingRuns />
         </Route>
 
@@ -111,6 +113,10 @@ function App() {
           <EditRun />
         </Route>
 
+        <Route path="/runs/approve/:run_id">
+          <ApproveRun />
+        </Route>
+        
         <Route path="/runs/delete/:run_id">
           {/* {user ? <DeleteRun /> : <Redirect to="login" />} */}
           <DeleteRun />
