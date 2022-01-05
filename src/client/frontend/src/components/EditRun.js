@@ -100,7 +100,7 @@ function EditRun() {
 
   return (
     <>
-      <h2 className="my-4">Add Run</h2>
+      <h2 className="my-4">Edit Run</h2>
       <Errors errors={errors} />
       <form onSubmit={editRunFormSubmitHandler}>
         <table className="table">
@@ -161,7 +161,7 @@ function EditRun() {
                   id="maxCapacity"
                   name="maxCapacity"
                   value={max_capacity}
-                  onChange={max_capacity}
+                  onChange={maxCapacityOnChangeHandler}
                 />
               </td>
             </tr>
