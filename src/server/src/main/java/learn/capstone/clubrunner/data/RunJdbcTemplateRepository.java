@@ -1,6 +1,7 @@
 package learn.capstone.clubrunner.data;
 
 import learn.capstone.clubrunner.data.mappers.RunMapper;
+import learn.capstone.clubrunner.data.mappers.RunnerMapper;
 import learn.capstone.clubrunner.models.Run;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,7 +24,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     @Override
     public List<Run> findAll() {
-        final String sql = "select run_id, date, address, club_id, user_id, max_capacity, start_time, run_status_id, latitude, longitude from run;";
+        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, latitude, longitude, club_id, user_id from run;";
         return jdbcTemplate.query(sql, new RunMapper());
     }
 
@@ -31,12 +32,15 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Transactional
     public Run findById(int run_id) {
 
-        final String sql = "select run_id, date, address, club_id, user_id, max_capacity, start_time, run_status_id, latitude, longitude from run where run_id = ?;";
+        final String sql = "select run_id, date, address, max_capacity, start_time, latitude, longitude from run where run_id = ?;";
 
         Run result = jdbcTemplate.query(sql, new RunMapper(), run_id).stream().findAny().orElse(null);
 
         if (result != null) {
-            add(result);
+            //add(result);
+            addClubs(result);
+            addUsers(result);
+            addRunStatuses(result);
         }
 
         return result;
@@ -45,20 +49,22 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Override
     public Run add(Run run) {
 
-        final String sql = "insert into run (date, address, club_id, user_id, max_capacity, start_time, run_status_id, latitude, longitude) values (?,?,?,?,?,?,?,?,?);";
+        final String sql = "insert into run (date, address, description, club_id, user_id, max_capacity, start_time, " +
+                "run_status_id, latitude, longitude) values (?,?,?,?,?,?,?,?,?,?);";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setDate(1, Date.valueOf(run.getDate()));
             ps.setString(2, run.getAddress());
-            ps.setInt(3, run.getClub_id());
-            ps.setInt(4, run.getUser_id());
-            ps.setInt(5, run.getMax_capacity());
-            ps.setTime(6, Time.valueOf(run.getStart_time()));
-            ps.setInt(7, run.getRun_status_id());
-            ps.setBigDecimal(8, run.getLatitude());
-            ps.setBigDecimal(9, run.getLongitude());
+            ps.setString(3, run.getDescription());
+            ps.setInt(4, run.getClub().getClub_id());
+            ps.setInt(5, run.getUser().getUser_id());
+            ps.setInt(6, run.getMax_capacity());
+            ps.setTime(7, Time.valueOf(run.getStart_time()));
+            ps.setInt(8, run.getRunStatus().getRun_status_id());
+            ps.setBigDecimal(9, run.getLatitude());
+            ps.setBigDecimal(10, run.getLongitude());
 
             return ps;
         }, keyholder);
@@ -74,11 +80,11 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Override
     public boolean update(Run run) {
 
-        final String sql = "update run set date = ?, address = ?, club_id = ?, user_id = ?, max_capacity = ?, " +
-                "start_time = ?, run_status_id = ?, latitude = ?, longitude = ? where run_id = ?";
+        final String sql = "update run set date = ?, address = ?, description = ?, max_capacity = ?, " +
+                "start_time = ?, latitude = ?, longitude = ? where run_id = ?";
 
-        return jdbcTemplate.update(sql, run.getDate(), run.getAddress(), run.getClub_id(), run.getUser_id(),
-                run.getMax_capacity(), run.getStart_time(), run.getRun_status_id(), run.getLatitude(),
+        return jdbcTemplate.update(sql, run.getDate(), run.getAddress(), run.getDescription(),
+                run.getMax_capacity(), run.getStart_time(), run.getLatitude(),
                 run.getLongitude(), run.getRun_id()) > 0;
     }
 
@@ -88,18 +94,40 @@ public class RunJdbcTemplateRepository implements RunRepository {
         jdbcTemplate.update("delete from runner where run_id = ?", run_id);
         return jdbcTemplate.update("delete from run where run_id = ?", run_id) > 0;
     }
-// will I also need to add an addRunner Tab like this from fieldagent?
-//    private void addAgents(Agency agency) {
-//
-//        final String sql = "select aa.agency_id, aa.agent_id, aa.identifier, aa.activation_date, aa.is_active, "
-//                + "sc.security_clearance_id, sc.name security_clearance_name, "
-//                + "a.first_name, a.middle_name, a.last_name, a.dob, a.height_in_inches "
-//                + "from agency_agent aa "
-//                + "inner join agent a on aa.agent_id = a.agent_id "
-//                + "inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id "
-//                + "where aa.agency_id = ?";
-//
-//        var agencyAgents = jdbcTemplate.query(sql, new AgencyAgentMapper(), agency.getAgencyId());
-//        agency.setAgents(agencyAgents);
-//    }
+//will I also need to add an addRunner Tab like this from fieldagent?
+
+    private void addClubs(Run run) {
+
+        final String sql = "select c.run_id, c.name, "
+                + "from club c "
+                + "inner join run r on c.run_id = r.run_id "
+                + "where r.run_id = ?";
+
+        var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
+        run.setRunners(clubs);
+    }
+
+    private void addUsers(Run run) {
+
+        final String sql = "u.user_id, "
+                + "from user u "
+                + "inner join user u on rr.user_id = u.user_id "
+                + "inner join runner rr on r.user_id = rr.user_id "
+                + "where r.user_id = ?";
+
+        var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
+        run.setRunners(users);
+    }
+
+    private void addRunStatuses(Run run) {
+
+        final String sql = "select rs.run_status_id, "
+                + "r.run_status_id, "
+                + "from run_status rs "
+                + "inner join run r on rs.run_id = r.run_id "
+                + "where rr.run_id = ?";
+
+        var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
+        run.setRunners(runStatuses);
+    }
 }

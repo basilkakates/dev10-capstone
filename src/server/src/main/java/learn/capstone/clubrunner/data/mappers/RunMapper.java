@@ -19,15 +19,15 @@ public class RunMapper implements RowMapper<Run> {
         run.setLatitude(resultSet.getBigDecimal("latitude"));
         run.setLongitude(resultSet.getBigDecimal("longitude"));
 
-        ClubMapper clubMapper = new ClubMapper();
-        run.setClub(clubMapper.mapRow(resultSet, i));
-
-        // User who created the run
-        UserMapper userMapper = new UserMapper();
-        run.setUser(userMapper.mapRow(resultSet, i));
-
-        RunStatusMapper runStatusMapper = new RunStatusMapper();
-        run.setRunStatus(runStatusMapper.mapRow(resultSet, i));
+//        ClubMapper clubMapper = new ClubMapper();
+//        run.setClub(clubMapper.mapRow(resultSet, i));
+//
+//        // User who created the run
+//        UserMapper userMapper = new UserMapper();
+//        run.setUser(userMapper.mapRow(resultSet, i));
+//
+//        RunStatusMapper runStatusMapper = new RunStatusMapper();
+//        run.setRunStatus(runStatusMapper.mapRow(resultSet, i));
 
         return run;
     }

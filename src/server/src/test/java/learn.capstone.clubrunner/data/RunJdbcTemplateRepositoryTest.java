@@ -1,6 +1,9 @@
 package learn.capstone.clubrunner.data;
 
+import learn.capstone.clubrunner.models.Club;
 import learn.capstone.clubrunner.models.Run;
+import learn.capstone.clubrunner.models.RunStatus;
+import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +40,26 @@ class RunJdbcTemplateRepositoryTest {
     @Test
     void shouldAddRun() {
         Run run = new Run();
+
+        User user = new User();
+        user.setUser_id(1);
+
+        Club club = new Club();
+        club.setClub_id(1);
+
+        RunStatus runStatus = new RunStatus();
+        runStatus.setRun_status_id(2);
+
         run.setDate(LocalDate.parse("2025-11-01"));
         run.setAddress("000 Test");
         run.setMax_capacity(25);
+        run.setUser(user);
+        run.setClub(club);
+        run.setRunStatus(runStatus);
         run.setStart_time(LocalTime.parse("13:30"));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
-        run.setUser_id(1);
-        run.setClub_id(1);
-        run.setRun_status_id(2);
+
         Run actual = repository.add(run);
         assertNotNull(actual);
         assertEquals(4, actual.getRun_id());
@@ -55,16 +69,26 @@ class RunJdbcTemplateRepositoryTest {
     void shouldUpdateRun() {
 
         Run run = new Run();
+
+        User user = new User();
+        user.setUser_id(1);
+
+        Club club = new Club();
+        club.setClub_id(1);
+
+        RunStatus runStatus = new RunStatus();
+        runStatus.setRun_status_id(2);
+
         run.setRun_id(3);
         run.setDate(LocalDate.parse("2025-11-11"));
         run.setAddress("111 One");
         run.setMax_capacity(26);
+        run.setUser(user);
+        run.setClub(club);
+        run.setRunStatus(runStatus);
         run.setStart_time(LocalTime.parse("13:30"));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
-        run.setUser_id(1);
-        run.setClub_id(1);
-        run.setRun_status_id(2);
 
         assertTrue(repository.update(run));
     }
