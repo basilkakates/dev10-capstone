@@ -74,7 +74,8 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Override
     public boolean update(Run run) {
 
-        final String sql = "update run set date = ?, address = ?, club_id = ?, user_id = ?, max_capacity = ?, start_time = ?, run_status_id = ?, latitude = ?, longitude = ? where run_id = ?";
+        final String sql = "update run set date = ?, address = ?, club_id = ?, user_id = ?, max_capacity = ?, " +
+                "start_time = ?, run_status_id = ?, latitude = ?, longitude = ? where run_id = ?";
 
         return jdbcTemplate.update(sql, run.getDate(), run.getAddress(), run.getClub_id(), run.getUser_id(),
                 run.getMax_capacity(), run.getStart_time(), run.getRun_status_id(), run.getLatitude(),
@@ -84,6 +85,21 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Override
     @Transactional
     public boolean deleteById(int run_id) {
+        jdbcTemplate.update("delete from runner where run_id = ?", run_id);
         return jdbcTemplate.update("delete from run where run_id = ?", run_id) > 0;
     }
+// will I also need to add an addRunner Tab like this from fieldagent?
+//    private void addAgents(Agency agency) {
+//
+//        final String sql = "select aa.agency_id, aa.agent_id, aa.identifier, aa.activation_date, aa.is_active, "
+//                + "sc.security_clearance_id, sc.name security_clearance_name, "
+//                + "a.first_name, a.middle_name, a.last_name, a.dob, a.height_in_inches "
+//                + "from agency_agent aa "
+//                + "inner join agent a on aa.agent_id = a.agent_id "
+//                + "inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id "
+//                + "where aa.agency_id = ?";
+//
+//        var agencyAgents = jdbcTemplate.query(sql, new AgencyAgentMapper(), agency.getAgencyId());
+//        agency.setAgents(agencyAgents);
+//    }
 }
