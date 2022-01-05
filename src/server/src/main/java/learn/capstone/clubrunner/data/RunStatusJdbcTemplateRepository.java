@@ -44,7 +44,7 @@ public class RunStatusJdbcTemplateRepository implements RunStatusRepository {
     @Override
     public List<RunStatus> findAll() {
         final String sql = "select run_status_id, status " +
-                "from run_status limit 1000;";
+                "from run_status;";
         return jdbcTemplate.query(sql, new RunStatusMapper());
     }
 
