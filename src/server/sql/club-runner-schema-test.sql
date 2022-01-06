@@ -135,7 +135,6 @@ CREATE TABLE IF NOT EXISTS `club-runner-test`.`member` (
   PRIMARY KEY (`member_id`, `user_id`, `club_id`),
   INDEX `fk_member_club_idx` (`club_id` ASC) VISIBLE,
   INDEX `fk_member_user_idx` (`user_id` ASC) VISIBLE,
-  UNIQUE INDEX `isAdmin_UNIQUE` (`isAdmin` ASC, `user_id` ASC) INVISIBLE,
   UNIQUE INDEX `club_id_UNIQUE` (`club_id` ASC, `user_id` ASC) INVISIBLE,
   CONSTRAINT `fk_member_user`
     FOREIGN KEY (`user_id`)
