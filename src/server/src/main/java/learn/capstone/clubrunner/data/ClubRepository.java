@@ -10,11 +10,4 @@ public interface ClubRepository {
 
     @Transactional
     Club findById(int club_id);
-
-    Club add(Club club);
-
-    boolean update(Club club);
-
-    @Transactional
-    boolean deleteById(int club_id);
 }

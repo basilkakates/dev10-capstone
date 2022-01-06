@@ -24,7 +24,8 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     @Override
     public List<Run> findAll() {
-        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, latitude, longitude, club_id, user_id from run;";
+        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
+                "latitude, longitude, club_id, user_id from run;";
         return jdbcTemplate.query(sql, new RunMapper());
     }
 
@@ -32,16 +33,17 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Transactional
     public Run findById(int run_id) {
 
-        final String sql = "select run_id, date, address, max_capacity, start_time, latitude, longitude from run where run_id = ?;";
+        final String sql = "select run_id, date, address, description run_description, max_capacity, " +
+                "start_time, latitude, longitude from run where run_id = ?;";
 
         Run result = jdbcTemplate.query(sql, new RunMapper(), run_id).stream().findAny().orElse(null);
 
-        if (result != null) {
-            //add(result);
-            addClubs(result);
-            addUsers(result);
-            addRunStatuses(result);
-        }
+//        if (result != null) {
+//            add(result);
+//            addClubs(result);
+//            addUsers(result);
+//            addRunStatuses(result);
+//        }
 
         return result;
     }
@@ -98,10 +100,12 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     private void addClubs(Run run) {
 
-        final String sql = "select c.run_id, c.name, "
+        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
+                "r.max_capacity, r.club_id, r.user_id, r.start_time, r.latitude, " +
+                "r.longitude, c.club_id "
                 + "from club c "
                 + "inner join run r on c.run_id = r.run_id "
-                + "where r.run_id = ?";
+                + "where c.run_id = ?;";
 
         var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
         run.setRunners(clubs);
@@ -109,11 +113,11 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     private void addUsers(Run run) {
 
-        final String sql = "u.user_id, "
+        final String sql = "select user_id "
                 + "from user u "
                 + "inner join user u on rr.user_id = u.user_id "
                 + "inner join runner rr on r.user_id = rr.user_id "
-                + "where r.user_id = ?";
+                + "where r.user_id = ?;";
 
         var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
         run.setRunners(users);
@@ -125,7 +129,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 + "r.run_status_id, "
                 + "from run_status rs "
                 + "inner join run r on rs.run_id = r.run_id "
-                + "where rr.run_id = ?";
+                + "where rr.run_id = ?;";
 
         var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
         run.setRunners(runStatuses);

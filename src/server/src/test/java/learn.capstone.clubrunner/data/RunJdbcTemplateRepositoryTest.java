@@ -38,6 +38,13 @@ class RunJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldFindRunById() {
+        Run run = repository.findById(1);
+        assertNotNull(run);
+        assertEquals(1, run.getRun_id());
+    }
+
+    @Test
     void shouldAddRun() {
         Run run = new Run();
 
