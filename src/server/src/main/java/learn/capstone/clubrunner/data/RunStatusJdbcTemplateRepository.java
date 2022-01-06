@@ -79,9 +79,4 @@ public class RunStatusJdbcTemplateRepository implements RunStatusRepository {
                 runStatus.getStatus(),
                 runStatus.getRun_status_id()) > 0;
     }
-
-    @Override
-    public boolean deleteById(int runStatusId) {
-        return jdbcTemplate.update("delete from run_status where run_status_id = ?;", runStatusId) > 0;
-    }
 }
