@@ -124,11 +124,9 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     private void addRunsParticipating(User user) {
-        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
-                "r.max_capacity, r.start_time, r.latitude, r.longitude, ru.runner_id " +
-                "from run r" +
-                "inner join runner ru on r.run_id = ru.runner_id " +
-                "where ru.user_id = ?;";
+        final String sql = "select runner_id, run_id, user_id " +
+                "from runner " +
+                "where user_id = ?;";
 
         var runsParticipating = jdbcTemplate.query(sql, new RunnerMapper(), user.getUser_id());
 
@@ -136,10 +134,9 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     private void addMemberships(User user) {
-        final String sql = "select c.club_id, c.name, c.description club_description, m.member_id, m.isAdmin " +
-                "from club c " +
-                "inner join member m on c.club_id = m.club_id " +
-                "where m.user_id = ?;";
+        final String sql = "select member_id, user_id, club_id, isAdmin " +
+                "from member " +
+                "where user_id = ?;";
 
         var memberships = jdbcTemplate.query(sql, new MemberMapper(), user.getUser_id());
 
@@ -148,7 +145,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     private void addRunsCreated(User user) {
         final String sql = "select run_id, date, address, description run_description," +
-                "max_capacity, start_time, latitude, longitude " +
+                "max_capacity, start_time, latitude, longitude, user_id, club_id, run_status_id " +
                 "from run where user_id = ?;";
 
         var runsCreated = jdbcTemplate.query(sql, new RunMapper(), user.getUser_id());
