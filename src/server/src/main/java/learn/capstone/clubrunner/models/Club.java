@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class Club {
-    private int club_id;
+    private int clubId;
     private String name;
     private String description;
 
     private List<Member> members = new ArrayList<>();
     private List<Run> runsHosted = new ArrayList<>();
 
-    public int getClub_id() {
-        return club_id;
+    public int getClubId() {
+        return clubId;
     }
 
-    public void setClub_id(int club_id) {
-        this.club_id = club_id;
+    public void setClubId(int clubId) {
+        this.clubId = clubId;
     }
 
     public String getName() {
@@ -57,11 +57,11 @@ public class Club {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Club club = (Club) o;
-        return club_id == club.club_id && name.equals(club.name) && Objects.equals(description, club.description);
+        return clubId == club.clubId && name.equals(club.name) && Objects.equals(description, club.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(club_id, name, description);
+        return Objects.hash(clubId, name, description);
     }
 }

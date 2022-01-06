@@ -83,8 +83,8 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getFirst_name());
-            ps.setString(2, user.getLast_name());
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPassword());
             return ps;
@@ -94,7 +94,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
             return null;
         }
 
-        user.setUser_id(keyHolder.getKey().intValue());
+        user.setUserId(keyHolder.getKey().intValue());
         return user;
     }
 
@@ -108,11 +108,11 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "where user_id = ?;";
 
         return jdbcTemplate.update(sql,
-                user.getFirst_name(),
-                user.getLast_name(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getUser_id()) > 0;
+                user.getUserId()) > 0;
     }
 
     // No delete user, not in requirements, is a potentially very destructive operation.
@@ -128,7 +128,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "from runner " +
                 "where user_id = ?;";
 
-        var runsParticipating = jdbcTemplate.query(sql, new RunnerMapper(), user.getUser_id());
+        var runsParticipating = jdbcTemplate.query(sql, new RunnerMapper(), user.getUserId());
 
         user.setRunsParticipating(runsParticipating);
     }
@@ -138,7 +138,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "from member " +
                 "where user_id = ?;";
 
-        var memberships = jdbcTemplate.query(sql, new MemberMapper(), user.getUser_id());
+        var memberships = jdbcTemplate.query(sql, new MemberMapper(), user.getUserId());
 
         user.setMemberships(memberships);
     }
@@ -148,7 +148,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "max_capacity, start_time, latitude, longitude, user_id, club_id, run_status_id " +
                 "from run where user_id = ?;";
 
-        var runsCreated = jdbcTemplate.query(sql, new RunMapper(), user.getUser_id());
+        var runsCreated = jdbcTemplate.query(sql, new RunMapper(), user.getUserId());
 
         user.setRunsCreated(runsCreated);
     }

@@ -3,15 +3,15 @@ package learn.capstone.clubrunner.models;
 import java.util.Objects;
 
 public class RunStatus {
-    private int run_status_id;
+    private int runStatusId;
     private String status;
 
-    public int getRun_status_id() {
-        return run_status_id;
+    public int getRunStatusId() {
+        return runStatusId;
     }
 
-    public void setRun_status_id(int run_status_id) {
-        this.run_status_id = run_status_id;
+    public void setRunStatusId(int runStatusId) {
+        this.runStatusId = runStatusId;
     }
 
     public String getStatus() {
@@ -27,11 +27,11 @@ public class RunStatus {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RunStatus runStatus = (RunStatus) o;
-        return run_status_id == runStatus.run_status_id && status.equals(runStatus.status);
+        return runStatusId == runStatus.runStatusId && status.equals(runStatus.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(run_status_id, status);
+        return Objects.hash(runStatusId, status);
     }
 }

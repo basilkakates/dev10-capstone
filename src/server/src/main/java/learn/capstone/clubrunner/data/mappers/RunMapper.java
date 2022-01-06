@@ -13,28 +13,28 @@ public class RunMapper implements RowMapper<Run> {
     @Override
     public Run mapRow(ResultSet resultSet, int i) throws SQLException {
         Run run = new Run();
-        run.setRun_id(resultSet.getInt("run_id"));
+        run.setRunId(resultSet.getInt("run_id"));
         run.setDate(resultSet.getDate("date").toLocalDate());
         run.setAddress(resultSet.getString("address"));
         run.setDescription(resultSet.getString("run_description"));
-        run.setMax_capacity(resultSet.getInt("max_capacity"));
-        run.setStart_time(resultSet.getTime("start_time").toLocalTime());
+        run.setMaxCapacity(resultSet.getInt("max_capacity"));
+        run.setStartTime(resultSet.getTime("start_time").toLocalTime());
         run.setLatitude(resultSet.getBigDecimal("latitude"));
         run.setLongitude(resultSet.getBigDecimal("longitude"));
 
         Club club = new Club();
-        club.setClub_id(resultSet.getInt("club_id"));
+        club.setClubId(resultSet.getInt("club_id"));
 
         run.setClub(club);
 
         // User who created the run
         User user = new User();
-        user.setUser_id(resultSet.getInt("user_id"));
+        user.setUserId(resultSet.getInt("user_id"));
 
         run.setUser(user);
 
         RunStatus runStatus = new RunStatus();
-        runStatus.setRun_status_id(resultSet.getInt("run_status_id"));
+        runStatus.setRunStatusId(resultSet.getInt("run_status_id"));
 
         run.setRunStatus(runStatus);
 

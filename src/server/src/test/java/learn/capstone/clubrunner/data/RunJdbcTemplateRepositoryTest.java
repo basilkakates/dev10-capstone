@@ -41,7 +41,7 @@ class RunJdbcTemplateRepositoryTest {
     void shouldFindRunById() {
         Run run = repository.findById(1);
         assertNotNull(run);
-        assertEquals(1, run.getRun_id());
+        assertEquals(1, run.getRunId());
     }
 
     @Test
@@ -49,27 +49,27 @@ class RunJdbcTemplateRepositoryTest {
         Run run = new Run();
 
         User user = new User();
-        user.setUser_id(1);
+        user.setUserId(1);
 
         Club club = new Club();
-        club.setClub_id(1);
+        club.setClubId(1);
 
         RunStatus runStatus = new RunStatus();
-        runStatus.setRun_status_id(2);
+        runStatus.setRunStatusId(2);
 
         run.setDate(LocalDate.parse("2025-11-01"));
         run.setAddress("000 Test");
-        run.setMax_capacity(25);
+        run.setMaxCapacity(25);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStart_time(LocalTime.parse("13:30"));
+        run.setStartTime(LocalTime.parse("13:30"));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
 
         Run actual = repository.add(run);
         assertNotNull(actual);
-        assertEquals(4, actual.getRun_id());
+        assertEquals(4, actual.getRunId());
     }
 
     @Test
@@ -78,22 +78,22 @@ class RunJdbcTemplateRepositoryTest {
         Run run = new Run();
 
         User user = new User();
-        user.setUser_id(1);
+        user.setUserId(1);
 
         Club club = new Club();
-        club.setClub_id(1);
+        club.setClubId(1);
 
         RunStatus runStatus = new RunStatus();
-        runStatus.setRun_status_id(2);
+        runStatus.setRunStatusId(2);
 
-        run.setRun_id(3);
+        run.setRunId(3);
         run.setDate(LocalDate.parse("2025-11-11"));
         run.setAddress("111 One");
-        run.setMax_capacity(26);
+        run.setMaxCapacity(26);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStart_time(LocalTime.parse("13:30"));
+        run.setStartTime(LocalTime.parse("13:30"));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
 

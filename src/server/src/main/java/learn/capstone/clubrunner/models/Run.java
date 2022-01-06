@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Run {
-    private int run_id;
+    private int runId;
     private LocalDate date;
     private String address;
     private String description;
-    private int max_capacity;
-    private LocalTime start_time;
+    private int maxCapacity;
+    private LocalTime startTime;
     private BigDecimal latitude;
     private BigDecimal longitude;
 
@@ -23,12 +23,12 @@ public class Run {
 
     private List<Runner> runners = new ArrayList<>();
 
-    public int getRun_id() {
-        return run_id;
+    public int getRunId() {
+        return runId;
     }
 
-    public void setRun_id(int run_id) {
-        this.run_id = run_id;
+    public void setRunId(int runId) {
+        this.runId = runId;
     }
 
     public LocalDate getDate() {
@@ -55,20 +55,20 @@ public class Run {
         this.description = description;
     }
 
-    public int getMax_capacity() {
-        return max_capacity;
+    public int getMaxCapacity() {
+        return maxCapacity;
     }
 
-    public void setMax_capacity(int max_capacity) {
-        this.max_capacity = max_capacity;
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
     }
 
-    public LocalTime getStart_time() {
-        return start_time;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(LocalTime start_time) {
-        this.start_time = start_time;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
     public BigDecimal getLatitude() {
@@ -124,11 +124,11 @@ public class Run {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Run run = (Run) o;
-        return run_id == run.run_id && max_capacity == run.max_capacity && date.equals(run.date) && address.equals(run.address) && Objects.equals(description, run.description) && start_time.equals(run.start_time) && latitude.equals(run.latitude) && longitude.equals(run.longitude) && club.equals(run.club) && user.equals(run.user) && runStatus.equals(run.runStatus);
+        return runId == run.runId && maxCapacity == run.maxCapacity && date.equals(run.date) && address.equals(run.address) && Objects.equals(description, run.description) && startTime.equals(run.startTime) && latitude.equals(run.latitude) && longitude.equals(run.longitude) && club.equals(run.club) && user.equals(run.user) && runStatus.equals(run.runStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(run_id, date, address, description, max_capacity, start_time, latitude, longitude, club, user, runStatus);
+        return Objects.hash(runId, date, address, description, maxCapacity, startTime, latitude, longitude, club, user, runStatus);
     }
 }

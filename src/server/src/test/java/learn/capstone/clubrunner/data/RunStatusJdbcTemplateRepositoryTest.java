@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -63,7 +61,7 @@ class RunStatusJdbcTemplateRepositoryTest {
     @Test
     void shouldUpdateRunStatus() {
         RunStatus testRunStatus = new RunStatus();
-        testRunStatus.setRun_status_id(2);
+        testRunStatus.setRunStatusId(2);
         testRunStatus.setStatus("Pending");
         assertTrue(repository.update(testRunStatus));
         assertEquals(repository.findById(2).getStatus(), "Pending");

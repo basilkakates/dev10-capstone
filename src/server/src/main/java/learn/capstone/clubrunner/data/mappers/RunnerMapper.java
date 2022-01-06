@@ -12,16 +12,16 @@ public class RunnerMapper implements RowMapper<Runner> {
     @Override
     public Runner mapRow(ResultSet resultSet, int i) throws SQLException {
         Runner runner = new Runner();
-        runner.setRunner_id(resultSet.getInt("runner_id"));
+        runner.setRunnerId(resultSet.getInt("runner_id"));
 
         // User who is participating in the run
         User user = new User();
-        user.setUser_id(resultSet.getInt("user_id"));
+        user.setUserId(resultSet.getInt("user_id"));
 
         runner.setUser(user);
 
         Run run = new Run();
-        run.setRun_id(resultSet.getInt("run_id"));
+        run.setRunId(resultSet.getInt("run_id"));
 
         runner.setRun(run);
 

@@ -1,7 +1,6 @@
 package learn.capstone.clubrunner.data;
 
 import learn.capstone.clubrunner.models.Club;
-import learn.capstone.clubrunner.models.Run;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,6 @@ class ClubJdbcTemplateRepositoryTest {
     void shouldFindClubById() {
         Club club = repository.findById(1);
         assertNotNull(club);
-        assertEquals(1, club.getClub_id());
+        assertEquals(1, club.getClubId());
     }
 }

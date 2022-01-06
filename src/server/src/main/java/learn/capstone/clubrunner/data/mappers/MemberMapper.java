@@ -13,17 +13,17 @@ public class MemberMapper implements RowMapper<Member> {
     public Member mapRow(ResultSet resultSet, int i) throws SQLException {
 
         Member member = new Member();
-        member.setMember_id(resultSet.getInt("member_id"));
+        member.setMemberId(resultSet.getInt("member_id"));
         member.setIsAdmin(resultSet.getInt("isAdmin"));
 
         // User who owns the membership
         User user = new User();
-        user.setUser_id(resultSet.getInt("user_id"));
+        user.setUserId(resultSet.getInt("user_id"));
 
         member.setUser(user);
 
         Club club = new Club();
-        club.setClub_id(resultSet.getInt("club_id"));
+        club.setClubId(resultSet.getInt("club_id"));
 
         member.setClub(club);
 

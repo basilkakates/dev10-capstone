@@ -56,7 +56,7 @@ class MemberJdbcTemplateRepositoryTest {
         assertNotNull(memberships.get(0).getUser());
         assertNotNull(memberships.get(0).getClub());
 
-        assertEquals(userId, memberships.get(0).getUser().getUser_id());
+        assertEquals(userId, memberships.get(0).getUser().getUserId());
     }
 
     @Test
@@ -77,7 +77,7 @@ class MemberJdbcTemplateRepositoryTest {
         assertNotNull(memberships.get(0).getUser());
         assertNotNull(memberships.get(0).getClub());
 
-        assertEquals(clubId, memberships.get(0).getClub().getClub_id());
+        assertEquals(clubId, memberships.get(0).getClub().getClubId());
     }
 
     @Test
@@ -112,7 +112,7 @@ class MemberJdbcTemplateRepositoryTest {
         assertNotNull(actual.getClub());
         assertNotNull(actual.getUser());
 
-        assertEquals(7, actual.getMember_id());
+        assertEquals(7, actual.getMemberId());
     }
 
     @Test
@@ -120,8 +120,8 @@ class MemberJdbcTemplateRepositoryTest {
         int isAdmin = 1;
 
         Member member = buildMember();
-        member.setMember_id(1);
-        member.getClub().setClub_id(1);
+        member.setMemberId(1);
+        member.getClub().setClubId(1);
         member.setIsAdmin(isAdmin);
 
         assertTrue(repository.update(member));
@@ -139,10 +139,10 @@ class MemberJdbcTemplateRepositoryTest {
 
     private Member buildMember() {
         Club club = new Club();
-        club.setClub_id(2);
+        club.setClubId(2);
 
         User user = new User();
-        user.setUser_id(1);
+        user.setUserId(1);
 
         Member member = new Member();
         member.setClub(club);

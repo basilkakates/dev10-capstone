@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    private int user_id;
-    private String first_name;
-    private String last_name;
+    private int userId;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 
@@ -15,28 +15,28 @@ public class User {
     private List<Member> memberships = new ArrayList<>();
     private List<Run> runsCreated = new ArrayList<>();
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -84,11 +84,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return user_id == user.user_id && first_name.equals(user.first_name) && last_name.equals(user.last_name) && email.equals(user.email) && password.equals(user.password);
+        return userId == user.userId && firstName.equals(user.firstName) && lastName.equals(user.lastName) && email.equals(user.email) && password.equals(user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user_id, first_name, last_name, email, password);
+        return Objects.hash(userId, firstName, lastName, email, password);
     }
 }

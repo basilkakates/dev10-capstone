@@ -3,17 +3,17 @@ package learn.capstone.clubrunner.models;
 import java.util.Objects;
 
 public class Runner {
-    private int runner_id;
+    private int runnerId;
 
     private User user;
     private Run run;
 
-    public int getRunner_id() {
-        return runner_id;
+    public int getRunnerId() {
+        return runnerId;
     }
 
-    public void setRunner_id(int runner_id) {
-        this.runner_id = runner_id;
+    public void setRunnerId(int runnerId) {
+        this.runnerId = runnerId;
     }
 
     public User getUser() {
@@ -37,11 +37,11 @@ public class Runner {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Runner runner = (Runner) o;
-        return runner_id == runner.runner_id && Objects.equals(user, runner.user) && Objects.equals(run, runner.run);
+        return runnerId == runner.runnerId && Objects.equals(user, runner.user) && Objects.equals(run, runner.run);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(runner_id, user, run);
+        return Objects.hash(runnerId, user, run);
     }
 }

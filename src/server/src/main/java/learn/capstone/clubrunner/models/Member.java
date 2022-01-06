@@ -3,18 +3,18 @@ package learn.capstone.clubrunner.models;
 import java.util.Objects;
 
 public class Member {
-    private int member_id;
+    private int memberId;
     private int isAdmin;
 
     private User user;
     private Club club;
 
-    public int getMember_id() {
-        return member_id;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setMember_id(int member_id) {
-        this.member_id = member_id;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public int getIsAdmin() {
@@ -46,11 +46,11 @@ public class Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return member_id == member.member_id && isAdmin == member.isAdmin && Objects.equals(user, member.user) && Objects.equals(club, member.club);
+        return memberId == member.memberId && isAdmin == member.isAdmin && Objects.equals(user, member.user) && Objects.equals(club, member.club);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(member_id, isAdmin, user, club);
+        return Objects.hash(memberId, isAdmin, user, club);
     }
 }

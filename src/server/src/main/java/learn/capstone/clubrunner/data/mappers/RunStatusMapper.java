@@ -10,7 +10,7 @@ public class RunStatusMapper implements RowMapper<RunStatus> {
     @Override
     public RunStatus mapRow(ResultSet resultSet, int i) throws SQLException {
         RunStatus runStatus = new RunStatus();
-        runStatus.setRun_status_id(resultSet.getInt("run_status_id"));
+        runStatus.setRunStatusId(resultSet.getInt("run_status_id"));
         runStatus.setStatus(resultSet.getString("status"));
 
         return runStatus;

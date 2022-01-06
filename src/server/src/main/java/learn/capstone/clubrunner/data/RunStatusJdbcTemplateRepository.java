@@ -65,7 +65,7 @@ public class RunStatusJdbcTemplateRepository implements RunStatusRepository {
             return null;
         }
 
-        runStatus.setRun_status_id(keyHolder.getKey().intValue());
+        runStatus.setRunStatusId(keyHolder.getKey().intValue());
         return runStatus;
     }
 
@@ -77,6 +77,6 @@ public class RunStatusJdbcTemplateRepository implements RunStatusRepository {
 
         return jdbcTemplate.update(sql,
                 runStatus.getStatus(),
-                runStatus.getRun_status_id()) > 0;
+                runStatus.getRunStatusId()) > 0;
     }
 }

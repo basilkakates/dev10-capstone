@@ -37,7 +37,7 @@ class RunnerJdbcTemplateRepositoryTest {
     void shouldFindRunnerById() {
         Runner runner = repository.findById(1);
         assertNotNull(runner);
-        assertEquals(1, runner.getRunner_id());
+        assertEquals(1, runner.getRunnerId());
     }
 
     @Test
@@ -46,17 +46,17 @@ class RunnerJdbcTemplateRepositoryTest {
         Runner runner = new Runner();
 
         User user = new User();
-        user.setUser_id(2);
+        user.setUserId(2);
 
         Run run = new Run();
-        run.setRun_id(1);
+        run.setRunId(1);
 
         runner.setUser(user);
         runner.setRun(run);
 
         Runner actual = repository.add(runner);
         assertNotNull(actual);
-        assertEquals(6, actual.getRunner_id());
+        assertEquals(6, actual.getRunnerId());
     }
 
     @Test

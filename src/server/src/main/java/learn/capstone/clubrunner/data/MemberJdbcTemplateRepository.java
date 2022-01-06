@@ -69,8 +69,8 @@ public class MemberJdbcTemplateRepository implements MemberRepository {
 
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, member.getUser().getUser_id());
-            ps.setInt(2, member.getClub().getClub_id());
+            ps.setInt(1, member.getUser().getUserId());
+            ps.setInt(2, member.getClub().getClubId());
             ps.setInt(3, member.getIsAdmin());
             return ps;
         }, keyHolder);
@@ -79,7 +79,7 @@ public class MemberJdbcTemplateRepository implements MemberRepository {
             return null;
         }
 
-        member.setMember_id(keyHolder.getKey().intValue());
+        member.setMemberId(keyHolder.getKey().intValue());
         return member;
     }
 
@@ -93,9 +93,9 @@ public class MemberJdbcTemplateRepository implements MemberRepository {
 
         return jdbcTemplate.update(sql,
                 member.getIsAdmin(),
-                member.getMember_id(),
-                member.getUser().getUser_id(),
-                member.getClub().getClub_id()) > 0;
+                member.getMemberId(),
+                member.getUser().getUserId(),
+                member.getClub().getClubId()) > 0;
     }
 
     @Override

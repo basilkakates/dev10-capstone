@@ -58,11 +58,11 @@ public class RunJdbcTemplateRepository implements RunRepository {
             ps.setDate(1, Date.valueOf(run.getDate()));
             ps.setString(2, run.getAddress());
             ps.setString(3, run.getDescription());
-            ps.setInt(4, run.getClub().getClub_id());
-            ps.setInt(5, run.getUser().getUser_id());
-            ps.setInt(6, run.getMax_capacity());
-            ps.setTime(7, Time.valueOf(run.getStart_time()));
-            ps.setInt(8, run.getRunStatus().getRun_status_id());
+            ps.setInt(4, run.getClub().getClubId());
+            ps.setInt(5, run.getUser().getUserId());
+            ps.setInt(6, run.getMaxCapacity());
+            ps.setTime(7, Time.valueOf(run.getStartTime()));
+            ps.setInt(8, run.getRunStatus().getRunStatusId());
             ps.setBigDecimal(9, run.getLatitude());
             ps.setBigDecimal(10, run.getLongitude());
 
@@ -73,7 +73,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
             return null;
         }
 
-        run.setRun_id(keyholder.getKey().intValue());
+        run.setRunId(keyholder.getKey().intValue());
         return run;
     }
 
@@ -84,8 +84,8 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 "start_time = ?, latitude = ?, longitude = ? where run_id = ?";
 
         return jdbcTemplate.update(sql, run.getDate(), run.getAddress(), run.getDescription(),
-                run.getMax_capacity(), run.getStart_time(), run.getLatitude(),
-                run.getLongitude(), run.getRun_id()) > 0;
+                run.getMaxCapacity(), run.getStartTime(), run.getLatitude(),
+                run.getLongitude(), run.getRunId()) > 0;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 + "inner join run r on c.club_id = r.club_id "
                 + "where c.club_id = ?;";
 
-        var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
+        var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
         run.setRunners(clubs);
     }
 
@@ -123,7 +123,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 + "inner join runner rr on r.user_id = rr.user_id "
                 + "where r.user_id = ?;";
 
-        var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
+        var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
         run.setRunners(users);
     }
 
@@ -135,7 +135,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 + "inner join run r on rs.run_id = r.run_id "
                 + "where rr.run_id = ?;";
 
-        var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
+        var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
         run.setRunners(runStatuses);
     }
 }

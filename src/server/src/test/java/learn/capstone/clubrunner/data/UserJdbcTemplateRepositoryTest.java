@@ -74,13 +74,13 @@ class UserJdbcTemplateRepositoryTest {
     void shouldAddUser() {
         User user = buildUser();
 
-        assertEquals(7, repository.add(user).getUser_id());
+        assertEquals(7, repository.add(user).getUserId());
     }
 
     @Test
     void shouldUpdateUser() {
         User user = buildUser();
-        user.setUser_id(6);
+        user.setUserId(6);
         user.setEmail("Test");
 
         assertTrue(repository.update(user));
@@ -91,8 +91,8 @@ class UserJdbcTemplateRepositoryTest {
 
     private User buildUser() {
         User user = new User();
-        user.setFirst_name("Testy");
-        user.setLast_name("McTester");
+        user.setFirstName("Testy");
+        user.setLastName("McTester");
         user.setEmail("tmctester@test.com");
         user.setPassword("testerpass");
         return user;

@@ -24,7 +24,7 @@ public class RunService {
             return result;
         }
 
-        if (run.getRun_id() != 0) {
+        if (run.getRunId() != 0) {
             result.addMessage("run id cannot be set for `add` operation", ResultType.INVALID);
             return result;
         }
@@ -40,13 +40,13 @@ public class RunService {
             return result;
         }
 
-        if (run.getRun_id() <= 0) {
+        if (run.getRunId() <= 0) {
             result.addMessage("run id must be set for `update` operation", ResultType.INVALID);
             return result;
         }
 
         if (!repository.update(run)) {
-            String msg= String.format("run id: %s, not found", run.getRun_id());
+            String msg= String.format("run id: %s, not found", run.getRunId());
             result.addMessage(msg, ResultType.NOT_FOUND);
             //return result;
         }
@@ -71,12 +71,12 @@ public class RunService {
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getMax_capacity()))) {
+        if (Validations.isNullOrBlank(String.valueOf(run.getMaxCapacity()))) {
             result.addMessage("max capacity is required", ResultType.INVALID);
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getStart_time()))) {
+        if (Validations.isNullOrBlank(String.valueOf(run.getStartTime()))) {
             result.addMessage("start time is required", ResultType.INVALID);
             return result;
         }
