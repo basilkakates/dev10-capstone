@@ -25,7 +25,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Override
     public List<Run> findAll() {
         final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
-                "latitude, longitude, club_id, user_id from run;";
+                "latitude, longitude, club_id, user_id, run_status_id from run;";
         return jdbcTemplate.query(sql, new RunMapper());
     }
 
@@ -33,8 +33,8 @@ public class RunJdbcTemplateRepository implements RunRepository {
     @Transactional
     public Run findById(int run_id) {
 
-        final String sql = "select run_id, date, address, description run_description, max_capacity, " +
-                "start_time, latitude, longitude from run where run_id = ?;";
+        final String sql = "select run_id, date, address, club_id, user_id, description run_description, max_capacity, " +
+                "start_time, latitude, longitude, run_status_id from run where run_id = ?;";
 
         Run result = jdbcTemplate.query(sql, new RunMapper(), run_id).stream().findAny().orElse(null);
 
@@ -106,7 +106,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
         final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
                 "r.max_capacity, r.club_id, r.user_id, r.start_time, r.latitude, " +
-                "r.longitude, c.club_id "
+                "r.longitude, c.club_id"
                 + "from club c "
                 + "inner join run r on c.club_id = r.club_id "
                 + "where c.club_id = ?;";
