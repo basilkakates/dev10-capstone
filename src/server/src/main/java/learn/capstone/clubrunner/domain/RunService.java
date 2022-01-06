@@ -34,6 +34,26 @@ public class RunService {
         return result;
     }
 
+    public Result<Run> update(Run run) {
+        Result<Run> result = validate(run);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (run.getRun_id() <= 0) {
+            result.addMessage("run id must be set for `update` operation", ResultType.INVALID);
+            return result;
+        }
+
+        if (!repository.update(run)) {
+            String msg= String.format("run id: %s, not found", run.getRun_id());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+            //return result;
+        }
+
+        return result;
+    }
+
     private Result<Run> validate(Run run) {
         Result<Run> result = new Result<>();
         if (run == null) {

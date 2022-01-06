@@ -48,8 +48,18 @@ class RunServiceTest {
         Result<Run> result = service.add(run);
         assertEquals(ResultType.SUCCESS, result.getType());
 
-        run.setRun_id(0);
         result = service.add(run);
+        assertEquals(ResultType.SUCCESS, result.getType());
+    }
+
+    @Test
+    void shouldUpdate() {
+        Run run = updateRun();
+        run.setRun_id(0);
+        Result<Run> result = service.update(run);
+        assertEquals(ResultType.SUCCESS, result.getType());
+
+        result = service.update(run);
         assertEquals(ResultType.SUCCESS, result.getType());
     }
 
@@ -74,6 +84,32 @@ class RunServiceTest {
         run.setStart_time(LocalTime.parse("13:30"));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
+
+        return run;
+    }
+
+    Run updateRun() {
+        Run run = new Run();
+
+        User user = new User();
+        user.setUser_id(1);
+
+        Club club = new Club();
+        club.setClub_id(1);
+
+        RunStatus runStatus = new RunStatus();
+        runStatus.setRun_status_id(2);
+
+        run.setRun_id(0);
+        run.setDate(LocalDate.parse("2025-11-11"));
+        run.setAddress("111 One");
+        run.setMax_capacity(22);
+        run.setUser(user);
+        run.setClub(club);
+        run.setRunStatus(runStatus);
+        run.setStart_time(LocalTime.parse("13:45"));
+        run.setLatitude(BigDecimal.valueOf(41.802324));
+        run.setLongitude(BigDecimal.valueOf(-88.20001));
 
         return run;
     }
