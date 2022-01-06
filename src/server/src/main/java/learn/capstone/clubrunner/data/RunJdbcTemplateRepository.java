@@ -38,10 +38,10 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
         Run result = jdbcTemplate.query(sql, new RunMapper(), run_id).stream().findAny().orElse(null);
 
-        if (result != null) {
+//        if (result != null) {
 //            add(result);
-            buildRun(result);
-        }
+//            buildRun(result);
+//        }
 
         return result;
     }
