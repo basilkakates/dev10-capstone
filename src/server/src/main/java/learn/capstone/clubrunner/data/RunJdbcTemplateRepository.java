@@ -38,12 +38,10 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
         Run result = jdbcTemplate.query(sql, new RunMapper(), run_id).stream().findAny().orElse(null);
 
-//        if (result != null) {
+        if (result != null) {
 //            add(result);
-//            addClubs(result);
-//            addUsers(result);
-//            addRunStatuses(result);
-//        }
+            buildRun(result);
+        }
 
         return result;
     }
@@ -96,6 +94,12 @@ public class RunJdbcTemplateRepository implements RunRepository {
         jdbcTemplate.update("delete from runner where run_id = ?", run_id);
         return jdbcTemplate.update("delete from run where run_id = ?", run_id) > 0;
     }
+
+    private void buildRun (Run run) {
+        addClubs(run);
+        addUsers(run);
+        addRunStatuses(run);
+    }
 //will I also need to add an addRunner Tab like this from fieldagent?
 
     private void addClubs(Run run) {
@@ -104,8 +108,8 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 "r.max_capacity, r.club_id, r.user_id, r.start_time, r.latitude, " +
                 "r.longitude, c.club_id "
                 + "from club c "
-                + "inner join run r on c.run_id = r.run_id "
-                + "where c.run_id = ?;";
+                + "inner join run r on c.club_id = r.club_id "
+                + "where c.club_id = ?;";
 
         var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRun_id());
         run.setRunners(clubs);
