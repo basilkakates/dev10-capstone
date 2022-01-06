@@ -44,6 +44,8 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
         KeyHolder keyholder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, runner.getUser().getUser_id());
+            ps.setInt(2, runner.getRun().getRun_id());
 
             return ps;
         }, keyholder);
@@ -59,6 +61,6 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
     @Override
     @Transactional
     public boolean deleteById(int runner_id) {
-        return jdbcTemplate.update("delete from runner where run_id = ?", runner_id) > 0;
+        return jdbcTemplate.update("delete from runner where runner_id = ?", runner_id) > 0;
     }
 }

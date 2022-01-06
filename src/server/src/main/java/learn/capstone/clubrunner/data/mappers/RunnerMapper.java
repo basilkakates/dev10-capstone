@@ -11,7 +11,6 @@ import java.sql.SQLException;
 public class RunnerMapper implements RowMapper<Runner> {
     @Override
     public Runner mapRow(ResultSet resultSet, int i) throws SQLException {
-
         Runner runner = new Runner();
         runner.setRunner_id(resultSet.getInt("runner_id"));
 
