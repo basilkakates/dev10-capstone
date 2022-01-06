@@ -16,6 +16,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -54,13 +55,22 @@ class RunServiceTest {
 
     @Test
     void shouldUpdate() {
-        Run run = updateRun();
-        run.setRunId(0);
-        Result<Run> result = service.update(run);
-        assertEquals(ResultType.SUCCESS, result.getType());
+        Run run = makeRun();
+        run.setRunId(1);
 
-        result = service.update(run);
-        assertEquals(ResultType.SUCCESS, result.getType());
+        when(repository.update(run)).thenReturn(true);
+
+        Result<Run> actual = service.update(run);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+
+    }
+
+    @Test
+    void shouldDelete() {
+
+        service.deleteById(0);
+        List<Run> runs = service.findAll();
+        assertTrue(runs.size() == 0);
     }
 
     Run makeRun() {
@@ -84,32 +94,6 @@ class RunServiceTest {
         run.setStartTime(LocalTime.parse("13:30"));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
-
-        return run;
-    }
-
-    Run updateRun() {
-        Run run = new Run();
-
-        User user = new User();
-        user.setUserId(1);
-
-        Club club = new Club();
-        club.setClubId(1);
-
-        RunStatus runStatus = new RunStatus();
-        runStatus.setRunStatusId(2);
-
-        run.setRunId(0);
-        run.setDate(LocalDate.parse("2025-11-11"));
-        run.setAddress("111 One");
-        run.setMaxCapacity(22);
-        run.setUser(user);
-        run.setClub(club);
-        run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.parse("13:45"));
-        run.setLatitude(BigDecimal.valueOf(41.802324));
-        run.setLongitude(BigDecimal.valueOf(-88.20001));
 
         return run;
     }
