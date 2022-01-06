@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import RunTableHeader from "./RunTableHeader";
+
 function PendingRuns() {
   const [runs, setRuns] = useState([]);
 
@@ -44,23 +46,23 @@ function PendingRuns() {
 
       <table className="table">
         <thead>
-          <tr>
-            <th>Description</th>
-            <th> </th>
-            <th>Actions</th>
-          </tr>
+          <RunTableHeader />
         </thead>
         <tbody>
           {runs.map((run) => (
             <tr key={run.run_id}>
               {run.status === "pending" && (
-                <div>
+                <>
+                  <th scrope="row">{run.run_id}</th>
+                  <td>{run.date}</td>
+                  <td>{run.start_time}</td>
+                  <td>{run.address}</td>
+                  <td>{run.description}</td>
+                  <td>{run.club_id}</td>
+                  <td>{run.user_id}</td>
+                  <td>{run.max_capacity}</td>
                   <td>
-                    {run.date} {run.start_time} {run.address} {run.description}{" "}
-                    {run.club_id} {run.user_id} {run.max_capacity}
-                  </td>
-                  <td>
-                    <div className="float-right">
+                    <div>
                       <Link
                         to={`/runs/approve/${run.run_id}`}
                         className="btn btn-primary btn-sm"
@@ -75,7 +77,7 @@ function PendingRuns() {
                       </Link>
                     </div>
                   </td>
-                </div>
+                </>
               )}
             </tr>
           ))}

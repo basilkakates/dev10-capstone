@@ -147,7 +147,7 @@ function DeleteRun() {
             <i className="bi bi-plus-circle-fill"></i> Decline Run
           </button>
           <Link to="/runs/pending" className="btn btn-warning ml-2">
-            <i className="bi bi-x"></i> Cancel
+            <i className="bi bi-x"></i> Go Back
           </Link>
         </div>
       </form>

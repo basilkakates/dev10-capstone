@@ -172,7 +172,7 @@ function EditRun() {
             <i className="bi bi-plus-circle-fill"></i> Update Run
           </button>
           <Link to="/runs" className="btn btn-warning ml-2">
-            <i className="bi bi-x"></i> Cancel
+            <i className="bi bi-x"></i> Go Back
           </Link>
         </div>
       </form>

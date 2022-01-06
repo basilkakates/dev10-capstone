@@ -27,14 +27,19 @@ function Clubs() {
       <table className="table">
         <thead>
           <tr>
-            <th>Description</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Number of Members</th>
           </tr>
         </thead>
         <tbody>
           {clubs.map((club) => (
             <tr key={club.club_id}>
+              <th scrope="row">{club.club_id}</th>
               <td>{club.name}</td>
-              <td>Description: {club.description}</td>
+              <td>{club.description}</td>
+              <td></td>
             </tr>
           ))}
         </tbody>

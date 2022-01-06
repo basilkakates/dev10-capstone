@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import RunTableHeader from "./RunTableHeader";
+
 function Runs() {
   const [runs, setRuns] = useState([]);
 
@@ -48,23 +50,24 @@ function Runs() {
 
       <table className="table">
         <thead>
-          <tr>
-            <th>Description</th>
-            <th> </th>
-            <th>Actions</th>
-          </tr>
+          <RunTableHeader />
         </thead>
         <tbody>
           {runs.map((run) => (
             <tr key={run.run_id}>
-              {run.status === "approved" && (
-                <div>
-                  <td>
-                    {run.date} {run.start_time} {run.address} {run.description}{" "}
-                    {run.club_id} {run.user_id} {run.max_capacity}
-                  </td>
-                  <td>
-                    <div className="float-right">
+              {run.status !== "pending" && (
+                <>
+                  <th scrope="row">{run.run_id}</th>
+                  <td>{run.date}</td>
+                  <td>{run.start_time}</td>
+                  <td>{run.address}</td>
+                  <td>{run.description}</td>
+                  <td>{run.club_id}</td>
+                  <td>{run.user_id}</td>
+                  <td>{run.max_capacity}</td>
+
+                  {run.status === "approved" && (
+                    <td>
                       <Link
                         to={`/runs/edit/${run.run_id}`}
                         className="btn btn-primary btn-sm"
@@ -77,15 +80,12 @@ function Runs() {
                       >
                         <i className="bi bi-pencil"></i> Cancel
                       </Link>
-                    </div>
-                  </td>
-                </div>
-              )}
-              {run.status === "canceled" && (
-                <td>
-                  {run.date} {run.start_time} {run.address} {run.description}{" "}
-                  {run.club_id} {run.user_id} {run.max_capacity} CANCELED
-                </td>
+                    </td>
+                  )}
+                  {run.status === "canceled" && (
+                    <td className="btn btn-danger btn-sm">CANCELED</td>
+                  )}
+                </>
               )}
             </tr>
           ))}
