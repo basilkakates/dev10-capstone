@@ -10,10 +10,10 @@ public interface RunnerRepository {
     List<Runner> findAll();
 
     @Transactional
-    Runner findById(int runner_id);
+    Runner findById(int runnerId);
 
     Runner add(Runner runner);
 
     @Transactional
-    boolean deleteById(int runner_id);
+    boolean deleteById(int runnerId);
 }

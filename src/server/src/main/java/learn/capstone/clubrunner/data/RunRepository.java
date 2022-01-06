@@ -9,12 +9,12 @@ public interface RunRepository {
     List<Run> findAll();
 
     @Transactional
-    Run findById(int run_id);
+    Run findById(int runId);
 
     Run add(Run run);
 
     boolean update(Run run);
 
     @Transactional
-    boolean deleteById(int run_id);
+    boolean deleteById(int runId);
 }

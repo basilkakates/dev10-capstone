@@ -9,5 +9,5 @@ public interface ClubRepository {
     List<Club> findAll();
 
     @Transactional
-    Club findById(int club_id);
+    Club findById(int clubId);
 }

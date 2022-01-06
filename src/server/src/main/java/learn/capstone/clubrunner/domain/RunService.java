@@ -15,7 +15,7 @@ public class RunService {
 
     public List<Run> findAll() {return repository.findAll();}
 
-    public Run findById(int run_id) {return repository.findById(run_id);}
+    public Run findById(int runId) {return repository.findById(runId);}
 
     public Result<Run> add(Run run) {
 
