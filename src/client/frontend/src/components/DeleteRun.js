@@ -75,7 +75,7 @@ function DeleteRun() {
 
   return (
     <>
-      <h2 className="my-4">Delete Run</h2>
+      <h2 className="my-4">Decline Run</h2>
       <Errors errors={errors} />
       <form onSubmit={deleteRunFormSubmitHandler}>
         <table className="table">
@@ -144,9 +144,9 @@ function DeleteRun() {
         </table>
         <div className="mt-5">
           <button className="btn btn-success" type="submit">
-            <i className="bi bi-plus-circle-fill"></i> Delete Run
+            <i className="bi bi-plus-circle-fill"></i> Decline Run
           </button>
-          <Link to="/runs" className="btn btn-warning ml-2">
+          <Link to="/runs/pending" className="btn btn-warning ml-2">
             <i className="bi bi-x"></i> Cancel
           </Link>
         </div>

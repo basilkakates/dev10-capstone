@@ -71,7 +71,7 @@ function ApproveRun() {
       })
       .then((data) => {
         if (!data) {
-          history.push("/runs");
+          history.push("/runs/pending");
         } else {
           setErrors(data);
         }
@@ -152,7 +152,7 @@ function ApproveRun() {
           <button className="btn btn-success" type="submit">
             <i className="bi bi-plus-circle-fill"></i> Approve Run
           </button>
-          <Link to="/runs" className="btn btn-warning ml-2">
+          <Link to="/runs/pending" className="btn btn-warning ml-2">
             <i className="bi bi-x"></i> Cancel
           </Link>
         </div>

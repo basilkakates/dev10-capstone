@@ -49,7 +49,7 @@ function Register() {
       body: JSON.stringify(newUser),
     };
 
-    fetch("http://localhost:8080/create_account", init)
+    fetch("http://localhost:8080/api/create_account", init)
       .then((response) => {
         if (response.status === 201 || response.status === 400) {
           return response.json();
@@ -66,7 +66,7 @@ function Register() {
             body: JSON.stringify(newUser),
           };
 
-          fetch("http://localhost:8080/authenticate", init)
+          fetch("http://localhost:8080/api/authenticate", init)
             .then((response) => {
               if (response.status === 200) {
                 return response.json();
