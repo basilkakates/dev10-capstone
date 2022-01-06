@@ -1,6 +1,8 @@
 package learn.capstone.clubrunner.data.mappers;
 
+import learn.capstone.clubrunner.models.Club;
 import learn.capstone.clubrunner.models.Member;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -15,11 +17,15 @@ public class MemberMapper implements RowMapper<Member> {
         member.setIsAdmin(resultSet.getInt("isAdmin"));
 
         // User who owns the membership
-        UserMapper userMapper = new UserMapper();
-        member.setUser(userMapper.mapRow(resultSet, i));
+        User user = new User();
+        user.setUser_id(resultSet.getInt("user_id"));
 
-        ClubMapper clubMapper = new ClubMapper();
-        member.setClub(clubMapper.mapRow(resultSet, i));
+        member.setUser(user);
+
+        Club club = new Club();
+        club.setClub_id(resultSet.getInt("club_id"));
+
+        member.setClub(club);
 
         return member;
     }
