@@ -1,6 +1,8 @@
 package learn.capstone.clubrunner.data.mappers;
 
+import learn.capstone.clubrunner.models.Run;
 import learn.capstone.clubrunner.models.Runner;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -14,11 +16,15 @@ public class RunnerMapper implements RowMapper<Runner> {
         runner.setRunner_id(resultSet.getInt("runner_id"));
 
         // User who is participating in the run
-        UserMapper userMapper = new UserMapper();
-        runner.setUser(userMapper.mapRow(resultSet, i));
+        User user = new User();
+        user.setUser_id(resultSet.getInt("user_id"));
 
-        RunMapper runMapper = new RunMapper();
-        runner.setRun(runMapper.mapRow(resultSet, i));
+        runner.setUser(user);
+
+        Run run = new Run();
+        run.setRun_id(resultSet.getInt("run_id"));
+
+        runner.setRun(run);
 
         return runner;
     }

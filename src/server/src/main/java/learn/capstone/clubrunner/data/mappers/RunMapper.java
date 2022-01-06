@@ -1,6 +1,9 @@
 package learn.capstone.clubrunner.data.mappers;
 
+import learn.capstone.clubrunner.models.Club;
 import learn.capstone.clubrunner.models.Run;
+import learn.capstone.clubrunner.models.RunStatus;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -19,15 +22,21 @@ public class RunMapper implements RowMapper<Run> {
         run.setLatitude(resultSet.getBigDecimal("latitude"));
         run.setLongitude(resultSet.getBigDecimal("longitude"));
 
-//        ClubMapper clubMapper = new ClubMapper();
-//        run.setClub(clubMapper.mapRow(resultSet, i));
-//
-//        // User who created the run
-//        UserMapper userMapper = new UserMapper();
-//        run.setUser(userMapper.mapRow(resultSet, i));
-//
-//        RunStatusMapper runStatusMapper = new RunStatusMapper();
-//        run.setRunStatus(runStatusMapper.mapRow(resultSet, i));
+        Club club = new Club();
+        club.setClub_id(resultSet.getInt("club_id"));
+
+        run.setClub(club);
+
+        // User who created the run
+        User user = new User();
+        user.setUser_id(resultSet.getInt("user_id"));
+
+        run.setUser(user);
+
+        RunStatus runStatus = new RunStatus();
+        runStatus.setRun_status_id(resultSet.getInt("run_status_id"));
+
+        run.setRunStatus(runStatus);
 
         return run;
     }
