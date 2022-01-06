@@ -14,6 +14,4 @@ public interface RunStatusRepository {
     RunStatus add(RunStatus runStatus);
 
     boolean update(RunStatus runStatus);
-
-    boolean deleteById(int runStatusId);
 }
