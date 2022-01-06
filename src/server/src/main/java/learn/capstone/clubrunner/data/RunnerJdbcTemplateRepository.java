@@ -27,11 +27,11 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
 
     @Override
     @Transactional
-    public Runner findById(int runner_id) {
+    public Runner findById(int runnerId) {
 
         final String sql = "select runner_id, run_id, user_id from runner where runner_id = ?;";
 
-        Runner result = jdbcTemplate.query(sql, new RunnerMapper(), runner_id).stream().findAny().orElse(null);
+        Runner result = jdbcTemplate.query(sql, new RunnerMapper(), runnerId).stream().findAny().orElse(null);
 
         return result;
     }
@@ -60,7 +60,7 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
 
     @Override
     @Transactional
-    public boolean deleteById(int runner_id) {
-        return jdbcTemplate.update("delete from runner where runner_id = ?", runner_id) > 0;
+    public boolean deleteById(int runnerId) {
+        return jdbcTemplate.update("delete from runner where runner_id = ?", runnerId) > 0;
     }
 }

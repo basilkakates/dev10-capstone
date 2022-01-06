@@ -23,11 +23,11 @@ public class ClubJdbcTemplateRepository implements ClubRepository {
 
     @Override
     @Transactional
-    public Club findById(int club_id) {
+    public Club findById(int clubId) {
 
         final String sql = "select club_id, name, description club_description from club where club_id = ?;";
 
-        Club result = jdbcTemplate.query(sql, new ClubMapper(), club_id).stream().findAny().orElse(null);
+        Club result = jdbcTemplate.query(sql, new ClubMapper(), clubId).stream().findAny().orElse(null);
 
         return result;
     }

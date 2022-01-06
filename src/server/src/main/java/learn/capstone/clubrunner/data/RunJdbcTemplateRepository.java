@@ -31,12 +31,12 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     @Override
     @Transactional
-    public Run findById(int run_id) {
+    public Run findById(int runId) {
 
         final String sql = "select run_id, date, address, club_id, user_id, description run_description, max_capacity, " +
                 "start_time, latitude, longitude, run_status_id from run where run_id = ?;";
 
-        Run result = jdbcTemplate.query(sql, new RunMapper(), run_id).stream().findAny().orElse(null);
+        Run result = jdbcTemplate.query(sql, new RunMapper(), runId).stream().findAny().orElse(null);
 
 //        if (result != null) {
 //            add(result);
@@ -90,9 +90,9 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     @Override
     @Transactional
-    public boolean deleteById(int run_id) {
-        jdbcTemplate.update("delete from runner where run_id = ?", run_id);
-        return jdbcTemplate.update("delete from run where run_id = ?", run_id) > 0;
+    public boolean deleteById(int runId) {
+        jdbcTemplate.update("delete from runner where run_id = ?", runId);
+        return jdbcTemplate.update("delete from run where run_id = ?", runId) > 0;
     }
 
     private void buildRun (Run run) {
