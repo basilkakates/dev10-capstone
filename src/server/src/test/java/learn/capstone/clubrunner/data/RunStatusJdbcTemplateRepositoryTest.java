@@ -24,14 +24,14 @@ class RunStatusJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindById() {
-        List<RunStatus> runStatuses = repository.findAll();
+        RunStatus runStatuses = repository.findById(1);
         assertNotNull(runStatuses);
-        assertTrue(runStatuses.size() > 0);
+        assertEquals("Pending Approval", runStatuses.getStatus());
     }
 
     @Test
     void shouldNotFindMissingId() {
-        assertNull(repository.findById(1000));
+        assertNull(repository.findById(100000));
     }
 
     @Test
