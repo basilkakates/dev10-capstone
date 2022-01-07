@@ -41,7 +41,7 @@ function PendingRuns() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2 className="my-4">Pending Runs</h2>
 
       <table className="table">

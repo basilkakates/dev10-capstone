@@ -24,6 +24,7 @@ function NavBar() {
           </button>
         </div>
       )} */}
+
       <div className="container">
         <div className="row align-items-start">
           <div class="col">

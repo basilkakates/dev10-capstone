@@ -23,7 +23,7 @@ function Runs() {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h2 className="my-4">Runs</h2>
 
       <Link to="/runs/add" className="btn btn-primary mb-4">

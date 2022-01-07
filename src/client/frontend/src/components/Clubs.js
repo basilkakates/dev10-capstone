@@ -21,7 +21,7 @@ function Clubs() {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h2 className="my-4">Clubs</h2>
 
       <table className="table">

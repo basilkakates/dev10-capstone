@@ -50,7 +50,7 @@ function UserProfile() {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <div>
         <h2 className="my-4">User Profile</h2>
         <table className="table">
