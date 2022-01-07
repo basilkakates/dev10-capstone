@@ -44,7 +44,7 @@ class UserJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindByName() {
-        List<User> users =  repository.findByName("Joe", "Shmoe");
+        List<User> users = repository.findByName("Joe", "Shmoe");
         assertNotNull(users);
         assertTrue(users.size() > 0);
     }
