@@ -26,7 +26,7 @@ public class RunStatusController {
     @GetMapping("/{runStatusId}")
     public Result findById(@PathVariable int runStatusId) {return service.findById(runStatusId);}
 
-    @GetMapping("/{status}")
+    @GetMapping("/status/{status}")
     public Result findByStatus(@PathVariable String status) {return service.findByStatus(status);}
 
     @PostMapping

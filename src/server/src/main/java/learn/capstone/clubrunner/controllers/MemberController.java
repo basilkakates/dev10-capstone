@@ -21,16 +21,16 @@ public class MemberController {
     @GetMapping
     public List<Member> findAll() {return service.findAll();}
 
-    @GetMapping
+    @GetMapping("/admin/{findAdmins}")
     public Member findAdmins() {return service.findAdmins();}
 
-    @GetMapping("/{runId}")
+    @GetMapping("/{memberId}")
     public Result findById(@PathVariable int memberId) {return service.findById(memberId);}
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public Result findByUserId(@PathVariable int userId) {return service.findByUserId(userId);}
 
-    @GetMapping("/{clubId}")
+    @GetMapping("/club/{clubId}")
     public Result findByClubId(@PathVariable int clubId) {return service.findByClubId(clubId);}
 
     @PostMapping

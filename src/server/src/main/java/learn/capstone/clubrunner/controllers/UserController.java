@@ -24,10 +24,10 @@ public class UserController {
     @GetMapping("/{userId}")
     public Result findById(@PathVariable int userId) {return service.findById(userId);}
 
-    @GetMapping("/{firstName}")
+    @GetMapping("/name/{firstName}{lastName}")
     public Result findByName(@PathVariable String firstName, @PathVariable String lastName) {return service.findByName(firstName, lastName);}
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public Result findByEmail(@PathVariable String email) {return service.findByEmail(email);}
 
     @PostMapping
