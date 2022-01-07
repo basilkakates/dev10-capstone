@@ -1,10 +1,22 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 import RunTableHeader from "./RunTableHeader";
+import ApproveRun from "./ApproveRun";
+import DeleteRun from "./DeleteRun";
 
 function PendingRuns() {
   const [runs, setRuns] = useState([]);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+
+  const handleApproveModalClose = () => setShowApproveModal(false);
+  const handleApproveModalShow = () => setShowApproveModal(true);
+
+  const handleDeclineModalClose = () => setShowDeclineModal(false);
+  const handleDeclineModalShow = () => setShowDeclineModal(true);
 
   const getRuns = () => {
     fetch("http://localhost:8080/run")
@@ -41,7 +53,7 @@ function PendingRuns() {
   };
 
   return (
-    <div className="container">
+    <Container>
       <h2 className="my-4">Pending Runs</h2>
 
       <table className="table">
@@ -63,18 +75,30 @@ function PendingRuns() {
                   <td>{run.max_capacity}</td>
                   <td>
                     <div>
-                      <Link
-                        to={`/runs/approve/${run.run_id}`}
-                        className="btn btn-primary btn-sm"
+                      <Button
+                        variant="primary"
+                        onClick={handleApproveModalShow}
                       >
-                        <i className="bi bi-pencil"></i> Approve
-                      </Link>
-                      <Link
-                        to={`/runs/delete/${run.run_id}`}
-                        className="btn btn-danger btn-sm"
+                        Approve
+                      </Button>
+                      <ApproveRun
+                        showModal={showApproveModal}
+                        closeModal={handleApproveModalClose}
+                        runId={run.run_id}
+                      />
+                    </div>
+                    <div>
+                      <Button
+                        variant="secondary"
+                        onClick={handleDeclineModalShow}
                       >
-                        <i className="bi bi-pencil"></i> Decline
-                      </Link>
+                        Decline
+                      </Button>
+                      <DeleteRun
+                        showModal={showDeclineModal}
+                        closeModal={handleDeclineModalClose}
+                        runId={run.run_id}
+                      />
                     </div>
                   </td>
                 </>
@@ -83,7 +107,7 @@ function PendingRuns() {
           ))}
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 }
 

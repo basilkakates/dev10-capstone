@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 import Errors from "./Errors";
 
-function CancelRun() {
+function CancelRun({ showModal, closeModal, runId }) {
   const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -13,14 +15,14 @@ function CancelRun() {
   const [max_capacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
-  const { run_id } = useParams();
+  // const { run_id } = useParams();
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/run/${run_id}`)
+    fetch(`http://localhost:8080/run/${runId}`)
       .then((response) => {
         if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Run ID: ${run_id}`);
+          return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
         }
         return response.json();
       })
@@ -34,13 +36,13 @@ function CancelRun() {
       .catch((error) => {
         console.log(error);
       });
-  }, [run_id]);
+  }, [runId]);
 
   const cancelRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const updatedRun = {
-      run_id: run_id,
+      runId: runId,
       date,
       start_time,
       address,
@@ -60,7 +62,7 @@ function CancelRun() {
       body: JSON.stringify(updatedRun),
     };
 
-    fetch(`http://localhost:8080/run/${updatedRun.run_id}`, init)
+    fetch(`http://localhost:8080/run/${updatedRun.runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;
@@ -80,84 +82,89 @@ function CancelRun() {
   };
 
   return (
-    <>
-      <h2 className="my-4">Cancel Run</h2>
-      <Errors errors={errors} />
-      <form onSubmit={cancelRunFormSubmitHandler}>
-        <table className="table">
-          <tbody>
-            <tr>
-              <td>Date: </td>
-              <td>
-                <input
-                  type="text"
-                  id="date"
-                  name="date"
-                  value={date}
-                  readOnly
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Start Time: </td>
-              <td>
-                <input
-                  type="text"
-                  id="start_time"
-                  name="start_time"
-                  value={start_time}
-                  readOnly
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Address: </td>
-              <td>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  value={address}
-                  readOnly
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Description: </td>
-              <td>
-                <input
-                  type="text"
-                  id="description"
-                  name="description"
-                  value={description}
-                  readOnly
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Max Capacity: </td>
-              <td>
-                <input
-                  type="text"
-                  id="maxCapacity"
-                  name="maxCapacity"
-                  value={max_capacity}
-                  readOnly
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="mt-5">
-          <button className="btn btn-success" type="submit">
-            <i className="bi bi-plus-circle-fill"></i> Cancel Run
-          </button>
-          <Link to="/runs" className="btn btn-warning ml-2">
-            <i className="bi bi-x"></i> Go Back
-          </Link>
-        </div>
-      </form>
-    </>
+    <Modal show={showModal} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Cancel Run</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Errors errors={errors} />
+        <form onSubmit={cancelRunFormSubmitHandler}>
+          <table className="table">
+            <tbody>
+              <tr>
+                <td>Date: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="date"
+                    name="date"
+                    value={date}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Start Time: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="start_time"
+                    name="start_time"
+                    value={start_time}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Address: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={address}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Description: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={description}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Max Capacity: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="maxCapacity"
+                    name="maxCapacity"
+                    value={max_capacity}
+                    readOnly
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="mt-5">
+            <Button variant="primary" onClick={closeModal} type="submit">
+              <i className="bi bi-plus-circle-fill"></i> Submit
+            </Button>
+            <Button variant="secondary" onClick={closeModal}>
+              <i className="bi bi-x"></i> Go Back
+            </Button>
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer></Modal.Footer>
+    </Modal>
   );
 }
 

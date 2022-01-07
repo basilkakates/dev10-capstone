@@ -1,8 +1,10 @@
+import Container from "react-bootstrap/Container";
+
 function NotFound() {
   return (
-    <div className="container">
+    <Container>
       <h2 className="my-4">Not Found</h2>
-    </div>
+    </Container>
   );
 }
 

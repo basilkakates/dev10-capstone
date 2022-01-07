@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 
 function Clubs() {
   const [clubs, setClubs] = useState([]);
@@ -21,7 +22,7 @@ function Clubs() {
   }, []);
 
   return (
-    <div className="container">
+    <Container>
       <h2 className="my-4">Clubs</h2>
 
       <table className="table">
@@ -44,7 +45,7 @@ function Clubs() {
           ))}
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 }
 

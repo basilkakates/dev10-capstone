@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 import RunTableHeader from "./RunTableHeader";
 
 function UserProfile() {
@@ -50,7 +51,7 @@ function UserProfile() {
   }, []);
 
   return (
-    <div className="container">
+    <Container>
       <div>
         <h2 className="my-4">User Profile</h2>
         <table className="table">
@@ -141,7 +142,7 @@ function UserProfile() {
           </tbody>
         </table>
       </div>
-    </div>
+    </Container>
   );
 }
 

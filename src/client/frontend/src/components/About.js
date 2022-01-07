@@ -1,6 +1,8 @@
+import Container from "react-bootstrap/Container";
+
 function About() {
   return (
-    <div className="container">
+    <Container>
       <h2 className="my-4">About</h2>
       <table className="table">
         <thead>
@@ -84,7 +86,7 @@ function About() {
           </td>
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 }
 

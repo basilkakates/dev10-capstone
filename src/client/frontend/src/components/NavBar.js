@@ -1,5 +1,8 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import AuthContext from "../AuthContext";
 
 function NavBar() {
@@ -25,37 +28,37 @@ function NavBar() {
         </div>
       )} */}
 
-      <div className="container">
-        <div className="row align-items-start">
-          <div class="col">
+      <Container>
+        <Row className="align-items-start">
+          <Col>
             <Link to="/runs" className="btn btn-primary">
               Runs
             </Link>
-          </div>
-          <div class="col">
+          </Col>
+          <Col>
             <Link to="/clubs" className="btn btn-primary">
               Clubs
             </Link>
-          </div>
-          <div class="col">
+          </Col>
+          <Col>
             {/* {auth.user && ( */}
             <Link to="/runs/pending" className="btn btn-primary">
               Pending Runs
             </Link>
             {/* )} */}
-          </div>
-          <div class="col">
+          </Col>
+          <Col>
             <Link to="/userprofile" className="btn btn-primary">
               User Profile
             </Link>
-          </div>
-          <div class="col">
+          </Col>
+          <Col>
             <Link to="/about" className="btn btn-primary">
               About
             </Link>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

@@ -1,10 +1,26 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 import RunTableHeader from "./RunTableHeader";
+import AddRun from "./AddRun";
+import EditRun from "./EditRun";
+import CancelRun from "./CancelRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const handleAddModalClose = () => setShowAddModal(false);
+  const handleAddModalShow = () => setShowAddModal(true);
+
+  const handleEditModalClose = () => setShowEditModal(false);
+  const handleEditModalShow = () => setShowEditModal(true);
+
+  const handleCancelModalClose = () => setShowCancelModal(false);
+  const handleCancelModalShow = () => setShowCancelModal(true);
 
   const getRuns = () => {
     fetch("http://localhost:8080/run")
@@ -23,12 +39,15 @@ function Runs() {
   }, []);
 
   return (
-    <div className="container">
+    <Container>
       <h2 className="my-4">Runs</h2>
 
-      <Link to="/runs/add" className="btn btn-primary mb-4">
-        <i className="bi bi-plus-circle-fill"></i> Add Run
-      </Link>
+      <div>
+        <Button variant="primary" onClick={handleAddModalShow}>
+          Add Run
+        </Button>
+        <AddRun showModal={showAddModal} closeModal={handleAddModalClose} />
+      </div>
 
       <table className="table">
         <thead>
@@ -51,18 +70,32 @@ function Runs() {
                   {run.status === "approved" && (
                     <td>
                       <td className="btn btn-success btn-sm">Sign Up</td>
-                      <Link
-                        to={`/runs/edit/${run.run_id}`}
-                        className="btn btn-primary btn-sm"
-                      >
-                        <i className="bi bi-pencil"></i> Edit
-                      </Link>
-                      <Link
-                        to={`/runs/cancel/${run.run_id}`}
-                        className="btn btn-danger btn-sm"
-                      >
-                        <i className="bi bi-pencil"></i> Cancel
-                      </Link>
+                      <div>
+                        <Button
+                          variant="primary"
+                          onClick={handleEditModalShow}
+                        >
+                          Edit
+                        </Button>
+                        <EditRun
+                          showModal={showEditModal}
+                          closeModal={handleEditModalClose}
+                          runId={run.run_id}
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          variant="secondary"
+                          onClick={handleCancelModalShow}
+                        >
+                          Cancel
+                        </Button>
+                        <CancelRun
+                          showModal={showCancelModal}
+                          closeModal={handleCancelModalClose}
+                          runId={run.run_id}
+                        />
+                      </div>
                     </td>
                   )}
                   {run.status === "canceled" && (
@@ -76,7 +109,7 @@ function Runs() {
           ))}
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 }
 
