@@ -103,7 +103,7 @@ public class UserService {
         }
 
         if (!repository.update(user)) {
-            String msg = String.format("userId: %s, not found", user.getUserId());
+            String msg = String.format("userId: %s not found", user.getUserId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
