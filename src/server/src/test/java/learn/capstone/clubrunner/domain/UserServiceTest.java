@@ -119,6 +119,14 @@ class UserServiceTest {
     }
 
     @Test
+    void shouldFindAll() {
+        when(repository.findAll()).thenReturn(List.of(makeUser()));
+
+        List<User> actual = service.findAll();
+        assertNotNull(actual);
+    }
+
+    @Test
     void shouldNotAddNullUser() {
         Result<User> actual = service.add(null);
         assertNotNull(actual);
