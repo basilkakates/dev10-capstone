@@ -28,21 +28,6 @@ function NavBar() {
       <div className="container">
         <div className="row align-items-start">
           <div class="col">
-            <Link to="/" className="btn btn-primary">
-              Home
-            </Link>
-          </div>
-          <div class="col">
-            <Link to="/about" className="btn btn-primary">
-              About
-            </Link>
-          </div>
-          <div class="col">
-            <Link to="/userprofile" className="btn btn-primary">
-              User Profile
-            </Link>
-          </div>
-          <div class="col">
             <Link to="/runs" className="btn btn-primary">
               Runs
             </Link>
@@ -58,6 +43,16 @@ function NavBar() {
               Pending Runs
             </Link>
             {/* )} */}
+          </div>
+          <div class="col">
+            <Link to="/userprofile" className="btn btn-primary">
+              User Profile
+            </Link>
+          </div>
+          <div class="col">
+            <Link to="/about" className="btn btn-primary">
+              About
+            </Link>
           </div>
         </div>
       </div>
