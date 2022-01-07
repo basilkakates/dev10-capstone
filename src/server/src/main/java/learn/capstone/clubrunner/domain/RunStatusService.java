@@ -15,33 +15,33 @@ public class RunStatusService {
     }
 
     public Result<RunStatus> findById(int runStatusId) {
-        Result<RunStatus> runStatusResult = new Result<>();
-        runStatusResult.setPayload(repository.findById(runStatusId));
+        Result<RunStatus> result = new Result<>();
+        result.setPayload(repository.findById(runStatusId));
 
-        if (runStatusResult.getPayload() == null) {
+        if (result.getPayload() == null) {
             String msg = String.format("runStatusId: %s, not found", runStatusId);
-            runStatusResult.addMessage(msg, ResultType.NOT_FOUND);
+            result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
-        return runStatusResult;
+        return result;
     }
 
     public Result<RunStatus> findByStatus(String status) {
-        Result<RunStatus> runStatusResult = new Result<>();
+        Result<RunStatus> result = new Result<>();
 
         if (Validations.isNullOrBlank(status)) {
-            runStatusResult.addMessage("runStatus cannot be null", ResultType.INVALID);
-            return runStatusResult;
+            result.addMessage("status is required", ResultType.INVALID);
+            return result;
         }
 
-        runStatusResult.setPayload(repository.findByStatus(status));
+        result.setPayload(repository.findByStatus(status));
 
-        if (runStatusResult.getPayload() == null) {
+        if (result.getPayload() == null) {
             String msg = String.format("status: %s, not found", status);
-            runStatusResult.addMessage(msg, ResultType.NOT_FOUND);
+            result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
-        return runStatusResult;
+        return result;
     }
 
     public List<RunStatus> findAll() {
@@ -49,68 +49,63 @@ public class RunStatusService {
     }
 
     public Result<RunStatus> add(RunStatus runStatus) {
-        Result<RunStatus> runStatusResult = validate(runStatus);
+        Result<RunStatus> result = validate(runStatus);
 
-        if (!runStatusResult.isSuccess()) {
-            return runStatusResult;
+        if (!result.isSuccess()) {
+            return result;
         }
 
         if (runStatus.getRunStatusId() != 0) {
-            runStatusResult.addMessage("run_status_id cannot be set for `add` operation", ResultType.INVALID);
-            return runStatusResult;
+            result.addMessage("runStatusId cannot be set for `add` operation", ResultType.INVALID);
+        } else if (repository.findByStatus(runStatus.getStatus()) != null) {
+            result.addMessage("duplicate status are not permitted", ResultType.INVALID);
+        } else {
+            result.setPayload(repository.add(runStatus));
         }
 
-        if (repository.findByStatus(runStatus.getStatus()) != null) {
-            runStatusResult.addMessage("duplicate status are not permitted", ResultType.INVALID);
-            return runStatusResult;
-        }
-
-        runStatus = repository.add(runStatus);
-        runStatusResult.setPayload(runStatus);
-        return runStatusResult;
+        return result;
     }
 
     public Result<RunStatus> update(RunStatus runStatus) {
-        Result<RunStatus> runStatusResult = validate(runStatus);
+        Result<RunStatus> result = validate(runStatus);
 
-        if (!runStatusResult.isSuccess()) {
-            return runStatusResult;
+        if (!result.isSuccess()) {
+            return result;
         }
 
         if (runStatus.getRunStatusId() <= 0) {
-            runStatusResult.addMessage("run_status_id must be set for `update` operation", ResultType.INVALID);
-            return runStatusResult;
+            result.addMessage("runStatusId must be set for `update` operation", ResultType.INVALID);
+            return result;
         }
 
-        RunStatus runStatusFindByStatus =  repository.findByStatus(runStatus.getStatus());
+        RunStatus runStatusFindByStatus = repository.findByStatus(runStatus.getStatus());
 
         if (runStatusFindByStatus != null && runStatusFindByStatus.getRunStatusId() != runStatus.getRunStatusId()) {
-            runStatusResult.addMessage("duplicate status are not permitted", ResultType.INVALID);
-            return runStatusResult;
+            result.addMessage("duplicate status are not permitted", ResultType.INVALID);
+            return result;
         }
 
         if (!repository.update(runStatus)) {
             String msg = String.format("runStatusId: %s, not found", runStatus.getRunStatusId());
-            runStatusResult.addMessage(msg, ResultType.NOT_FOUND);
+            result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
-        return runStatusResult;
+        return result;
     }
 
     private Result<RunStatus> validate(RunStatus runStatus) {
-        Result<RunStatus> runStatusResult = new Result<>();
+        Result<RunStatus> result = new Result<>();
 
         if (runStatus == null) {
-            runStatusResult.addMessage("runStatus cannot be null", ResultType.INVALID);
-            return runStatusResult;
+            result.addMessage("runStatus cannot be null", ResultType.INVALID);
+            return result;
         }
 
         if (Validations.isNullOrBlank(runStatus.getStatus())) {
-            runStatusResult.addMessage("status is required", ResultType.INVALID);
-            return runStatusResult;
+            result.addMessage("status is required", ResultType.INVALID);
         }
 
-        return runStatusResult;
+        return result;
     }
 
 }

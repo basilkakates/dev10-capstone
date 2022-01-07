@@ -18,7 +18,9 @@ class RunStatusJdbcTemplateRepositoryTest {
     KnownGoodState knownGoodState;
 
     @BeforeEach
-    void setup() { knownGoodState.set(); }
+    void setup() {
+        knownGoodState.set();
+    }
 
     @Test
     void shouldFindById() {

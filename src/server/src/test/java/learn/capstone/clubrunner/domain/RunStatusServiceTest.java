@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +24,7 @@ class RunStatusServiceTest {
 
         Result<RunStatus> actual = service.findById(100000);
         assertNotNull(actual);
-        assertEquals(ResultType.NOT_FOUND ,actual.getType());
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
         assertNull(actual.getPayload());
     }
 
@@ -96,7 +93,7 @@ class RunStatusServiceTest {
     }
 
     @Test
-    void shouldNotAddRunStatusWithId() {
+    void shouldNotAddWithId() {
         RunStatus runStatus = makeRunStatus();
         runStatus.setRunStatusId(1);
 
@@ -107,7 +104,7 @@ class RunStatusServiceTest {
     }
 
     @Test
-    void shouldNotAddRunStatusWithDuplicateStatus() {
+    void shouldNotAddWithDuplicateStatus() {
         RunStatus runStatus = makeRunStatus();
         when(repository.findByStatus(runStatus.getStatus())).thenReturn(runStatus);
 
