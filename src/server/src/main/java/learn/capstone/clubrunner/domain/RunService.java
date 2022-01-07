@@ -15,7 +15,7 @@ public class RunService {
 
     public RunService(RunRepository repository) {this.repository = repository;}
 
-    public List<Run> findAll() {return repository.findAll();}
+    public List<Run> findAll(boolean future) {return repository.findAll(future);}
 
     public Result<Run> findById(int runId) {
         Result<Run> runResult = new Result<>();

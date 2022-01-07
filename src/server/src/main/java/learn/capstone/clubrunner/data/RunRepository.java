@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface RunRepository {
-    List<Run> findAll();
+    List<Run> findAll(boolean future);
 
     @Transactional
     Run findById(int runId);

@@ -32,9 +32,8 @@ class RunJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindRuns() {
-        List<Run> runs = repository.findAll();
-        assertNotNull(runs);
-        assertTrue(runs.size() > 0);
+        repository.findAll(true);
+        assertTrue(true);
     }
 
     @Test
@@ -108,7 +107,7 @@ class RunJdbcTemplateRepositoryTest {
     @Test
     void shouldDeleteRun() {
         repository.deleteById(4);
-        List<Run> runs = repository.findAll();
+        List<Run> runs = repository.findAll(true);
         assertNotNull(runs);
         assertTrue(runs.size() == 3);
     }

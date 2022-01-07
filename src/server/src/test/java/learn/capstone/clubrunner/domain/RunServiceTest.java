@@ -32,8 +32,8 @@ class RunServiceTest {
 
     @Test
     void shouldFindAll() {
-        List<Run> expected = service.findAll();
-        List<Run> actual = service.findAll();
+        List<Run> expected = service.findAll(true);
+        List<Run> actual = service.findAll(true);
         assertEquals(expected, actual);
     }
 
@@ -193,7 +193,7 @@ class RunServiceTest {
     void shouldDelete() {
 
         service.deleteById(0);
-        List<Run> runs = service.findAll();
+        List<Run> runs = service.findAll(true);
         assertTrue(runs.size() == 0);
     }
 

@@ -1,7 +1,6 @@
 package learn.capstone.clubrunner.data;
 
 import learn.capstone.clubrunner.data.mappers.RunMapper;
-import learn.capstone.clubrunner.data.mappers.RunnerMapper;
 import learn.capstone.clubrunner.models.Run;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,9 +22,17 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public RunJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
 
     @Override
-    public List<Run> findAll() {
-        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
-                "latitude, longitude, club_id, user_id, run_status_id from run;";
+    public List<Run> findAll(boolean future) {
+
+        String sql = "";
+
+        if (future) {
+            sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
+                    "latitude, longitude, club_id, user_id, run_status_id from run where date > NOW();";
+        } else {
+            sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
+                    "latitude, longitude, club_id, user_id, run_status_id from run;";
+        }
         return jdbcTemplate.query(sql, new RunMapper());
     }
 
