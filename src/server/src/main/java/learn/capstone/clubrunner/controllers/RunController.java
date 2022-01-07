@@ -22,7 +22,7 @@ public class RunController {
     public List<Run> findAll() {return service.findAll();}
 
     @GetMapping("/{runId}")
-    public Run findById(@PathVariable int runId) {return service.findById(runId);}
+    public Result findById(@PathVariable int runId) {return service.findById(runId);}
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Run run) {

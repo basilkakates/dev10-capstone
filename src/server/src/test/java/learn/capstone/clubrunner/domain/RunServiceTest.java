@@ -11,12 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -37,10 +39,25 @@ class RunServiceTest {
 
     @Test
     void shouldFindRun() {
-        Run expected = makeRun();
-        when(repository.findById(1)).thenReturn(expected);
-        Run actual = service.findById(1);
-        assertEquals(expected, actual);
+        Run run = makeRun();
+        run.setRunId(1);
+        when(repository.findById(run.getRunId())).thenReturn(run);
+
+        Result<Run> actual = service.findById(run.getRunId());
+        assertNotNull(actual);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+        assertNotNull(actual.getPayload());
+        assertEquals(run, actual.getPayload());
+    }
+
+    @Test
+    void shouldNotFindMissingId() {
+        when(repository.findById(100000)).thenReturn(null);
+
+        Result<Run> actual = service.findById(100000);
+        assertNotNull(actual);
+        assertEquals(ResultType.NOT_FOUND ,actual.getType());
+        assertNull(actual.getPayload());
     }
 
     @Test
@@ -51,6 +68,113 @@ class RunServiceTest {
 
         result = service.add(run);
         assertEquals(ResultType.SUCCESS, result.getType());
+    }
+
+    @Test
+    void shouldNotAddNullRun() {
+        Result<Run> actual = service.add(null);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNullAddress() {
+        Run run = makeRun();
+        run.setAddress(null);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNullDate() {
+        Run run = makeRun();
+        run.setDate(null);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNullDateInPast() {
+        Run run = makeRun();
+        run.setDate(LocalDate.parse("2022-01-01"));
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddZeroMaxCapacity() {
+        Run run = makeRun();
+        run.setMaxCapacity(0);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNegativeMaxCapacity() {
+        Run run = makeRun();
+        run.setMaxCapacity(-1);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNullStartTime() {
+        Run run = makeRun();
+        run.setStartTime(null);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddStartTimeInThePast() {
+        Run run = makeRun();
+        run.setStartTime(LocalTime.parse("00:00"));
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNullLatitude() {
+        Run run = makeRun();
+        run.setLatitude(null);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotAddNullLongitude() {
+        Run run = makeRun();
+        run.setLongitude(null);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
     }
 
     @Test

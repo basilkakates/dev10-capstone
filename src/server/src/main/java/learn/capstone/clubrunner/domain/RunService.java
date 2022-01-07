@@ -4,6 +4,8 @@ import learn.capstone.clubrunner.data.RunRepository;
 import learn.capstone.clubrunner.models.Run;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -15,7 +17,17 @@ public class RunService {
 
     public List<Run> findAll() {return repository.findAll();}
 
-    public Run findById(int runId) {return repository.findById(runId);}
+    public Result<Run> findById(int runId) {
+        Result<Run> runResult = new Result<>();
+        runResult.setPayload(repository.findById(runId));
+
+        if (runResult.getPayload() == null) {
+            String msg = String.format("runId: %s, not found", runId);
+            runResult.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return runResult;
+    }
 
     public Result<Run> add(Run run) {
 
@@ -70,27 +82,37 @@ public class RunService {
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getDate()))) {
+        if (run.getDate() == null) {
             result.addMessage("date is required", ResultType.INVALID);
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getMaxCapacity()))) {
-            result.addMessage("max capacity is required", ResultType.INVALID);
+        if (run.getDate().isBefore(LocalDate.now())) {
+            result.addMessage("date cannot be in the past", ResultType.INVALID);
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getStartTime()))) {
+        if (run.getMaxCapacity() <= 0) {
+            result.addMessage("max capacity cannot be zero or negative", ResultType.INVALID);
+            return result;
+        }
+
+        if (run.getStartTime() == null) {
             result.addMessage("start time is required", ResultType.INVALID);
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getLatitude()))) {
+        if (run.getStartTime().isBefore(LocalTime.now())) {
+            result.addMessage("start time cannot be in the past", ResultType.INVALID);
+            return result;
+        }
+
+        if (run.getLatitude() == null) {
             result.addMessage("latitude is required", ResultType.INVALID);
             return result;
         }
 
-        if (Validations.isNullOrBlank(String.valueOf(run.getLongitude()))) {
+        if (run.getLongitude() == null) {
             result.addMessage("longitude is required", ResultType.INVALID);
             return result;
         }

@@ -95,47 +95,47 @@ public class RunJdbcTemplateRepository implements RunRepository {
         return jdbcTemplate.update("delete from run where run_id = ?", runId) > 0;
     }
 
-    private void buildRun (Run run) {
-        addClubs(run);
-        addUsers(run);
-        addRunStatuses(run);
-    }
-//will I also need to add an addRunner Tab like this from fieldagent?
-
-    private void addClubs(Run run) {
-
-        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
-                "r.max_capacity, r.club_id, r.user_id, r.start_time, r.latitude, " +
-                "r.longitude, c.club_id"
-                + "from club c "
-                + "inner join run r on c.club_id = r.club_id "
-                + "where c.club_id = ?;";
-
-        var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-        run.setRunners(clubs);
-    }
-
-    private void addUsers(Run run) {
-
-        final String sql = "select user_id "
-                + "from user u "
-                + "inner join user u on rr.user_id = u.user_id "
-                + "inner join runner rr on r.user_id = rr.user_id "
-                + "where r.user_id = ?;";
-
-        var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-        run.setRunners(users);
-    }
-
-    private void addRunStatuses(Run run) {
-
-        final String sql = "select rs.run_status_id, "
-                + "r.run_status_id, "
-                + "from run_status rs "
-                + "inner join run r on rs.run_id = r.run_id "
-                + "where rr.run_id = ?;";
-
-        var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-        run.setRunners(runStatuses);
-    }
+//    private void buildRun (Run run) {
+//        addClubs(run);
+//        addUsers(run);
+//        addRunStatuses(run);
+//    }
+////will I also need to add an addRunner Tab like this from fieldagent?
+//
+//    private void addClubs(Run run) {
+//
+//        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
+//                "r.max_capacity, r.club_id, r.user_id, r.start_time, r.latitude, " +
+//                "r.longitude, c.club_id"
+//                + "from club c "
+//                + "inner join run r on c.club_id = r.club_id "
+//                + "where c.club_id = ?;";
+//
+//        var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
+//        run.setRunners(clubs);
+//    }
+//
+//    private void addUsers(Run run) {
+//
+//        final String sql = "select user_id "
+//                + "from user u "
+//                + "inner join user u on rr.user_id = u.user_id "
+//                + "inner join runner rr on r.user_id = rr.user_id "
+//                + "where r.user_id = ?;";
+//
+//        var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
+//        run.setRunners(users);
+//    }
+//
+//    private void addRunStatuses(Run run) {
+//
+//        final String sql = "select rs.run_status_id, "
+//                + "r.run_status_id, "
+//                + "from run_status rs "
+//                + "inner join run r on rs.run_id = r.run_id "
+//                + "where rr.run_id = ?;";
+//
+//        var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
+//        run.setRunners(runStatuses);
+//    }
 }

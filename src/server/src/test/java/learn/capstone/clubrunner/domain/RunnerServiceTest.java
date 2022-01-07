@@ -2,8 +2,9 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.RunnerRepository;
 import learn.capstone.clubrunner.models.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,14 @@ class RunnerServiceTest {
 
         result = service.add(runner);
         assertEquals(ResultType.SUCCESS, result.getType());
+    }
+
+    @Test
+    void shouldNotAddNullRunner() {
+        Result<Runner> actual = service.add(null);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
     }
 
     @Test

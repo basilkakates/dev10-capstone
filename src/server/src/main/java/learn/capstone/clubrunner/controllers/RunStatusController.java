@@ -16,14 +16,18 @@ import java.util.List;
 
 public class RunStatusController {
 
+    private final RunStatusService service;
+
+    public RunStatusController(RunStatusService service) {this.service = service;}
+
     @GetMapping
     public List<RunStatus> findAll() {return service.findAll();}
 
     @GetMapping("/{runStatusId}")
-    public RunStatus findById(@PathVariable int runStatusId) {return service.findById(runStatusId);}
+    public Result findById(@PathVariable int runStatusId) {return service.findById(runStatusId);}
 
     @GetMapping("/{status}")
-    public RunStatus findByStatus(@PathVariable String status) {return service.findByStatus(status);}
+    public Result findByStatus(@PathVariable String status) {return service.findByStatus(status);}
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody RunStatus runStatus) {

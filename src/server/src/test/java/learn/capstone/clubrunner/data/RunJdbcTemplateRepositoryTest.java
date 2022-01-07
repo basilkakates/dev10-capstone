@@ -38,6 +38,11 @@ class RunJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldNotFindMissingId() {
+        assertNull(repository.findById(100000));
+    }
+
+    @Test
     void shouldFindRunById() {
         Run run = repository.findById(1);
         assertNotNull(run);
