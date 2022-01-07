@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -71,6 +73,14 @@ class RunStatusServiceTest {
         assertNotNull(actual);
         assertEquals(ResultType.SUCCESS, actual.getType());
         assertEquals(runStatus, actual.getPayload());
+    }
+
+    @Test
+    void shouldFindAll() {
+        when(repository.findAll()).thenReturn(List.of(makeRunStatus()));
+
+        List<RunStatus> actual = service.findAll();
+        assertNotNull(actual);
     }
 
     @Test
