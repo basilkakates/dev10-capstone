@@ -36,7 +36,7 @@ function Clubs() {
         <tbody>
           {clubs.map((club) => (
             <tr key={club.club_id}>
-              <th scrope="row">{club.club_id}</th>
+              <th scope="row">{club.club_id}</th>
               <td>{club.name}</td>
               <td>{club.description}</td>
               <td></td>

@@ -68,6 +68,7 @@ function EditRun() {
       club_id,
       user_id,
       max_capacity,
+      status: "pending",
     };
 
     const init = {

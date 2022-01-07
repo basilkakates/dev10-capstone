@@ -22,24 +22,6 @@ function Runs() {
     getRuns();
   }, []);
 
-  const runDeleteClickHandler = (run_id) => {
-    const init = {
-      method: "DELETE",
-    };
-
-    fetch(`http://localhost:8080/run/${run_id}`, init)
-      .then((response) => {
-        if (response.status === 204) {
-          getRuns();
-        } else if (response.status === 404) {
-          Promise.reject(`Run ID ${run_id} not found`);
-        } else {
-          Promise.reject("Something unexpected went wrong :)");
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
     <div>
       <h2 className="my-4">Runs</h2>
@@ -57,7 +39,7 @@ function Runs() {
             <tr key={run.run_id}>
               {run.status !== "pending" && (
                 <>
-                  <th scrope="row">{run.run_id}</th>
+                  <th scope="row">{run.run_id}</th>
                   <td>{run.date}</td>
                   <td>{run.start_time}</td>
                   <td>{run.address}</td>
@@ -68,6 +50,7 @@ function Runs() {
 
                   {run.status === "approved" && (
                     <td>
+                      <td className="btn btn-success btn-sm">Sign Up</td>
                       <Link
                         to={`/runs/edit/${run.run_id}`}
                         className="btn btn-primary btn-sm"
@@ -83,7 +66,9 @@ function Runs() {
                     </td>
                   )}
                   {run.status === "canceled" && (
-                    <td className="btn btn-danger btn-sm">CANCELED</td>
+                    <td className="btn btn-outline-danger btn-sm" disabled>
+                      CANCELED
+                    </td>
                   )}
                 </>
               )}
