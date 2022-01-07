@@ -54,8 +54,8 @@ public class RunService {
         return result;
     }
 
-    public boolean deleteById(int run_id) {
-        return repository.deleteById(run_id);
+    public boolean deleteById(int runId) {
+        return repository.deleteById(runId);
     }
 
     private Result<Run> validate(Run run) {
