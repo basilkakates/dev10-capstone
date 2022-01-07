@@ -19,7 +19,7 @@ public class RunStatusService {
         result.setPayload(repository.findById(runStatusId));
 
         if (result.getPayload() == null) {
-            String msg = String.format("runStatusId: %s, not found", runStatusId);
+            String msg = String.format("runStatusId: %s not found", runStatusId);
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -37,7 +37,7 @@ public class RunStatusService {
         result.setPayload(repository.findByStatus(status));
 
         if (result.getPayload() == null) {
-            String msg = String.format("status: %s, not found", status);
+            String msg = String.format("status: %s not found", status);
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -86,7 +86,7 @@ public class RunStatusService {
         }
 
         if (!repository.update(runStatus)) {
-            String msg = String.format("runStatusId: %s, not found", runStatus.getRunStatusId());
+            String msg = String.format("runStatusId: %s not found", runStatus.getRunStatusId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
