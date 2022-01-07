@@ -33,7 +33,7 @@ public class RunController {
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("{/runId}")
+    @PutMapping("/{runId}")
     public ResponseEntity<Object> update(@PathVariable int runId, @RequestBody Run run) {
         if (runId != run.getRunId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
