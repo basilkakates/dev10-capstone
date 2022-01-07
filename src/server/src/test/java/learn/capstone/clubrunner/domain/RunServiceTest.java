@@ -209,13 +209,13 @@ class RunServiceTest {
         RunStatus runStatus = new RunStatus();
         runStatus.setRunStatusId(2);
 
-        run.setDate(LocalDate.parse("2025-11-01"));
+        run.setDate(LocalDate.now().plusYears(10));
         run.setAddress("000 Test");
         run.setMaxCapacity(25);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.parse("13:30"));
+        run.setStartTime(LocalTime.now().plusHours(1));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
 
