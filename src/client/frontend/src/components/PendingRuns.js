@@ -34,17 +34,17 @@ function PendingRuns() {
     getRuns();
   }, []);
 
-  const runDeleteClickHandler = (run_id) => {
+  const runDeleteClickHandler = (runId) => {
     const init = {
       method: "DELETE",
     };
 
-    fetch(`http://localhost:8080/run/${run_id}`, init)
+    fetch(`http://localhost:8080/run/${runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           getRuns();
         } else if (response.status === 404) {
-          Promise.reject(`Run ID ${run_id} not found`);
+          Promise.reject(`Run ID ${runId} not found`);
         } else {
           Promise.reject("Something unexpected went wrong :)");
         }
@@ -62,17 +62,17 @@ function PendingRuns() {
         </thead>
         <tbody>
           {runs.map((run) => (
-            <tr key={run.run_id}>
+            <tr key={run.runId}>
               {run.status === "pending" && (
                 <>
-                  <th scrope="row">{run.run_id}</th>
+                  <th scrope="row">{run.runId}</th>
                   <td>{run.date}</td>
-                  <td>{run.start_time}</td>
+                  <td>{run.startTime}</td>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
-                  <td>{run.club_id}</td>
-                  <td>{run.user_id}</td>
-                  <td>{run.max_capacity}</td>
+                  <td>{run.clubid}</td>
+                  <td>{run.userId}</td>
+                  <td>{run.maxCapacity}</td>
                   <td>
                     <div>
                       <Button
@@ -84,7 +84,7 @@ function PendingRuns() {
                       <ApproveRun
                         showModal={showApproveModal}
                         closeModal={handleApproveModalClose}
-                        runId={run.run_id}
+                        runId={run.runId}
                       />
                     </div>
                     <div>
@@ -97,7 +97,7 @@ function PendingRuns() {
                       <DeleteRun
                         showModal={showDeclineModal}
                         closeModal={handleDeclineModalClose}
-                        runId={run.run_id}
+                        runId={run.runId}
                       />
                     </div>
                   </td>

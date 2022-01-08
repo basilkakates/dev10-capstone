@@ -7,12 +7,12 @@ import Errors from "./Errors";
 
 function DeleteRun({ showModal, closeModal, runId }) {
   const [date, setDate] = useState("");
-  const [start_time, setStartTime] = useState("");
+  const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
-  const [club_id, setClubId] = useState("");
-  const [user_id, setUserId] = useState("");
-  const [max_capacity, setMaxCapacity] = useState([]);
+  const [clubId, setClubId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -27,12 +27,12 @@ function DeleteRun({ showModal, closeModal, runId }) {
       })
       .then((data) => {
         setDate(data.date);
-        setStartTime(data.start_time);
+        setStartTime(data.startTime);
         setAddress(data.address);
         setDescription(data.description);
-        setClubId(data.club_id);
-        setUserId(data.user_id);
-        setMaxCapacity(data.max_capacity);
+        setClubId(data.clubId);
+        setUserId(data.userId);
+        setMaxCapacity(data.maxCapacity);
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +43,7 @@ function DeleteRun({ showModal, closeModal, runId }) {
     event.preventDefault();
 
     const run = {
-      run_id: runId,
+      runId: runId,
     };
 
     const init = {
@@ -101,9 +101,9 @@ function DeleteRun({ showModal, closeModal, runId }) {
                 <td>
                   <input
                     type="text"
-                    id="start_time"
-                    name="start_time"
-                    value={start_time}
+                    id="startTime"
+                    name="startTime"
+                    value={startTime}
                     readOnly
                   />
                 </td>
@@ -139,7 +139,7 @@ function DeleteRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={max_capacity}
+                    value={maxCapacity}
                     readOnly
                   />
                 </td>
