@@ -24,7 +24,7 @@ public class RunStatusController {
 
     @GetMapping("/{runStatusId}")
     public ResponseEntity<Object> findById(@PathVariable int runStatusId) {
-        Result<RunStatus> result =  service.findById(runStatusId);
+        Result<RunStatus> result = service.findById(runStatusId);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
         }

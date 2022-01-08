@@ -40,11 +40,11 @@ public class RunStatusControllerTest {
         ObjectMapper jsonMapper = new ObjectMapper();
 
         RunStatus runStatus = new RunStatus();
-        String runStatusJason = jsonMapper.writeValueAsString(runStatus);
+        String runStatusJson = jsonMapper.writeValueAsString(runStatus);
 
         var request = post("/api/runStatus")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(runStatusJason);
+                .content(runStatusJson);
 
         mvc.perform(request)
                 .andExpect(status().isBadRequest());
