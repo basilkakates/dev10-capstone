@@ -7,12 +7,12 @@ import Errors from "./Errors";
 
 function ApproveRun({ showModal, closeModal, runId }) {
   const [date, setDate] = useState("");
-  const [start_time, setStartTime] = useState("");
+  const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
-  const [club_id, setClubId] = useState("");
-  const [user_id, setUserId] = useState("");
-  const [max_capacity, setMaxCapacity] = useState([]);
+  const [clubId, setClubId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -27,10 +27,10 @@ function ApproveRun({ showModal, closeModal, runId }) {
       })
       .then((data) => {
         setDate(data.date);
-        setStartTime(data.start_time);
+        setStartTime(data.startTime);
         setAddress(data.address);
         setDescription(data.description);
-        setMaxCapacity(data.max_capacity);
+        setMaxCapacity(data.maxCapacity);
       })
       .catch((error) => {
         console.log(error);
@@ -43,12 +43,12 @@ function ApproveRun({ showModal, closeModal, runId }) {
     const updatedRun = {
       runId: runId,
       date,
-      start_time,
+      startTime,
       address,
       description,
-      club_id,
-      user_id,
-      max_capacity,
+      clubId,
+      userId,
+      maxCapacity,
       status: "approved",
     };
 
@@ -107,9 +107,9 @@ function ApproveRun({ showModal, closeModal, runId }) {
                 <td>
                   <input
                     type="text"
-                    id="start_time"
-                    name="start_time"
-                    value={start_time}
+                    id="startTime"
+                    name="startTime"
+                    value={startTime}
                     readOnly
                   />
                 </td>
@@ -145,7 +145,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={max_capacity}
+                    value={maxCapacity}
                     readOnly
                   />
                 </td>

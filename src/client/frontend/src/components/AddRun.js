@@ -7,12 +7,12 @@ import Errors from "./Errors";
 
 function AddRun({ showModal, closeModal }) {
   const [date, setDate] = useState("");
-  const [start_time, setStartTime] = useState("");
+  const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
-  const [club_id, setClubId] = useState("");
-  const [user_id, setUserId] = useState("");
-  const [max_capacity, setMaxCapacity] = useState([]);
+  const [clubId, setClubId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -41,14 +41,14 @@ function AddRun({ showModal, closeModal }) {
     event.preventDefault();
 
     const run = {
-      run_id: 0,
+      runId: 0,
       date,
-      start_time,
+      startTime,
       address,
       description,
-      club_id,
-      user_id,
-      max_capacity,
+      clubId,
+      userId,
+      maxCapacity,
       status: "pending",
     };
 
@@ -106,9 +106,9 @@ function AddRun({ showModal, closeModal }) {
                 <td>
                   <input
                     type="text"
-                    id="start_time"
-                    name="start_time"
-                    value={start_time}
+                    id="startTime"
+                    name="starTime"
+                    value={startTime}
                     onChange={startTimeOnChangeHandler}
                   />
                 </td>
@@ -144,7 +144,7 @@ function AddRun({ showModal, closeModal }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={max_capacity}
+                    value={maxCapacity}
                     onChange={maxCapacityOnChangeHandler}
                   />
                 </td>

@@ -55,17 +55,17 @@ function Runs() {
         </thead>
         <tbody>
           {runs.map((run) => (
-            <tr key={run.run_id}>
+            <tr key={run.runId}>
               {run.status !== "pending" && (
                 <>
-                  <th scope="row">{run.run_id}</th>
+                  <th scope="row">{run.runId}</th>
                   <td>{run.date}</td>
-                  <td>{run.start_time}</td>
+                  <td>{run.startTime}</td>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
-                  <td>{run.club_id}</td>
-                  <td>{run.user_id}</td>
-                  <td>{run.max_capacity}</td>
+                  <td>{run.clubId}</td>
+                  <td>{run.userId}</td>
+                  <td>{run.maxCapacity}</td>
 
                   {run.status === "approved" && (
                     <td>
@@ -80,7 +80,7 @@ function Runs() {
                         <EditRun
                           showModal={showEditModal}
                           closeModal={handleEditModalClose}
-                          runId={run.run_id}
+                          runId={run.runId}
                         />
                       </div>
                       <div>
@@ -93,7 +93,7 @@ function Runs() {
                         <CancelRun
                           showModal={showCancelModal}
                           closeModal={handleCancelModalClose}
-                          runId={run.run_id}
+                          runId={run.runId}
                         />
                       </div>
                     </td>
