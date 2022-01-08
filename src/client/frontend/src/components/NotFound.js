@@ -1,5 +1,11 @@
+import Container from "react-bootstrap/Container";
+
 function NotFound() {
-  return <h2>Not Found</h2>;
+  return (
+    <Container>
+      <h2 className="my-4">Not Found</h2>
+    </Container>
+  );
 }
 
 export default NotFound;

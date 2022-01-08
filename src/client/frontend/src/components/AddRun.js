@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 import Errors from "./Errors";
 
-function AddRun() {
+function AddRun({ showModal, closeModal }) {
   const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -47,6 +49,7 @@ function AddRun() {
       club_id,
       user_id,
       max_capacity,
+      status: "pending",
     };
 
     const init = {
@@ -77,84 +80,89 @@ function AddRun() {
   };
 
   return (
-    <>
-      <h2 className="my-4">Add Run</h2>
-      <Errors errors={errors} />
-      <form onSubmit={addRunFormSubmitHandler}>
-        <table className="table">
-          <tbody>
-            <tr>
-              <td>Date: </td>
-              <td>
-                <input
-                  type="text"
-                  id="date"
-                  name="date"
-                  value={date}
-                  onChange={dateOnChangeHandler}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Start Time: </td>
-              <td>
-                <input
-                  type="text"
-                  id="start_time"
-                  name="start_time"
-                  value={start_time}
-                  onChange={startTimeOnChangeHandler}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Address: </td>
-              <td>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  value={address}
-                  onChange={addressOnChangeHandler}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Description: </td>
-              <td>
-                <input
-                  type="text"
-                  id="description"
-                  name="description"
-                  value={description}
-                  onChange={descriptionOnChangeHandler}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Max Capacity: </td>
-              <td>
-                <input
-                  type="text"
-                  id="maxCapacity"
-                  name="maxCapacity"
-                  value={max_capacity}
-                  onChange={maxCapacityOnChangeHandler}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="mt-5">
-          <button className="btn btn-success" type="submit">
-            <i className="bi bi-plus-circle-fill"></i> Add Run
-          </button>
-          <Link to="/runs" className="btn btn-warning ml-2">
-            <i className="bi bi-x"></i> Cancel
-          </Link>
-        </div>
-      </form>
-    </>
+    <Modal show={showModal} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Add Run</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Errors errors={errors} />
+        <form onSubmit={addRunFormSubmitHandler}>
+          <table className="table">
+            <tbody>
+              <tr>
+                <td>Date: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="date"
+                    name="date"
+                    value={date}
+                    onChange={dateOnChangeHandler}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Start Time: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="start_time"
+                    name="start_time"
+                    value={start_time}
+                    onChange={startTimeOnChangeHandler}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Address: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={address}
+                    onChange={addressOnChangeHandler}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Description: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={description}
+                    onChange={descriptionOnChangeHandler}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Max Capacity: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="maxCapacity"
+                    name="maxCapacity"
+                    value={max_capacity}
+                    onChange={maxCapacityOnChangeHandler}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="mt-5">
+            <Button variant="primary" onClick={closeModal} type="submit">
+              <i className="bi bi-plus-circle-fill"></i> Submit
+            </Button>
+            <Button variant="secondary" onClick={closeModal}>
+              <i className="bi bi-x"></i> Go Back
+            </Button>
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer></Modal.Footer>
+    </Modal>
   );
 }
 

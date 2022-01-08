@@ -78,6 +78,7 @@ function App() {
   // }
 
   return (
+    // <AuthContext.Provider value={auth}>
     <Router>
       <Header />
       <Switch>
@@ -100,29 +101,32 @@ function App() {
         </Route>
 
         <Route exact path="/runs/pending">
+          {/* {user ? <PendingRuns /> : <Redirect to="../login" />} */}
           <PendingRuns />
         </Route>
 
         <Route path="/runs/add">
-          {/* {user ? <AddRun /> : <Redirect to="login" />} */}
+          {/* {user ? <AddRun /> : <Redirect to="../login" />} */}
           <AddRun />
         </Route>
 
         <Route path="/runs/edit/:run_id">
-          {/* {user ? <EditRun /> : <Redirect to="login" />} */}
+          {/* {user ? <EditRun /> : <Redirect to="../../login" />} */}
           <EditRun />
         </Route>
 
         <Route path="/runs/approve/:run_id">
+          {/* {user ? <ApproveRun /> : <Redirect to="../../login" />} */}
           <ApproveRun />
         </Route>
-        
+
         <Route path="/runs/delete/:run_id">
-          {/* {user ? <DeleteRun /> : <Redirect to="login" />} */}
+          {/* {user ? <DeleteRun /> : <Redirect to="../../login" />} */}
           <DeleteRun />
         </Route>
 
         <Route path="/runs/cancel/:run_id">
+          {/* {user ? <CancelRun /> : <Redirect to="../../login" />} */}
           <CancelRun />
         </Route>
 
@@ -131,20 +135,20 @@ function App() {
           <Clubs />
         </Route>
 
-        <Route path="/login">
+        {/* <Route path="/login">
           <Login />
         </Route>
 
         <Route path="/register">
           <Register />
-        </Route>
+        </Route> */}
 
         <Route path="*">
           <NotFound />
         </Route>
       </Switch>
     </Router>
-    // </AuthContext.Provider>
+    // {/* </AuthContext.Provider> */}
   );
 }
 

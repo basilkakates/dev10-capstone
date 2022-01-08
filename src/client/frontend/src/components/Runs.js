@@ -1,8 +1,26 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+
+import RunTableHeader from "./RunTableHeader";
+import AddRun from "./AddRun";
+import EditRun from "./EditRun";
+import CancelRun from "./CancelRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const handleAddModalClose = () => setShowAddModal(false);
+  const handleAddModalShow = () => setShowAddModal(true);
+
+  const handleEditModalClose = () => setShowEditModal(false);
+  const handleEditModalShow = () => setShowEditModal(true);
+
+  const handleCancelModalClose = () => setShowCancelModal(false);
+  const handleCancelModalShow = () => setShowCancelModal(true);
 
   const getRuns = () => {
     fetch("http://localhost:8080/run")
@@ -20,78 +38,78 @@ function Runs() {
     getRuns();
   }, []);
 
-  const runDeleteClickHandler = (run_id) => {
-    const init = {
-      method: "DELETE",
-    };
-
-    fetch(`http://localhost:8080/run/${run_id}`, init)
-      .then((response) => {
-        if (response.status === 204) {
-          getRuns();
-        } else if (response.status === 404) {
-          Promise.reject(`Run ID ${run_id} not found`);
-        } else {
-          Promise.reject("Something unexpected went wrong :)");
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
-    <div>
+    <Container>
       <h2 className="my-4">Runs</h2>
 
-      <Link to="/runs/add" className="btn btn-primary mb-4">
-        <i className="bi bi-plus-circle-fill"></i> Add Run
-      </Link>
+      <div>
+        <Button variant="primary" onClick={handleAddModalShow}>
+          Add Run
+        </Button>
+        <AddRun showModal={showAddModal} closeModal={handleAddModalClose} />
+      </div>
 
       <table className="table">
         <thead>
-          <tr>
-            <th>Description</th>
-            <th> </th>
-            <th>Actions</th>
-          </tr>
+          <RunTableHeader />
         </thead>
         <tbody>
           {runs.map((run) => (
             <tr key={run.run_id}>
-              {run.status === "approved" && (
-                <div>
-                  <td>
-                    {run.date} {run.start_time} {run.address} {run.description}{" "}
-                    {run.club_id} {run.user_id} {run.max_capacity}
-                  </td>
-                  <td>
-                    <div className="float-right">
-                      <Link
-                        to={`/runs/edit/${run.run_id}`}
-                        className="btn btn-primary btn-sm"
-                      >
-                        <i className="bi bi-pencil"></i> Edit
-                      </Link>
-                      <Link
-                        to={`/runs/cancel/${run.run_id}`}
-                        className="btn btn-danger btn-sm"
-                      >
-                        <i className="bi bi-pencil"></i> Cancel
-                      </Link>
-                    </div>
-                  </td>
-                </div>
-              )}
-              {run.status === "canceled" && (
-                <td>
-                  {run.date} {run.start_time} {run.address} {run.description}{" "}
-                  {run.club_id} {run.user_id} {run.max_capacity} CANCELED
-                </td>
+              {run.status !== "pending" && (
+                <>
+                  <th scope="row">{run.run_id}</th>
+                  <td>{run.date}</td>
+                  <td>{run.start_time}</td>
+                  <td>{run.address}</td>
+                  <td>{run.description}</td>
+                  <td>{run.club_id}</td>
+                  <td>{run.user_id}</td>
+                  <td>{run.max_capacity}</td>
+
+                  {run.status === "approved" && (
+                    <td>
+                      <td className="btn btn-success btn-sm">Join</td>
+                      <div>
+                        <Button
+                          variant="primary"
+                          onClick={handleEditModalShow}
+                        >
+                          Edit
+                        </Button>
+                        <EditRun
+                          showModal={showEditModal}
+                          closeModal={handleEditModalClose}
+                          runId={run.run_id}
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          variant="secondary"
+                          onClick={handleCancelModalShow}
+                        >
+                          Cancel
+                        </Button>
+                        <CancelRun
+                          showModal={showCancelModal}
+                          closeModal={handleCancelModalClose}
+                          runId={run.run_id}
+                        />
+                      </div>
+                    </td>
+                  )}
+                  {run.status === "canceled" && (
+                    <td className="btn btn-outline-danger btn-sm" disabled>
+                      CANCELED
+                    </td>
+                  )}
+                </>
               )}
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 }
 

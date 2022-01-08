@@ -29,7 +29,7 @@ function Login() {
       password,
     };
 
-    const response = await fetch("http://localhost:8080/authenticate", {
+    const response = await fetch("http://localhost:8080/api/authenticate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
