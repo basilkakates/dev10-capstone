@@ -57,10 +57,10 @@ function UserProfile() {
         <table className="table">
           <tbody>
             <tr>
-              <td scope="row">First Name: {user.first_name}</td>
+              <td scope="row">First Name: {user.firstName}</td>
             </tr>
             <tr>
-              <td scope="row">Last Name: {user.last_name}</td>
+              <td scope="row">Last Name: {user.lastName}</td>
             </tr>
             <tr>
               <td scope="row">Email: {user.email}</td>
@@ -77,29 +77,29 @@ function UserProfile() {
           </thead>
           <tbody>
             {runs.map((run) => (
-              <tr key={run.run_id}>
+              <tr key={run.runId}>
                 {run.status !== "pending" && (
                   <>
-                    <th scope="row">{run.run_id}</th>
+                    <th scope="row">{run.runId}</th>
                     <td>{run.date}</td>
-                    <td>{run.start_time}</td>
+                    <td>{run.startTime}</td>
                     <td>{run.address}</td>
                     <td>{run.description}</td>
-                    <td>{run.club_id}</td>
-                    <td>{run.user_id}</td>
-                    <td>{run.max_capacity}</td>
+                    <td>{run.clubId}</td>
+                    <td>{run.userId}</td>
+                    <td>{run.maxCapacity}</td>
 
                     {run.status === "approved" && (
                       <td>
                         <td className="btn btn-success btn-sm">Sign Up</td>
                         <Link
-                          to={`/runs/edit/${run.run_id}`}
+                          to={`/runs/edit/${run.runId}`}
                           className="btn btn-primary btn-sm"
                         >
                           <i className="bi bi-pencil"></i> Edit
                         </Link>
                         <Link
-                          to={`/runs/cancel/${run.run_id}`}
+                          to={`/runs/cancel/${run.runId}`}
                           className="btn btn-danger btn-sm"
                         >
                           <i className="bi bi-pencil"></i> Cancel
@@ -132,8 +132,8 @@ function UserProfile() {
           </thead>
           <tbody>
             {clubs.map((club) => (
-              <tr key={club.club_id}>
-                <th scope="row">{club.club_id}</th>
+              <tr key={club.clubId}>
+                <th scope="row">{club.clubId}</th>
                 <td>{club.name}</td>
                 <td>{club.description}</td>
                 <td></td>
