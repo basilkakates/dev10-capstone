@@ -19,7 +19,7 @@ public class MemberService {
         result.setPayload(repository.findById(memberId));
 
         if (result.getPayload() == null) {
-            String msg = String.format("memberId: %s, not found", memberId);
+            String msg = String.format("memberId: %s not found", memberId);
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -86,7 +86,7 @@ public class MemberService {
         }
 
         if (result.isSuccess() && !repository.update(member)) {
-            String msg = String.format("memberId: %s, not found", member.getMemberId());
+            String msg = String.format("memberId: %s not found", member.getMemberId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
