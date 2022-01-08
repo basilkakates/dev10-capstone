@@ -57,6 +57,17 @@ class RunnerServiceTest {
     }
 
     @Test
+    void shouldNotAddWithUserId() {
+        Runner runner = makeRunner();
+        runner.setRunnerId(1);
+
+        Result<Runner> actual = service.add(runner);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
     void shouldDelete() {
 
         service.deleteById(0);
