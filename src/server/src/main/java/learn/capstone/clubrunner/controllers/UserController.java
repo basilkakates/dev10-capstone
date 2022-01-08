@@ -22,13 +22,31 @@ public class UserController {
     public List<User> findAll() {return service.findAll();}
 
     @GetMapping("/{userId}")
-    public Result findById(@PathVariable int userId) {return service.findById(userId);}
+    public ResponseEntity<Object> findById(@PathVariable int userId) {
+        Result<User> result = service.findById(userId);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @GetMapping("/name/{firstName}{lastName}")
-    public Result findByName(@PathVariable String firstName, @PathVariable String lastName) {return service.findByName(firstName, lastName);}
+    public ResponseEntity<Object> findByName(@PathVariable String firstName, @PathVariable String lastName) {
+        Result<List<User>> result = service.findByName(firstName, lastName);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @GetMapping("/email/{email}")
-    public Result findByEmail(@PathVariable String email) {return service.findByEmail(email);}
+    public ResponseEntity<Object> findByEmail(@PathVariable String email) {
+        Result<User> result = service.findByEmail(email);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody User user) {
