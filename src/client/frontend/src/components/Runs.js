@@ -69,7 +69,7 @@ function Runs() {
 
                   {run.status === "approved" && (
                     <td>
-                      <td className="btn btn-success btn-sm">Sign Up</td>
+                      <td className="btn btn-success btn-sm">Join</td>
                       <div>
                         <Button
                           variant="primary"
