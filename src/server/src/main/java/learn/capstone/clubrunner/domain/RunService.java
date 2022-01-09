@@ -38,6 +38,10 @@ public class RunService {
         return runResult;
     }
 
+    public List<Run> findRunParticipating(int userId) {
+        return repository.findRunsParticipating(userId);
+    }
+
     public Result<Run> add(Run run) {
 
         Result<Run> result = validate(run);
