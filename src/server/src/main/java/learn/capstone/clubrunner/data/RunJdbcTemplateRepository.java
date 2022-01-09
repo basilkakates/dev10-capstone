@@ -43,8 +43,8 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     @Override
     public List<Run> findRunsByUserId(int userId) {
-        final String sql = "select run_id, date, address, description run_description, max_capacity, " +
-                "start_time, latitude, longitude, club_id, user_id, run_status_id " +
+        final String sql = "select r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
+                "r.start_time, r.latitude, r.longitude, r.club_id, r.user_id, r.run_status_id " +
                 "from run r " +
                 "inner join runner ru " +
                 "on r.run_id = ru.run_id " +
