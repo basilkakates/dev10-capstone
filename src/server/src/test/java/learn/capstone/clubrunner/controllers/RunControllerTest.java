@@ -69,7 +69,7 @@ class RunControllerTest {
     @Test
     void addShouldReturn201() throws Exception {
         Run expected = makeRun();
-        expected.setRunId(1);
+        expected.setRunId(4);
 
         when(repository.add(any())).thenReturn(expected);
         ObjectMapper jsonMapper = new ObjectMapper();
@@ -134,23 +134,30 @@ class RunControllerTest {
 
         User user = new User();
         user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
+        user.setPassword("supersecure");
 
         Club club = new Club();
         club.setClubId(1);
+        club.setName("Test Club");
+        club.setDescription("Club for test");
 
         RunStatus runStatus = new RunStatus();
         runStatus.setRunStatusId(2);
+        runStatus.setStatus("Test");
 
-        run.setDate(LocalDate.parse("2025-12-31"));
+        run.setDate(LocalDate.now());
         run.setAddress("000 Test");
         run.setMaxCapacity(25);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.parse("23:59"));
-        run.setLatitude(new BigDecimal("41.902324"));
-        run.setLongitude(new BigDecimal("-88.00001"));
-        run.setDescription(null);
+        run.setStartTime(LocalTime.now());
+        run.setLatitude(BigDecimal.valueOf(41.902324));
+        run.setLongitude(BigDecimal.valueOf(-88.00001));
+        run.setDescription("A test run");
 
         return run;
     }
