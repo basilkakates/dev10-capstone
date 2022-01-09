@@ -19,7 +19,7 @@ public class RunController {
     public RunController(RunService service) {this.service = service;}
 
     @GetMapping
-    public List<Run> findAll(boolean future) {return service.findAll(future);}
+    public List<Run> findAll() {return service.findAll();}
 
     @GetMapping("/{runId}")
     public Result findById(@PathVariable int runId) {return service.findById(runId);}

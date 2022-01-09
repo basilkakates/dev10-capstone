@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface RunRepository {
-    List<Run> findAll(boolean future);
+    List<Run> findAll();
 
     @Transactional
     Run findById(int runId);
@@ -17,4 +17,6 @@ public interface RunRepository {
 
     @Transactional
     boolean deleteById(int runId);
+
+
 }

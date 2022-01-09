@@ -32,9 +32,9 @@ class RunServiceTest {
 
     @Test
     void shouldFindAll() {
-        when(repository.findAll(true)).thenReturn(List.of(makeRun()));
+        when(repository.findAll()).thenReturn(List.of(makeRun()));
 
-        List<Run> actual = service.findAll(true);
+        List<Run> actual = service.findAll();
         assertNotNull(actual);
     }
 
@@ -247,7 +247,7 @@ class RunServiceTest {
     void shouldDelete() {
 
         service.deleteById(0);
-        List<Run> runs = service.findAll(true);
+        List<Run> runs = service.findAll();
         assertTrue(runs.size() == 0);
     }
 

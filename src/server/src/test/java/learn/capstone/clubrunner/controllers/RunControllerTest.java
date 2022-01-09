@@ -40,7 +40,7 @@ class RunControllerTest {
     @Test
     void findAllShouldReturn200() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
-        when(repository.findAll(true)).thenReturn(new ArrayList<>());
+        when(repository.findAll()).thenReturn(new ArrayList<>());
         String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
 
         mvc.perform(get("/api/run"))
