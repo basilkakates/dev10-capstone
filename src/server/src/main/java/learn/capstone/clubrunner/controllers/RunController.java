@@ -16,17 +16,23 @@ public class RunController {
 
     private final RunService service;
 
-    public RunController(RunService service) {this.service = service;}
+    public RunController(RunService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<Run> findAll() {return service.findAll();}
+    public List<Run> findAll() {
+        return service.findAll();
+    }
 
     @GetMapping("/{runId}")
-    public Result findById(@PathVariable int runId) {return service.findById(runId);}
+    public Result findById(@PathVariable int runId) {
+        return service.findById(runId);
+    }
 
     @GetMapping("/user/{userId}")
-    public List<Run> findRunsParticipating(@PathVariable int userId) {
-        return service.findRunParticipating(userId);
+    public List<Run> findRunsByUserId(@PathVariable int userId) {
+        return service.findRunsByUserId(userId);
     }
 
     @PostMapping

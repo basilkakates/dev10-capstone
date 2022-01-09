@@ -14,7 +14,9 @@ public class RunService {
 
     private final RunRepository repository;
 
-    public RunService(RunRepository repository) {this.repository = repository;}
+    public RunService(RunRepository repository) {
+        this.repository = repository;
+    }
 
     public List<Run> findAll() {
         List<Run> futureRuns = new ArrayList<>();
@@ -38,8 +40,8 @@ public class RunService {
         return runResult;
     }
 
-    public List<Run> findRunParticipating(int userId) {
-        return repository.findRunsParticipating(userId);
+    public List<Run> findRunsByUserId(int userId) {
+        return repository.findRunsByUserId(userId);
     }
 
     public Result<Run> add(Run run) {
@@ -71,7 +73,7 @@ public class RunService {
         }
 
         if (!repository.update(run)) {
-            String msg= String.format("run id: %s, not found", run.getRunId());
+            String msg = String.format("run id: %s, not found", run.getRunId());
             result.addMessage(msg, ResultType.NOT_FOUND);
             //return result;
         }

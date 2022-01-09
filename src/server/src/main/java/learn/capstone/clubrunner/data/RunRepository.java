@@ -10,7 +10,7 @@ public interface RunRepository {
 
     Run findById(int runId);
 
-    List<Run> findRunsParticipating(int userId);
+    List<Run> findRunsByUserId(int userId);
 
     Run add(Run run);
 

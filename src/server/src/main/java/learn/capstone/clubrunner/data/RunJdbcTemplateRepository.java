@@ -27,7 +27,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public List<Run> findAll() {
 
         final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
-                    "latitude, longitude, club_id, user_id, run_status_id from run;";
+                "latitude, longitude, club_id, user_id, run_status_id from run;";
 
         return jdbcTemplate.query(sql, new RunMapper());
     }
@@ -42,7 +42,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     }
 
     @Override
-    public List<Run> findRunsParticipating(int userId) {
+    public List<Run> findRunsByUserId(int userId) {
         final String sql = "select run_id, date, address, description run_description, max_capacity, " +
                 "start_time, latitude, longitude, club_id, user_id, run_status_id " +
                 "from run r " +
