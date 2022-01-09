@@ -81,6 +81,17 @@ class RunnerControllerTest {
         ObjectMapper jsonMapper = new ObjectMapper();
 
         Runner runner = new Runner();
+        runner.setRunnerId(0);
+
+        Run run = new Run();
+        run.setRunId(0);
+
+        User user = new User();
+        user.setUserId(0);
+
+        runner.setUser(user);
+        runner.setRun(run);
+
         String runnerJason = jsonMapper.writeValueAsString(runner);
 
         var request = post("/api/runner")

@@ -24,17 +24,11 @@ public class RunJdbcTemplateRepository implements RunRepository {
     }
 
     @Override
-    public List<Run> findAll(boolean future) {
+    public List<Run> findAll() {
 
-        String sql = "";
-
-        if (future) {
-            sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
-                    "latitude, longitude, club_id, user_id, run_status_id from run where date > NOW();";
-        } else {
-            sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
+        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
                     "latitude, longitude, club_id, user_id, run_status_id from run;";
-        }
+
         return jdbcTemplate.query(sql, new RunMapper());
     }
 

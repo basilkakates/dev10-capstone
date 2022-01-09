@@ -51,6 +51,16 @@ public class RunnerService {
             return result;
         }
 
+        if (runner.getRun().getRunId() <= 0) {
+            result.addMessage("run Id cannot be 0", ResultType.INVALID);
+            return result;
+        }
+
+        if (runner.getUser().getUserId() <= 0) {
+            result.addMessage("user Id cannot be null", ResultType.INVALID);
+            return result;
+        }
+
         return result;
     }
 }
