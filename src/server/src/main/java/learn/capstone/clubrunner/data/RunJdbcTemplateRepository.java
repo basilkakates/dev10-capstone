@@ -25,27 +25,55 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     @Override
     public List<Run> findAll() {
-
-        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
-                "latitude, longitude, club_id, user_id, run_status_id from run;";
+        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
+                "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description, " +
+                "rs.run_status_id, rs.status " +
+                "from run r " +
+                "left join user u " +
+                "on r.user_id = u.user_id " +
+                "left join club c " +
+                "on r.club_id = c.club_id " +
+                "left join run_status rs " +
+                "on r.run_status_id = rs.run_status_id;";
 
         return jdbcTemplate.query(sql, new RunMapper());
     }
 
     @Override
     public Run findById(int runId) {
-
-        final String sql = "select run_id, date, address, club_id, user_id, description run_description, max_capacity, " +
-                "start_time, latitude, longitude, run_status_id from run where run_id = ?;";
+        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
+                "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description, " +
+                "rs.run_status_id, rs.status " +
+                "from run r " +
+                "left join user u " +
+                "on r.user_id = u.user_id " +
+                "left join club c " +
+                "on r.club_id = c.club_id " +
+                "left join run_status rs " +
+                "on r.run_status_id = rs.run_status_id " +
+                "where run_id = ?;";
 
         return jdbcTemplate.query(sql, new RunMapper(), runId).stream().findAny().orElse(null);
     }
 
     @Override
     public List<Run> findRunsByUserId(int userId) {
-        final String sql = "select r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
-                "r.start_time, r.latitude, r.longitude, r.club_id, r.user_id, r.run_status_id " +
+        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
+                "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description, " +
+                "rs.run_status_id, rs.status " +
                 "from run r " +
+                "left join user u " +
+                "on r.user_id = u.user_id " +
+                "left join club c " +
+                "on r.club_id = c.club_id " +
+                "left join run_status rs " +
+                "on r.run_status_id = rs.run_status_id " +
                 "inner join runner ru " +
                 "on r.run_id = ru.run_id " +
                 "where ru.user_id = ?;";
