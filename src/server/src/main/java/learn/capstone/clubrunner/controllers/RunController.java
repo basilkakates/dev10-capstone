@@ -31,6 +31,11 @@ public class RunController {
         return ErrorResponse.build(result);
     }
 
+    @GetMapping("/user/{userId}")
+    public List<Run> findRunsParticipating(@PathVariable int userId) {
+        return service.findRunParticipating(userId);
+    }
+
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Run run) {
         Result<Run> result = service.add(run);
