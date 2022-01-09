@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
+import PlacesAutocomplete from "./PlacesAutocomplete";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -109,12 +110,17 @@ function AddRun({ showModal, closeModal }) {
                 <td>Start Time: </td>
 
                 <td>
-                  <TimePicker onChange={(time) => setTime(time)} value={time} />
+                  <TimePicker
+                    onChange={(time) => setTime(time)}
+                    value={time}
+                    disableClock={true}
+                  />
                 </td>
               </tr>
               <tr>
                 <td>Address: </td>
                 <td>
+                  <PlacesAutocomplete />
                   <input
                     type="text"
                     id="address"
