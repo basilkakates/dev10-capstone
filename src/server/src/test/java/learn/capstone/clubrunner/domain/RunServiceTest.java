@@ -39,7 +39,7 @@ class RunServiceTest {
     }
 
     @Test
-    void shouldFindRun() {
+    void shouldFindRunById() {
         Run run = makeRun();
         run.setRunId(1);
         when(repository.findById(run.getRunId())).thenReturn(run);

@@ -54,10 +54,10 @@ public class RunService {
         if (run.getRunId() != 0) {
             result.addMessage("run id cannot be set for `add` operation", ResultType.INVALID);
             return result;
+        } else {
+            result.setPayload(repository.add(run));
         }
 
-        run = repository.add(run);
-        result.setPayload(run);
         return result;
     }
 
