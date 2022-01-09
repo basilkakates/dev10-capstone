@@ -21,7 +21,7 @@ public class MemberController {
     @GetMapping
     public List<Member> findAll() {return service.findAll();}
 
-    @GetMapping("/admin/{findAdmins}")
+    @GetMapping("/admins")
     public List<Member> findAdmins() {return service.findAdmins();}
 
     @GetMapping("/{memberId}")
