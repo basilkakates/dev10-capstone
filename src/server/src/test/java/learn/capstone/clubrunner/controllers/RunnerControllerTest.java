@@ -121,15 +121,13 @@ class RunnerControllerTest {
 
     @Test
     void addShouldReturn201() throws Exception {
-        Runner runner = new Runner();
-
-        Runner expected = new Runner();
+        Runner expected = makeRunner();
         expected.setRunnerId(1);
 
         when(repository.add(any())).thenReturn(expected);
         ObjectMapper jsonMapper = new ObjectMapper();
 
-        String runnerJson = jsonMapper.writeValueAsString(runner);
+        String runnerJson = jsonMapper.writeValueAsString(makeRunner());
         String expectedJson = jsonMapper.writeValueAsString(expected);
 
         var request = post("/api/runner")

@@ -42,10 +42,10 @@ public class RunnerService {
         if (runner.getRunnerId() != 0) {
             result.addMessage("runner id cannot be set for `add` operation", ResultType.INVALID);
             return result;
+        } else {
+            result.setPayload(repository.add(runner));
         }
 
-        runner = repository.add(runner);
-        result.setPayload(runner);
         return result;
     }
 
