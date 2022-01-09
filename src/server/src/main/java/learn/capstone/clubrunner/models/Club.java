@@ -1,16 +1,11 @@
 package learn.capstone.clubrunner.models;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Club {
     private int clubId;
     private String name;
     private String description;
-
-    private List<Member> members = new ArrayList<>();
-    private List<Run> runsHosted = new ArrayList<>();
 
     public int getClubId() {
         return clubId;
@@ -34,22 +29,6 @@ public class Club {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Member> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<Member> members) {
-        this.members = members;
-    }
-
-    public List<Run> getRunsHosted() {
-        return runsHosted;
-    }
-
-    public void setRunsHosted(List<Run> runsHosted) {
-        this.runsHosted = runsHosted;
     }
 
     @Override

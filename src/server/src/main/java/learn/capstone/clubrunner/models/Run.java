@@ -3,8 +3,6 @@ package learn.capstone.clubrunner.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Run {
@@ -20,12 +18,6 @@ public class Run {
     private Club club;
     private User user;
     private RunStatus runStatus;
-
-    private List<Runner> runners = new ArrayList<>();
-    private List<RunStatus> runStatuses = new ArrayList<>();
-    private List<User> usersParticipating = new ArrayList<>();
-    private List<Club> clubsParticipating = new ArrayList<>();
-    private List<Runner> runnersParticipating = new ArrayList<>();
 
     public int getRunId() {
         return runId;
@@ -113,46 +105,6 @@ public class Run {
 
     public void setRunStatus(RunStatus runStatus) {
         this.runStatus = runStatus;
-    }
-
-    public List<Runner> getRunners() {
-        return runners;
-    }
-
-    public void setRunners(List<Runner> runners) {
-        this.runners = runners;
-    }
-
-    public List<Club> getClubsParticipating() {
-        return clubsParticipating;
-    }
-
-    public void setClubsParticipating(List<Club> clubsParticipating) {
-        this.clubsParticipating = clubsParticipating;
-    }
-
-    public List<User> getUsersParticipating() {
-        return usersParticipating;
-    }
-
-    public void setUsersParticipating(List<User> usersParticipating) {
-        this.usersParticipating = usersParticipating;
-    }
-
-    public List<RunStatus> getRunStatuses() {
-        return runStatuses;
-    }
-
-    public void setRunStatuses(List<RunStatus> runStatuses) {
-        this.runStatuses = runStatuses;
-    }
-
-    public List<Runner> getRunnersParticipating() {
-        return runnersParticipating;
-    }
-
-    public void setRunnersParticipating(List<Runner> runnersParticipating) {
-        this.runnersParticipating = runnersParticipating;
     }
 
     @Override

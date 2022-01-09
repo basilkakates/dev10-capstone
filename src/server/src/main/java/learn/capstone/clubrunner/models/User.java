@@ -1,7 +1,5 @@
 package learn.capstone.clubrunner.models;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -10,10 +8,6 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-
-    private List<Runner> runsParticipating = new ArrayList<>();
-    private List<Member> memberships = new ArrayList<>();
-    private List<Run> runsCreated = new ArrayList<>();
 
     public int getUserId() {
         return userId;
@@ -53,30 +47,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Runner> getRunsParticipating() {
-        return runsParticipating;
-    }
-
-    public void setRunsParticipating(List<Runner> runsParticipating) {
-        this.runsParticipating = runsParticipating;
-    }
-
-    public List<Member> getMemberships() {
-        return memberships;
-    }
-
-    public void setMemberships(List<Member> memberships) {
-        this.memberships = memberships;
-    }
-
-    public List<Run> getRunsCreated() {
-        return runsCreated;
-    }
-
-    public void setRunsCreated(List<Run> runsCreated) {
-        this.runsCreated = runsCreated;
     }
 
     @Override
