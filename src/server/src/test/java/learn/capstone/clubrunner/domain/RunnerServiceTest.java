@@ -32,10 +32,15 @@ class RunnerServiceTest {
 
     @Test
     void shouldFindById() {
-        Runner expected = makeRunner();
-        when(repository.findById(1)).thenReturn(expected);
-        Runner actual = service.findById(1);
-        assertEquals(expected, actual);
+        Runner runner = makeRunner();
+        runner.setRunnerId(1);
+        when(repository.findById(runner.getRunnerId())).thenReturn(runner);
+
+        Result<Runner> actual = service.findById(runner.getRunnerId());
+        assertNotNull(actual);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+        assertNotNull(actual.getPayload());
+        assertEquals(runner, actual.getPayload());
     }
 
     @Test

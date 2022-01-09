@@ -2,6 +2,7 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.RunnerRepository;
 import learn.capstone.clubrunner.models.Runner;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,16 @@ public class RunnerService {
         return repository.findAll();
     }
 
-    public Runner findById(int runnerId) {
-        return repository.findById(runnerId);
+    public Result<Runner> findById(int runnerId) {
+        Result<Runner> result = new Result<>();
+        result.setPayload(repository.findById(runnerId));
+
+        if (result.getPayload() == null) {
+            String msg = String.format("runnerId: %s not found", runnerId);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
     }
 
     public Result<Runner> add(Runner runner) {
