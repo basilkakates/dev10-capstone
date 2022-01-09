@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -30,7 +29,7 @@ public class RunStatusControllerTest {
     MockMvc mvc;
 
     @Test
-    void findAllShouldReturnList() throws Exception {
+    void findAllShouldReturn200() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
         when(repository.findAll()).thenReturn(new ArrayList<>());
         String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
@@ -49,39 +48,52 @@ public class RunStatusControllerTest {
 
     @Test
     void findByIdShouldReturn200() throws Exception {
-        RunStatus runStatus = new RunStatus();
+        RunStatus runStatus = makeRunStatus();
         runStatus.setRunStatusId(1);
-        runStatus.setStatus("Test");
 
         ObjectMapper jsonMapper = new ObjectMapper();
         when(repository.findById(runStatus.getRunStatusId())).thenReturn(runStatus);
 
         String expectedJson = jsonMapper.writeValueAsString(runStatus);
 
-        mvc.perform(get("/api/runStatus/1"))
+        String urlTemplate = String.format("/api/runStatus/%s", runStatus.getRunStatusId());
+        mvc.perform(get(urlTemplate))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
 
     @Test
+    void findByStatusShouldReturn400WhenInvalid() throws Exception {
+        mvc.perform(get("/api/runStatus/status"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void findByStatusShouldReturn404WhenMissing() throws Exception {
         when(repository.findByStatus(anyString())).thenReturn(null);
-        mvc.perform(get("/api/runStatus/status/Test"))
+
+        ObjectMapper jsonMapper = new ObjectMapper();
+        String statusJson = jsonMapper.writeValueAsString("Test");
+
+        mvc.perform(get("/api/runStatus/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(statusJson))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void findByStatusShouldReturn200() throws Exception {
-        RunStatus runStatus = new RunStatus();
+        RunStatus runStatus = makeRunStatus();
         runStatus.setRunStatusId(1);
-        runStatus.setStatus("Test");
 
         ObjectMapper jsonMapper = new ObjectMapper();
-        when(repository.findByStatus(anyString())).thenReturn(runStatus);
+        when(repository.findByStatus(runStatus.getStatus())).thenReturn(runStatus);
 
         String expectedJson = jsonMapper.writeValueAsString(runStatus);
 
-        mvc.perform(get("/api/runStatus/status/Test"))
+        mvc.perform(get("/api/runStatus/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(runStatus.getStatus()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
@@ -98,9 +110,7 @@ public class RunStatusControllerTest {
     @Test
     void addShouldReturn400WhenInvalid() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
-
-        RunStatus runStatus = new RunStatus();
-        String runStatusJson = jsonMapper.writeValueAsString(runStatus);
+        String runStatusJson = jsonMapper.writeValueAsString(new RunStatus());
 
         var request = post("/api/runStatus")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -113,12 +123,7 @@ public class RunStatusControllerTest {
     @Test
     void addShouldReturn415WhenMultipart() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
-
-        RunStatus runStatus = new RunStatus();
-        runStatus.setRunStatusId(0);
-        runStatus.setStatus("Test");
-
-        String runStatusJson = jsonMapper.writeValueAsString(runStatus);
+        String runStatusJson = jsonMapper.writeValueAsString(makeRunStatus());
 
         var request = post("/api/runStatus")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -130,11 +135,7 @@ public class RunStatusControllerTest {
 
     @Test
     void addShouldReturn201() throws Exception {
-        RunStatus runStatus = new RunStatus();
-        runStatus.setStatus("Test");
-
-        RunStatus expected = new RunStatus();
-        expected.setStatus("Test");
+        RunStatus expected = makeRunStatus();
         expected.setRunStatusId(1);
 
         when(repository.add(any())).thenReturn(expected);
@@ -142,7 +143,7 @@ public class RunStatusControllerTest {
 
         ObjectMapper jsonMapper = new ObjectMapper();
 
-        String runStatusJson = jsonMapper.writeValueAsString(runStatus);
+        String runStatusJson = jsonMapper.writeValueAsString(makeRunStatus());
         String expectedJson = jsonMapper.writeValueAsString(expected);
 
         var request = post("/api/runStatus")
@@ -169,9 +170,12 @@ public class RunStatusControllerTest {
 
         RunStatus runStatus = new RunStatus();
         runStatus.setRunStatusId(1);
+
         String runStatusJson = jsonMapper.writeValueAsString(runStatus);
 
-        var request = put("/api/runStatus/1")
+        String urlTemplate = String.format("/api/runStatus/%s", runStatus.getRunStatusId());
+
+        var request = put(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(runStatusJson);
 
@@ -186,13 +190,14 @@ public class RunStatusControllerTest {
 
         ObjectMapper jsonMapper = new ObjectMapper();
 
-        RunStatus runStatus = new RunStatus();
+        RunStatus runStatus = makeRunStatus();
         runStatus.setRunStatusId(1);
-        runStatus.setStatus("Test");
 
         String runStatusJson = jsonMapper.writeValueAsString(runStatus);
 
-        var request = put("/api/runStatus/1")
+        String urlTemplate = String.format("/api/runStatus/%s", runStatus.getRunStatusId());
+
+        var request = put(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(runStatusJson);
 
@@ -201,12 +206,33 @@ public class RunStatusControllerTest {
     }
 
     @Test
+    void updateShouldReturn415WhenMultipart() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        RunStatus runStatus = makeRunStatus();
+        runStatus.setRunStatusId(1);
+
+        when(repository.findByStatus(anyString())).thenReturn(null);
+        when(repository.update(runStatus)).thenReturn(true);
+
+        String runStatusJson = jsonMapper.writeValueAsString(runStatus);
+
+        String urlTemplate = String.format("/api/runStatus/%s", runStatus.getRunStatusId());
+
+        var request = put(urlTemplate)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .content(runStatusJson);
+
+        mvc.perform(request)
+                .andExpect(status().isUnsupportedMediaType());
+    }
+
+    @Test
     void updateShouldReturn409WhenConflict() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
 
-        RunStatus runStatus = new RunStatus();
+        RunStatus runStatus = makeRunStatus();
         runStatus.setRunStatusId(1);
-        runStatus.setStatus("Test");
 
         when(repository.findByStatus(anyString())).thenReturn(null);
         when(repository.update(runStatus)).thenReturn(true);
@@ -225,20 +251,27 @@ public class RunStatusControllerTest {
     void updateShouldReturn204() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
 
-        RunStatus runStatus = new RunStatus();
+        RunStatus runStatus = makeRunStatus();
         runStatus.setRunStatusId(1);
-        runStatus.setStatus("Test");
 
         when(repository.findByStatus(anyString())).thenReturn(null);
         when(repository.update(runStatus)).thenReturn(true);
 
         String runStatusJson = jsonMapper.writeValueAsString(runStatus);
 
-        var request = put("/api/runStatus/1")
+        String urlTemplate = String.format("/api/runStatus/%s", runStatus.getRunStatusId());
+
+        var request = put(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(runStatusJson);
 
         mvc.perform(request)
                 .andExpect(status().isNoContent());
+    }
+
+    private RunStatus makeRunStatus() {
+        RunStatus runStatus = new RunStatus();
+        runStatus.setStatus("Test");
+        return runStatus;
     }
 }
