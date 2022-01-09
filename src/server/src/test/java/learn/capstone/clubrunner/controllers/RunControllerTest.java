@@ -57,39 +57,30 @@ class RunControllerTest {
 
     @Test
     void findByIdShouldReturn200() throws Exception {
-        Run run = makeRun();
-        run.setRunId(1);
-
         ObjectMapper jsonMapper = new ObjectMapper();
-        when(repository.findById(run.getRunId())).thenReturn(run);
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
 
-        String expectedJson = jsonMapper.writeValueAsString(run);
-
-        String urlTemplate = String.format("/api/run/%s", run.getRunId());
-        mvc.perform(get(urlTemplate))
+        mvc.perform(get("/api/run"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
 
     @Test
     void addShouldReturn201() throws Exception {
-        // 1. Configure per-test mock repository behavior.
         Run expected = makeRun();
         expected.setRunId(1);
 
         when(repository.add(any())).thenReturn(expected);
-
-        // 2. Generate both input and expected JSON.
         ObjectMapper jsonMapper = new ObjectMapper();
+
         String jsonIn = jsonMapper.writeValueAsString(makeRun());
         String expectedJson = jsonMapper.writeValueAsString(expected);
 
-        // 3. Build the request.
         var request = post("/api/run")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonIn);
 
-        // 4. Send the request and assert.
         mvc.perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(content().json(expectedJson));
