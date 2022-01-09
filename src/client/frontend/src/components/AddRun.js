@@ -2,6 +2,11 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import DatePicker from "react-datepicker";
+import TimePicker from "react-time-picker";
+import PlacesAutocomplete from "./PlacesAutocomplete";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 import Errors from "./Errors";
 
@@ -14,6 +19,9 @@ function AddRun({ showModal, closeModal }) {
   const [userId, setUserId] = useState("");
   const [maxCapacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [time, setTime] = useState("");
 
   const history = useHistory();
 
@@ -92,30 +100,27 @@ function AddRun({ showModal, closeModal }) {
               <tr>
                 <td>Date: </td>
                 <td>
-                  <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={date}
-                    onChange={dateOnChangeHandler}
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
                   />
                 </td>
               </tr>
               <tr>
                 <td>Start Time: </td>
+
                 <td>
-                  <input
-                    type="text"
-                    id="startTime"
-                    name="starTime"
-                    value={startTime}
-                    onChange={startTimeOnChangeHandler}
+                  <TimePicker
+                    onChange={(time) => setTime(time)}
+                    value={time}
+                    disableClock={true}
                   />
                 </td>
               </tr>
               <tr>
                 <td>Address: </td>
                 <td>
+                  <PlacesAutocomplete />
                   <input
                     type="text"
                     id="address"

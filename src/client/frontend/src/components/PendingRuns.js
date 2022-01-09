@@ -65,13 +65,11 @@ function PendingRuns() {
             <tr key={run.runId}>
               {run.status === "pending" && (
                 <>
-                  <th scrope="row">{run.runId}</th>
-                  <td>{run.date}</td>
+                  <th scrope="row">{run.date}</th>
                   <td>{run.startTime}</td>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
                   <td>{run.clubid}</td>
-                  <td>{run.userId}</td>
                   <td>{run.maxCapacity}</td>
                   <td>
                     <div>

@@ -9,8 +9,7 @@ import CancelRun from "./CancelRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
-  const [user, setUser] = useState([]);
-  const [runners, setRunners] = useState([]);
+  const [userRuns, setUserRuns] = useState([]);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -26,7 +25,7 @@ function Runs() {
   const handleCancelModalShow = () => setShowCancelModal(true);
 
   const getRuns = () => {
-    fetch("http://localhost:8080/run")
+    fetch("http://localhost:8080/api/run")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
@@ -37,34 +36,21 @@ function Runs() {
       .catch(console.log);
   };
 
-  const getUser = () => {
-    fetch("http://localhost:8080/user/1")
+  const getUserRuns = () => {
+    fetch("http://localhost:8080/api/run/user/1")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
         }
         return response.json();
       })
-      .then((json) => setUser(json))
-      .catch(console.log);
-  };
-
-  const getRunners = () => {
-    fetch("http://localhost:8080/runner")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setRunners(json))
+      .then((json) => setUserRuns(json))
       .catch(console.log);
   };
 
   useEffect(() => {
     getRuns();
-    getUser();
-    getRunners();
+    getUserRuns();
   }, []);
 
   return (
@@ -87,18 +73,16 @@ function Runs() {
             <tr key={run.runId}>
               {run.status !== "pending" && (
                 <>
-                  <th scope="row">{run.runId}</th>
-                  <td>{run.date}</td>
+                  <th scope="row">{run.date}</th>
                   <td>{run.startTime}</td>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
                   <td>{run.clubId}</td>
-                  <td>{run.userId}</td>
                   <td>{run.maxCapacity}</td>
 
                   {run.status === "approved" && (
                     <td>
-                      {runners.some((run) => run.runId) ? (
+                      {userRuns.some((run) => run.runId) ? (
                         <td className="btn btn-success btn-sm">Joined</td>
                       ) : (
                         <td className="btn btn-success btn-sm">Join</td>
