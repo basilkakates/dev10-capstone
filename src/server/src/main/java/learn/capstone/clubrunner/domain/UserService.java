@@ -61,6 +61,10 @@ public class UserService {
         return result;
     }
 
+    public List<User> findUsersByRunId(int runId) {
+        return repository.findUsersByRunId(runId);
+    }
+
     public List<User> findAll() {
         return repository.findAll();
     }
