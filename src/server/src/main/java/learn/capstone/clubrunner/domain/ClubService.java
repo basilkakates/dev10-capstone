@@ -41,4 +41,8 @@ public class ClubService {
 
         return result;
     }
+
+    public List<Club> findClubsByUserId(int userId) {
+        return repository.findClubsByUserId(userId);
+    }
 }

@@ -42,4 +42,9 @@ public class ClubController {
         }
         return ErrorResponse.build(result);
     }
+
+    @GetMapping("/user/{userId}")
+    public List<Club> findClubsByUserId(@PathVariable int userId) {
+        return service.findClubsByUserId(userId);
+    }
 }
