@@ -1,7 +1,9 @@
 package learn.capstone.clubrunner.data;
 
-import learn.capstone.clubrunner.data.mappers.RunMapper;
+import learn.capstone.clubrunner.data.mappers.*;
 import learn.capstone.clubrunner.models.Run;
+import learn.capstone.clubrunner.models.RunStatus;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -45,10 +47,9 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
         Run result = jdbcTemplate.query(sql, new RunMapper(), runId).stream().findAny().orElse(null);
 
-//        if (result != null) {
-//            add(result);
-//            buildRun(result);
-//        }
+        if (result != null) {
+            buildRun(result);
+        }
 
         return result;
     }
@@ -102,47 +103,53 @@ public class RunJdbcTemplateRepository implements RunRepository {
         return jdbcTemplate.update("delete from run where run_id = ?", runId) > 0;
     }
 
-//    private void buildRun (Run run) {
-//        addClubs(run);
-//        addUsers(run);
-//        addRunStatuses(run);
+    private void buildRun (Run run) {
+        addClubsParticipating(run);
+//        addUsersParticipating(run);
+        addRunnersParticipating(run);
+        addRunStatuses(run);
+    }
+//will I also need to add an addRunner Tab like this from fieldagent?
+
+    private void addClubsParticipating(Run run) {
+
+        final String sql = "select c.club_id, c.name, c.description club_description " +
+                "from club c " +
+                "inner join run r on c.club_id = r.club_id " +
+                "where r.run_id = ?;";
+
+        var clubs = jdbcTemplate.query(sql, new ClubMapper(), run.getRunId());
+        run.setClubsParticipating(clubs);
+    }
+
+//    private void addUsersParticipating(Run run) {
+//
+//        final String sql = "select user_id, first_name, last_name, email, password "
+//                + "from user "
+//                + "where user_id = ?;";
+//
+//        var users = jdbcTemplate.query(sql, new UserMapper(), run.getRunId());
+//        run.setUsersParticipating(users);
 //    }
-////will I also need to add an addRunner Tab like this from fieldagent?
-//
-//    private void addClubs(Run run) {
-//
-//        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
-//                "r.max_capacity, r.club_id, r.user_id, r.start_time, r.latitude, " +
-//                "r.longitude, c.club_id"
-//                + "from club c "
-//                + "inner join run r on c.club_id = r.club_id "
-//                + "where c.club_id = ?;";
-//
-//        var clubs = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-//        run.setRunners(clubs);
-//    }
-//
-//    private void addUsers(Run run) {
-//
-//        final String sql = "select user_id "
-//                + "from user u "
-//                + "inner join user u on rr.user_id = u.user_id "
-//                + "inner join runner rr on r.user_id = rr.user_id "
-//                + "where r.user_id = ?;";
-//
-//        var users = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-//        run.setRunners(users);
-//    }
-//
-//    private void addRunStatuses(Run run) {
-//
-//        final String sql = "select rs.run_status_id, "
-//                + "r.run_status_id, "
-//                + "from run_status rs "
-//                + "inner join run r on rs.run_id = r.run_id "
-//                + "where rr.run_id = ?;";
-//
-//        var runStatuses = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-//        run.setRunners(runStatuses);
-//    }
+
+    private void addRunnersParticipating(Run run) {
+        final String sql = "select runner_id, run_id, user_id " +
+                "from runner " +
+                "where run_id = ?;";
+
+        var runnersParticipating = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
+
+        run.setRunnersParticipating(runnersParticipating);
+    }
+
+    private void addRunStatuses(Run run) {
+
+        final String sql = "select rs.run_status_id, rs.status " +
+                "from run_status rs " +
+                "inner join run r on rs.run_status_id = r.run_status_id " +
+                "where r.run_id = ?;";
+
+        var runStatuses = jdbcTemplate.query(sql, new RunStatusMapper(), run.getRunId());
+        run.setRunStatuses(runStatuses);
+    }
 }
