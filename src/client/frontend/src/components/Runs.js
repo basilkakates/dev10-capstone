@@ -87,13 +87,11 @@ function Runs() {
             <tr key={run.runId}>
               {run.status !== "pending" && (
                 <>
-                  <th scope="row">{run.runId}</th>
-                  <td>{run.date}</td>
+                  <th scope="row">{run.date}</th>
                   <td>{run.startTime}</td>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
                   <td>{run.clubId}</td>
-                  <td>{run.userId}</td>
                   <td>{run.maxCapacity}</td>
 
                   {run.status === "approved" && (
