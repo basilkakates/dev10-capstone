@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,7 +16,15 @@ public class RunService {
 
     public RunService(RunRepository repository) {this.repository = repository;}
 
-    public List<Run> findAll(boolean future) {return repository.findAll(future);}
+    public List<Run> findAll() {
+        List<Run> futureRuns = new ArrayList<>();
+        for (Run run : repository.findAll()) {
+            if (run.getDate().isAfter(LocalDate.now()) || run.getDate().isEqual(LocalDate.now())) {
+                futureRuns.add(run);
+            }
+        }
+        return futureRuns;
+    }
 
     public Result<Run> findById(int runId) {
         Result<Run> runResult = new Result<>();
@@ -27,6 +36,10 @@ public class RunService {
         }
 
         return runResult;
+    }
+
+    public List<Run> findRunParticipating(int userId) {
+        return repository.findRunsParticipating(userId);
     }
 
     public Result<Run> add(Run run) {

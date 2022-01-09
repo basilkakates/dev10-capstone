@@ -2,6 +2,7 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.RunnerRepository;
 import learn.capstone.clubrunner.models.Runner;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,16 @@ public class RunnerService {
         return repository.findAll();
     }
 
-    public Runner findById(int runnerId) {
-        return repository.findById(runnerId);
+    public Result<Runner> findById(int runnerId) {
+        Result<Runner> result = new Result<>();
+        result.setPayload(repository.findById(runnerId));
+
+        if (result.getPayload() == null) {
+            String msg = String.format("runnerId: %s not found", runnerId);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
     }
 
     public Result<Runner> add(Runner runner) {
@@ -33,10 +42,10 @@ public class RunnerService {
         if (runner.getRunnerId() != 0) {
             result.addMessage("runner id cannot be set for `add` operation", ResultType.INVALID);
             return result;
+        } else {
+            result.setPayload(repository.add(runner));
         }
 
-        runner = repository.add(runner);
-        result.setPayload(runner);
         return result;
     }
 
@@ -48,6 +57,16 @@ public class RunnerService {
         Result<Runner> result = new Result<>();
         if (runner == null) {
             result.addMessage("runner cannot be null", ResultType.INVALID);
+            return result;
+        }
+
+        if (runner.getRun().getRunId() <= 0) {
+            result.addMessage("run Id cannot be 0", ResultType.INVALID);
+            return result;
+        }
+
+        if (runner.getUser().getUserId() <= 0) {
+            result.addMessage("user Id cannot be null", ResultType.INVALID);
             return result;
         }
 

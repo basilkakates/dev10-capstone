@@ -3,6 +3,7 @@ package learn.capstone.clubrunner.controllers;
 import learn.capstone.clubrunner.domain.Result;
 import learn.capstone.clubrunner.domain.RunnerService;
 import learn.capstone.clubrunner.models.Runner;
+import learn.capstone.clubrunner.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,13 @@ public class RunnerController {
     public List<Runner> findAll() {return service.findAll();}
 
     @GetMapping("/{runnerId}")
-    public Runner findById(@PathVariable int runId) {return service.findById(runId);}
+    public ResponseEntity<Object> findById(@PathVariable int runnerId) {
+        Result<Runner> result = service.findById(runnerId);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Runner runner) {

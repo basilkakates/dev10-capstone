@@ -1,9 +1,7 @@
 package learn.capstone.clubrunner.data;
 
-import learn.capstone.clubrunner.data.mappers.*;
+import learn.capstone.clubrunner.data.mappers.RunMapper;
 import learn.capstone.clubrunner.models.Run;
-import learn.capstone.clubrunner.models.RunStatus;
-import learn.capstone.clubrunner.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,37 +19,38 @@ public class RunJdbcTemplateRepository implements RunRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RunJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
+    public RunJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
-    public List<Run> findAll(boolean future) {
+    public List<Run> findAll() {
 
-        String sql = "";
-
-        if (future) {
-            sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
-                    "latitude, longitude, club_id, user_id, run_status_id from run where date > NOW();";
-        } else {
-            sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
+        final String sql = "select run_id, date, address, description run_description, max_capacity, start_time, " +
                     "latitude, longitude, club_id, user_id, run_status_id from run;";
-        }
+
         return jdbcTemplate.query(sql, new RunMapper());
     }
 
     @Override
-    @Transactional
     public Run findById(int runId) {
 
         final String sql = "select run_id, date, address, club_id, user_id, description run_description, max_capacity, " +
                 "start_time, latitude, longitude, run_status_id from run where run_id = ?;";
 
-        Run result = jdbcTemplate.query(sql, new RunMapper(), runId).stream().findAny().orElse(null);
+        return jdbcTemplate.query(sql, new RunMapper(), runId).stream().findAny().orElse(null);
+    }
 
-        if (result != null) {
-            buildRun(result);
-        }
+    @Override
+    public List<Run> findRunsParticipating(int userId) {
+        final String sql = "select run_id, date, address, description run_description, max_capacity, " +
+                "start_time, latitude, longitude, club_id, user_id, run_status_id " +
+                "from run r " +
+                "inner join runner ru " +
+                "on r.run_id = ru.run_id " +
+                "where ru.user_id = ?;";
 
-        return result;
+        return jdbcTemplate.query(sql, new RunMapper(), userId);
     }
 
     @Override
@@ -77,7 +76,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
             return ps;
         }, keyholder);
 
-        if (rowsAffected <= 0 ) {
+        if (rowsAffected <= 0) {
             return null;
         }
 
@@ -101,55 +100,5 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public boolean deleteById(int runId) {
         jdbcTemplate.update("delete from runner where run_id = ?", runId);
         return jdbcTemplate.update("delete from run where run_id = ?", runId) > 0;
-    }
-
-    private void buildRun (Run run) {
-        addClubsParticipating(run);
-//        addUsersParticipating(run);
-        addRunnersParticipating(run);
-        addRunStatuses(run);
-    }
-//will I also need to add an addRunner Tab like this from fieldagent?
-
-    private void addClubsParticipating(Run run) {
-
-        final String sql = "select c.club_id, c.name, c.description club_description " +
-                "from club c " +
-                "inner join run r on c.club_id = r.club_id " +
-                "where r.run_id = ?;";
-
-        var clubs = jdbcTemplate.query(sql, new ClubMapper(), run.getRunId());
-        run.setClubsParticipating(clubs);
-    }
-
-//    private void addUsersParticipating(Run run) {
-//
-//        final String sql = "select user_id, first_name, last_name, email, password "
-//                + "from user "
-//                + "where user_id = ?;";
-//
-//        var users = jdbcTemplate.query(sql, new UserMapper(), run.getRunId());
-//        run.setUsersParticipating(users);
-//    }
-
-    private void addRunnersParticipating(Run run) {
-        final String sql = "select runner_id, run_id, user_id " +
-                "from runner " +
-                "where run_id = ?;";
-
-        var runnersParticipating = jdbcTemplate.query(sql, new RunnerMapper(), run.getRunId());
-
-        run.setRunnersParticipating(runnersParticipating);
-    }
-
-    private void addRunStatuses(Run run) {
-
-        final String sql = "select rs.run_status_id, rs.status " +
-                "from run_status rs " +
-                "inner join run r on rs.run_status_id = r.run_status_id " +
-                "where r.run_id = ?;";
-
-        var runStatuses = jdbcTemplate.query(sql, new RunStatusMapper(), run.getRunId());
-        run.setRunStatuses(runStatuses);
     }
 }

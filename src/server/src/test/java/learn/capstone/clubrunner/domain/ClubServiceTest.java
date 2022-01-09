@@ -2,7 +2,10 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.ClubRepository;
 import learn.capstone.clubrunner.models.Club;
+import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,10 +31,15 @@ class ClubServiceTest {
 
     @Test
     void shouldFindClub() {
-        Club expected = makeClub();
-        when(repository.findById(1)).thenReturn(expected);
-        Club actual = service.findById(1);
-        assertEquals(expected, actual);
+        Club club = makeClub();
+        club.setClubId(1);
+        when(repository.findById(club.getClubId())).thenReturn(club);
+
+        Result<Club> actual = service.findById(club.getClubId());
+        assertNotNull(actual);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+        assertNotNull(actual.getPayload());
+        assertEquals(club, actual.getPayload());
     }
 
     Club makeClub() {
