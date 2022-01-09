@@ -22,7 +22,7 @@ public class RunnerController {
     public List<Runner> findAll() {return service.findAll();}
 
     @GetMapping("/{runnerId}")
-    public Runner findById(@PathVariable int runId) {return service.findById(runId);}
+    public Runner findById(@PathVariable int runnerId) {return service.findById(runnerId);}
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Runner runner) {

@@ -19,5 +19,5 @@ public class ClubController {
     public List<Club> findAll() {return service.findAll();}
 
     @GetMapping("/{clubId}")
-    public Club findById(@PathVariable int runId) {return service.findById(runId);}
+    public Club findById(@PathVariable int clubId) {return service.findById(clubId);}
 }
