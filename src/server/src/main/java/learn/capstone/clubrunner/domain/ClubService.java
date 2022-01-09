@@ -2,7 +2,6 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.ClubRepository;
 import learn.capstone.clubrunner.models.Club;
-import learn.capstone.clubrunner.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +11,13 @@ public class ClubService {
 
     private final ClubRepository repository;
 
-    public ClubService(ClubRepository repository) {this.repository = repository;}
+    public ClubService(ClubRepository repository) {
+        this.repository = repository;
+    }
 
-    public List<Club> findAll() {return repository.findAll();}
+    public List<Club> findAll() {
+        return repository.findAll();
+    }
 
     public Result<Club> findById(int clubId) {
         Result<Club> result = new Result<>();
@@ -23,6 +26,17 @@ public class ClubService {
         if (result.getPayload() == null) {
             String msg = String.format("clubId: %s not found", clubId);
             result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
+    }
+
+    public Result<Club> findAdminForClubByUserId(int userId) {
+        Result<Club> result = new Result<>();
+        result.setPayload(repository.findAdminForClubByUserId(userId));
+
+        if (result.getPayload() == null) {
+            result.addMessage("no clubs found", ResultType.NOT_FOUND);
         }
 
         return result;

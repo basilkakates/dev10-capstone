@@ -31,7 +31,7 @@ public class ClubJdbcTemplateRepository implements ClubRepository {
     }
 
     @Override
-    public Club findAdminFor(int userId) {
+    public Club findAdminForClubByUserId(int userId) {
         final String sql = "select club_id, name, description club_description " +
                 "from club c " +
                 "inner join member m " +
@@ -44,7 +44,7 @@ public class ClubJdbcTemplateRepository implements ClubRepository {
     }
 
     @Override
-    public List<Club> findClubMemberships(int userId) {
+    public List<Club> findClubsByUserId(int userId) {
         final String sql = "select club_id, name, description club_description " +
                 "from club c " +
                 "inner join member m " +

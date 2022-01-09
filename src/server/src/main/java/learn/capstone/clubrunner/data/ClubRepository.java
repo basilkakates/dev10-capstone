@@ -9,7 +9,7 @@ public interface ClubRepository {
 
     Club findById(int clubId);
 
-    Club findAdminFor(int userId);
+    Club findAdminForClubByUserId(int userId);
 
-    List<Club> findClubMemberships(int userId);
+    List<Club> findClubsByUserId(int userId);
 }
