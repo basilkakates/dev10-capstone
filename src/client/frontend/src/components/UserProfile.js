@@ -5,8 +5,6 @@ import RunTableHeader from "./RunTableHeader";
 
 function UserProfile() {
   const [user, setUser] = useState([]);
-  const [runs, setRuns] = useState([]);
-  const [clubs, setClubs] = useState([]);
 
   const getUser = () => {
     fetch("http://localhost:8080/api/user")
@@ -20,34 +18,8 @@ function UserProfile() {
       .catch(console.log);
   };
 
-  const getRuns = () => {
-    fetch("http://localhost:8080/run")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setRuns(json))
-      .catch(console.log);
-  };
-
-  const getClubs = () => {
-    fetch("http://localhost:8080/club")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("clubs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setClubs(json))
-      .catch(console.log);
-  };
-
   useEffect(() => {
     getUser();
-    getRuns();
-    getClubs();
   }, []);
 
   return (
