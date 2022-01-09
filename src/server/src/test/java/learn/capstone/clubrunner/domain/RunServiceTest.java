@@ -32,9 +32,10 @@ class RunServiceTest {
 
     @Test
     void shouldFindAll() {
-        List<Run> expected = service.findAll(true);
+        when(repository.findAll(true)).thenReturn(List.of(makeRun()));
+
         List<Run> actual = service.findAll(true);
-        assertEquals(expected, actual);
+        assertNotNull(actual);
     }
 
     @Test
@@ -178,6 +179,17 @@ class RunServiceTest {
     }
 
     @Test
+    void shouldNotAddWithRunId() {
+        Run run = makeRun();
+        run.setRunId(1);
+
+        Result<Run> actual = service.add(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
     void shouldUpdate() {
         Run run = makeRun();
         run.setRunId(1);
@@ -187,6 +199,48 @@ class RunServiceTest {
         Result<Run> actual = service.update(run);
         assertEquals(ResultType.SUCCESS, actual.getType());
 
+    }
+
+    @Test
+    void shouldNotUpdateNullRun() {
+        Result<Run> actual = service.update(null);
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+    }
+
+    @Test
+    void shouldNotUpdateZeroOrNegativeId() {
+        Run run = makeRun();
+        run.setRunId(0);
+
+        when(repository.update(run)).thenReturn(true);
+
+        Result<Run> actual = service.update(run);
+        assertEquals(ResultType.INVALID, actual.getType());
+
+    }
+
+    @Test
+    void shouldNotUpdateMissingId() {
+        Result<Run> actual = service.update(makeRun());
+        assertNotNull(actual);
+        assertEquals(ResultType.INVALID, actual.getType());
+        assertNull(actual.getPayload());
+
+    }
+
+    @Test
+    void shouldNotUpdateMissingRun() {
+        Run run = makeRun();
+        run.setRunId(100000);
+
+        when(repository.update(run)).thenReturn(false);
+
+        Result<Run> actual = service.update(run);
+        assertNotNull(actual);
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
+        assertNull(actual.getPayload());
     }
 
     @Test

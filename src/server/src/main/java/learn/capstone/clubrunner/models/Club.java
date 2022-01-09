@@ -57,7 +57,7 @@ public class Club {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Club club = (Club) o;
-        return clubId == club.clubId && name.equals(club.name) && Objects.equals(description, club.description);
+        return clubId == club.clubId && Objects.equals(name, club.name) && Objects.equals(description, club.description);
     }
 
     @Override

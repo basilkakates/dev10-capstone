@@ -16,19 +16,41 @@ public class UserController {
 
     private final UserService service;
 
-    public UserController(UserService service) {this.service = service;}
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<User> findAll() {return service.findAll();}
+    public List<User> findAll() {
+        return service.findAll();
+    }
 
     @GetMapping("/{userId}")
-    public Result findById(@PathVariable int userId) {return service.findById(userId);}
+    public ResponseEntity<Object> findById(@PathVariable int userId) {
+        Result<User> result = service.findById(userId);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
-    @GetMapping("/name/{firstName}{lastName}")
-    public Result findByName(@PathVariable String firstName, @PathVariable String lastName) {return service.findByName(firstName, lastName);}
+    @GetMapping("/name")
+    public ResponseEntity<Object> findByName(@RequestBody String[] name) {
+        Result<List<User>> result = service.findByName(name[0], name[1]);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
-    @GetMapping("/email/{email}")
-    public Result findByEmail(@PathVariable String email) {return service.findByEmail(email);}
+    @GetMapping("/email")
+    public ResponseEntity<Object> findByEmail(@RequestBody String email) {
+        Result<User> result = service.findByEmail(email);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody User user) {

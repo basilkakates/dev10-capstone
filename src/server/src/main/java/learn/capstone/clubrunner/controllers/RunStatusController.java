@@ -2,7 +2,6 @@ package learn.capstone.clubrunner.controllers;
 
 import learn.capstone.clubrunner.domain.Result;
 import learn.capstone.clubrunner.domain.RunStatusService;
-import learn.capstone.clubrunner.models.Run;
 import learn.capstone.clubrunner.models.RunStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +17,32 @@ public class RunStatusController {
 
     private final RunStatusService service;
 
-    public RunStatusController(RunStatusService service) {this.service = service;}
+    public RunStatusController(RunStatusService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<RunStatus> findAll() {return service.findAll();}
+    public List<RunStatus> findAll() {
+        return service.findAll();
+    }
 
     @GetMapping("/{runStatusId}")
-    public Result findById(@PathVariable int runStatusId) {return service.findById(runStatusId);}
+    public ResponseEntity<Object> findById(@PathVariable int runStatusId) {
+        Result<RunStatus> result = service.findById(runStatusId);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
-    @GetMapping("/status/{status}")
-    public Result findByStatus(@PathVariable String status) {return service.findByStatus(status);}
+    @GetMapping("/status")
+    public ResponseEntity<Object> findByStatus(@RequestBody String status) {
+        Result<RunStatus> result = service.findByStatus(status);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody RunStatus runStatus) {
@@ -38,7 +53,7 @@ public class RunStatusController {
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("/{runId}")
+    @PutMapping("/{runStatusId}")
     public ResponseEntity<Object> update(@PathVariable int runStatusId, @RequestBody RunStatus runStatus) {
         if (runStatusId != runStatus.getRunStatusId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
