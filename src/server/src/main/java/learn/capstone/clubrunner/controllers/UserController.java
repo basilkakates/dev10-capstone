@@ -30,17 +30,17 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    @GetMapping("/name/{firstName}{lastName}")
-    public ResponseEntity<Object> findByName(@PathVariable String firstName, @PathVariable String lastName) {
-        Result<List<User>> result = service.findByName(firstName, lastName);
+    @GetMapping("/name")
+    public ResponseEntity<Object> findByName(@RequestBody String[] name) {
+        Result<List<User>> result = service.findByName(name[0], name[1]);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
         }
         return ErrorResponse.build(result);
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Object> findByEmail(@PathVariable String email) {
+    @GetMapping("/email")
+    public ResponseEntity<Object> findByEmail(@RequestBody String email) {
         Result<User> result = service.findByEmail(email);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
