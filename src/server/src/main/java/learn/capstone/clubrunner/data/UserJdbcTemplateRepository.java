@@ -1,15 +1,11 @@
 package learn.capstone.clubrunner.data;
 
-import learn.capstone.clubrunner.data.mappers.MemberMapper;
-import learn.capstone.clubrunner.data.mappers.RunMapper;
-import learn.capstone.clubrunner.data.mappers.RunnerMapper;
 import learn.capstone.clubrunner.data.mappers.UserMapper;
 import learn.capstone.clubrunner.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -24,20 +20,13 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     @Override
-    @Transactional
     public User findById(int userId) {
         final String sql = "select user_id, first_name, last_name, email, password " +
                 "from user " +
                 "where user_id = ?;";
 
-        User user = jdbcTemplate.query(sql, new UserMapper(), userId).stream()
+        return jdbcTemplate.query(sql, new UserMapper(), userId).stream()
                 .findFirst().orElse(null);
-
-        if (user != null) {
-            buildUser(user);
-        }
-
-        return user;
     }
 
     @Override
@@ -50,20 +39,24 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     @Override
-    @Transactional
     public User findByEmail(String email) {
         final String sql = "select user_id, first_name, last_name, email, password " +
                 "from user " +
                 "where email = ?;";
 
-        User user = jdbcTemplate.query(sql, new UserMapper(), email).stream()
+        return jdbcTemplate.query(sql, new UserMapper(), email).stream()
                 .findFirst().orElse(null);
+    }
 
-        if (user != null) {
-            buildUser(user);
-        }
+    @Override
+    public List<User> findRunnersParticipating(int runId) {
+        final String sql = "select user_id, first_name, last_name, email, password " +
+                "from user u " +
+                "inner join runner ru " +
+                "on u.user_id = ru.user_id " +
+                "where ru.run_id = ?;";
 
-        return user;
+        return jdbcTemplate.query(sql, new UserMapper(), runId);
     }
 
     @Override
@@ -116,40 +109,4 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     // No delete user, not in requirements, is a potentially very destructive operation.
-
-    private void buildUser(User user) {
-        addRunsParticipating(user);
-        addMemberships(user);
-        addRunsCreated(user);
-    }
-
-    private void addRunsParticipating(User user) {
-        final String sql = "select runner_id, run_id, user_id " +
-                "from runner " +
-                "where user_id = ?;";
-
-        var runsParticipating = jdbcTemplate.query(sql, new RunnerMapper(), user.getUserId());
-
-        user.setRunsParticipating(runsParticipating);
-    }
-
-    private void addMemberships(User user) {
-        final String sql = "select member_id, user_id, club_id, isAdmin " +
-                "from member " +
-                "where user_id = ?;";
-
-        var memberships = jdbcTemplate.query(sql, new MemberMapper(), user.getUserId());
-
-        user.setMemberships(memberships);
-    }
-
-    private void addRunsCreated(User user) {
-        final String sql = "select run_id, date, address, description run_description," +
-                "max_capacity, start_time, latitude, longitude, user_id, club_id, run_status_id " +
-                "from run where user_id = ?;";
-
-        var runsCreated = jdbcTemplate.query(sql, new RunMapper(), user.getUserId());
-
-        user.setRunsCreated(runsCreated);
-    }
 }
