@@ -2,9 +2,7 @@ package learn.capstone.clubrunner.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.capstone.clubrunner.data.UserRepository;
-import learn.capstone.clubrunner.models.RunStatus;
 import learn.capstone.clubrunner.models.User;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +17,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

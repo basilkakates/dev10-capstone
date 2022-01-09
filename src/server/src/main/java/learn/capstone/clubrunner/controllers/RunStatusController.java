@@ -17,10 +17,14 @@ public class RunStatusController {
 
     private final RunStatusService service;
 
-    public RunStatusController(RunStatusService service) {this.service = service;}
+    public RunStatusController(RunStatusService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<RunStatus> findAll() {return service.findAll();}
+    public List<RunStatus> findAll() {
+        return service.findAll();
+    }
 
     @GetMapping("/{runStatusId}")
     public ResponseEntity<Object> findById(@PathVariable int runStatusId) {

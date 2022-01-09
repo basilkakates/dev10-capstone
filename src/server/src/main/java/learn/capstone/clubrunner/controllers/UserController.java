@@ -16,10 +16,14 @@ public class UserController {
 
     private final UserService service;
 
-    public UserController(UserService service) {this.service = service;}
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<User> findAll() {return service.findAll();}
+    public List<User> findAll() {
+        return service.findAll();
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<Object> findById(@PathVariable int userId) {

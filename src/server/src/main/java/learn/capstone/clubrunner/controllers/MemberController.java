@@ -1,7 +1,7 @@
 package learn.capstone.clubrunner.controllers;
 
-import learn.capstone.clubrunner.domain.Result;
 import learn.capstone.clubrunner.domain.MemberService;
+import learn.capstone.clubrunner.domain.Result;
 import learn.capstone.clubrunner.models.Member;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +16,19 @@ public class MemberController {
 
     private final MemberService service;
 
-    public MemberController(MemberService service) {this.service = service;}
+    public MemberController(MemberService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<Member> findAll() {return service.findAll();}
+    public List<Member> findAll() {
+        return service.findAll();
+    }
 
     @GetMapping("/admins")
-    public List<Member> findAdmins() {return service.findAdmins();}
+    public List<Member> findAdmins() {
+        return service.findAdmins();
+    }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<Object> findById(@PathVariable int memberId) {
@@ -34,10 +40,14 @@ public class MemberController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<Member> findByUserId(@PathVariable int userId) {return service.findByUserId(userId);}
+    public List<Member> findByUserId(@PathVariable int userId) {
+        return service.findByUserId(userId);
+    }
 
     @GetMapping("/club/{clubId}")
-    public List<Member> findByClubId(@PathVariable int clubId) {return service.findByClubId(clubId);}
+    public List<Member> findByClubId(@PathVariable int clubId) {
+        return service.findByClubId(clubId);
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Member member) {
