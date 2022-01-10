@@ -37,11 +37,20 @@ public class Runner {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Runner runner = (Runner) o;
-        return runnerId == runner.runnerId && Objects.equals(user, runner.user) && Objects.equals(run, runner.run);
+        return runnerId == runner.runnerId && user.equals(runner.user) && run.equals(runner.run);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(runnerId, user, run);
+    }
+
+    @Override
+    public String toString() {
+        return "Runner{" +
+                "runnerId=" + runnerId +
+                ", user=" + user +
+                ", run=" + run +
+                '}';
     }
 }

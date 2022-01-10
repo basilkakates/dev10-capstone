@@ -3,15 +3,16 @@ package learn.capstone.clubrunner.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Run {
     private int runId;
-    private LocalDate date;
+    private String date;
     private String address;
     private String description;
     private int maxCapacity;
-    private LocalTime startTime;
+    private String startTime;
     private BigDecimal latitude;
     private BigDecimal longitude;
 
@@ -27,12 +28,16 @@ public class Run {
         this.runId = runId;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
     public void setDate(LocalDate date) {
-        this.date = date;
+        if (date != null) {
+            this.date = date.toString();
+        } else {
+            this.date = null;
+        }
     }
 
     public String getAddress() {
@@ -59,12 +64,16 @@ public class Run {
         this.maxCapacity = maxCapacity;
     }
 
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
     public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
+        if (startTime != null) {
+            this.startTime = startTime.truncatedTo(ChronoUnit.SECONDS).toString();
+        } else {
+            this.startTime = null;
+        }
     }
 
     public BigDecimal getLatitude() {
@@ -118,5 +127,22 @@ public class Run {
     @Override
     public int hashCode() {
         return Objects.hash(runId, date, address, description, maxCapacity, startTime, latitude, longitude, club, user, runStatus);
+    }
+
+    @Override
+    public String toString() {
+        return "Run{" +
+                "runId=" + runId +
+                ", date=" + date +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", maxCapacity=" + maxCapacity +
+                ", startTime=" + startTime +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", club=" + club +
+                ", user=" + user +
+                ", runStatus=" + runStatus +
+                '}';
     }
 }

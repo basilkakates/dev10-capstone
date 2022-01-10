@@ -36,11 +36,20 @@ public class Club {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Club club = (Club) o;
-        return clubId == club.clubId && Objects.equals(name, club.name) && Objects.equals(description, club.description);
+        return clubId == club.clubId && name.equals(club.name) && Objects.equals(description, club.description);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(clubId, name, description);
+    }
+
+    @Override
+    public String toString() {
+        return "Club{" +
+                "clubId=" + clubId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -34,4 +34,12 @@ public class RunStatus {
     public int hashCode() {
         return Objects.hash(runStatusId, status);
     }
+
+    @Override
+    public String toString() {
+        return "RunStatus{" +
+                "runStatusId=" + runStatusId +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
