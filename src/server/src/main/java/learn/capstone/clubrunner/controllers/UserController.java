@@ -52,10 +52,6 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    public List<User> findUsersByRunId(@PathVariable int runId) {
-        return service.findUsersByRunId(runId);
-    }
-
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody User user) {
         Result<User> result = service.add(user);

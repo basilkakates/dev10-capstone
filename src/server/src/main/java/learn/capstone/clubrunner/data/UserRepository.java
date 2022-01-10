@@ -11,8 +11,6 @@ public interface UserRepository {
 
     User findByEmail(String email);
 
-    List<User> findUsersByRunId(int runId);
-
     List<User> findAll();
 
     User add(User user);

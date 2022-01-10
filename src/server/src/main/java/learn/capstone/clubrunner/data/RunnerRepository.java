@@ -9,8 +9,11 @@ public interface RunnerRepository {
 
     List<Runner> findAll();
 
-    @Transactional
     Runner findById(int runnerId);
+
+    List<Runner> findByUserId(int userId);
+
+    List<Runner> findByRunId(int clubId);
 
     Runner add(Runner runner);
 
