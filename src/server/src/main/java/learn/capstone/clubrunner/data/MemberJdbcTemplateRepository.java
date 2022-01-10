@@ -21,8 +21,15 @@ public class MemberJdbcTemplateRepository implements MemberRepository {
 
     @Override
     public Member findById(int memberId) {
-        final String sql = "select member_id, user_id, club_id, isAdmin " +
-                "from member where member_id = ?;";
+        final String sql = "select m.member_id, m.isAdmin, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description " +
+                "from member m " +
+                "left join user u " +
+                "on m.user_id = u.user_id " +
+                "left join club c " +
+                "on m.club_id = c.club_id " +
+                "where member_id = ?;";
 
         return jdbcTemplate.query(sql, new MemberMapper(), memberId).stream()
                 .findFirst().orElse(null);
@@ -30,32 +37,59 @@ public class MemberJdbcTemplateRepository implements MemberRepository {
 
     @Override
     public List<Member> findByUserId(int userId) {
-        final String sql = "select member_id, user_id, club_id, isAdmin " +
-                "from member where user_id = ?;";
+        final String sql = "select m.member_id, m.isAdmin, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description " +
+                "from member m " +
+                "left join user u " +
+                "on m.user_id = u.user_id " +
+                "left join club c " +
+                "on m.club_id = c.club_id " +
+                "where m.user_id = ?;";
 
         return jdbcTemplate.query(sql, new MemberMapper(), userId);
     }
 
     @Override
     public List<Member> findByClubId(int clubId) {
-        final String sql = "select member_id, user_id, club_id, isAdmin " +
-                "from member where club_id = ?;";
+        final String sql = "select m.member_id, m.isAdmin, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description " +
+                "from member m " +
+                "left join user u " +
+                "on m.user_id = u.user_id " +
+                "left join club c " +
+                "on m.club_id = c.club_id " +
+                "where m.club_id = ?;";
 
         return jdbcTemplate.query(sql, new MemberMapper(), clubId);
     }
 
     @Override
     public List<Member> findAdmins() {
-        final String sql = "select member_id, user_id, club_id, isAdmin " +
-                "from member where isAdmin = 1;";
+        final String sql = "select m.member_id, m.isAdmin, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description " +
+                "from member m " +
+                "left join user u " +
+                "on m.user_id = u.user_id " +
+                "left join club c " +
+                "on m.club_id = c.club_id " +
+                "where isAdmin = 1;";
 
         return jdbcTemplate.query(sql, new MemberMapper());
     }
 
     @Override
     public List<Member> findAll() {
-        final String sql = "select member_id, user_id, club_id, isAdmin " +
-                "from member;";
+        final String sql = "select m.member_id, m.isAdmin, " +
+                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "c.club_id, c.name, c.description club_description " +
+                "from member m " +
+                "left join user u " +
+                "on m.user_id = u.user_id " +
+                "left join club c " +
+                "on m.club_id = c.club_id;";
 
         return jdbcTemplate.query(sql, new MemberMapper());
     }

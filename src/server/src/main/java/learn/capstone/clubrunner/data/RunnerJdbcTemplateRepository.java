@@ -17,23 +17,58 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RunnerJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
+    public RunnerJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Runner> findAll() {
-        final String sql = "select runner_id, run_id, user_id from runner;";
+        final String sql = "select ru.runner_id, " +
+                "u1.user_id, u1.first_name, u1.last_name, u1.email, " +
+                "r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
+                "r.start_time, r.latitude, r.longitude, " +
+                "u2.user_id user_id_creator, u2.first_name first_name_creator, u2.last_name last_name_creator, u2.email email_creator, " +
+                "c.club_id, c.name, c.description club_description, " +
+                "rs.run_status_id, rs.status " +
+                "from runner ru " +
+                "left join run r " +
+                "on ru.run_id = r.run_id " +
+                "left join user u1 " +
+                "on ru.user_id = u1.user_id " +
+                "left join user u2 " +
+                "on r.user_id = u2.user_id " +
+                "left join club c " +
+                "on r.club_id = c.club_id " +
+                "left join run_status rs " +
+                "on r.run_status_id = rs.run_status_id;";
+
         return jdbcTemplate.query(sql, new RunnerMapper());
     }
 
     @Override
     @Transactional
     public Runner findById(int runnerId) {
+        final String sql = "select ru.runner_id, " +
+                "u1.user_id, u1.first_name, u1.last_name, u1.email, " +
+                "r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
+                "r.start_time, r.latitude, r.longitude, " +
+                "u2.user_id user_id_creator, u2.first_name first_name_creator, u2.last_name last_name_creator, u2.email email_creator, " +
+                "c.club_id, c.name, c.description club_description, " +
+                "rs.run_status_id, rs.status " +
+                "from runner ru " +
+                "left join run r " +
+                "on ru.run_id = r.run_id " +
+                "left join user u1 " +
+                "on ru.user_id = u1.user_id " +
+                "left join user u2 " +
+                "on r.user_id = u2.user_id " +
+                "left join club c " +
+                "on r.club_id = c.club_id " +
+                "left join run_status rs " +
+                "on r.run_status_id = rs.run_status_id " +
+                "where runner_id = ?;";
 
-        final String sql = "select runner_id, run_id, user_id from runner where runner_id = ?;";
-
-        Runner result = jdbcTemplate.query(sql, new RunnerMapper(), runnerId).stream().findAny().orElse(null);
-
-        return result;
+        return jdbcTemplate.query(sql, new RunnerMapper(), runnerId).stream().findAny().orElse(null);
     }
 
     @Override
@@ -50,7 +85,7 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
             return ps;
         }, keyholder);
 
-        if (rowsAffected <= 0 ) {
+        if (rowsAffected <= 0) {
             return null;
         }
 

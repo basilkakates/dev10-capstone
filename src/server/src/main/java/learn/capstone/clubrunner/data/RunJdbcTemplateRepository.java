@@ -27,7 +27,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public List<Run> findAll() {
         final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
                 "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
-                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "u.user_id user_id_creator, u.first_name first_name_creator, u.last_name last_name_creator, u.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +
                 "from run r " +
@@ -45,7 +45,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public Run findById(int runId) {
         final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
                 "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
-                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "u.user_id user_id_creator, u.first_name first_name_creator, u.last_name last_name_creator, u.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +
                 "from run r " +
@@ -64,7 +64,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public List<Run> findRunsByUserId(int userId) {
         final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
                 "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
-                "u.user_id, u.first_name, u.last_name, u.email, " +
+                "u.user_id user_id_creator, u.first_name first_name_creator, u.last_name last_name_creator, u.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +
                 "from run r " +
