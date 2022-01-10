@@ -69,7 +69,7 @@ class RunControllerTest {
     @Test
     void addShouldReturn201() throws Exception {
         Run expected = makeRun();
-        expected.setRunId(4);
+        expected.setRunId(1);
 
         when(repository.add(any())).thenReturn(expected);
         ObjectMapper jsonMapper = new ObjectMapper();
@@ -98,11 +98,8 @@ class RunControllerTest {
 
     @Test
     void addShouldReturn400WhenInvalid() throws Exception {
-
         ObjectMapper jsonMapper = new ObjectMapper();
-
-        Run run = makeRun();
-        String agencyJson = jsonMapper.writeValueAsString(run);
+        String agencyJson = jsonMapper.writeValueAsString(new Run());
 
         var request = post("/api/run")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -129,7 +126,7 @@ class RunControllerTest {
                 .andExpect(status().isUnsupportedMediaType());
     }
 
-    Run makeRun() {
+    private Run makeRun() {
         Run run = new Run();
 
         User user = new User();
@@ -137,15 +134,13 @@ class RunControllerTest {
         user.setFirstName("Testy");
         user.setLastName("McTest");
         user.setEmail("tmctest@test.com");
-        user.setPassword("supersecure");
 
         Club club = new Club();
         club.setClubId(1);
         club.setName("Test Club");
-        club.setDescription("Club for test");
 
         RunStatus runStatus = new RunStatus();
-        runStatus.setRunStatusId(2);
+        runStatus.setRunStatusId(1);
         runStatus.setStatus("Test");
 
         run.setDate(LocalDate.now());
@@ -154,7 +149,7 @@ class RunControllerTest {
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.now());
+        run.setStartTime(LocalTime.now().plusHours(1));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
         run.setDescription("A test run");

@@ -291,9 +291,13 @@ class MemberControllerTest {
 
         User user = new User();
         user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
 
         Club club = new Club();
         club.setClubId(1);
+        club.setName("Test");
 
         member.setUser(user);
         member.setClub(club);
