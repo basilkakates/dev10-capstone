@@ -35,8 +35,13 @@ public class RunController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<Run> findRunsByUserId(@PathVariable int userId) {
-        return service.findRunsByUserId(userId);
+    public List<Run> findByUserId(@PathVariable int userId) {
+        return service.findByUserId(userId);
+    }
+
+    @GetMapping("/club/{clubId}")
+    public List<Run> findByClubId(@PathVariable int clubId) {
+        return service.findByClubId(clubId);
     }
 
     @PostMapping

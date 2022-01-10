@@ -61,7 +61,7 @@ public class RunJdbcTemplateRepository implements RunRepository {
     }
 
     @Override
-    public List<Run> findRunsByUserId(int userId) {
+    public List<Run> findByUserId(int userId) {
         final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
                 "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
                 "u.user_id user_id_creator, u.first_name first_name_creator, u.last_name last_name_creator, u.email email_creator, " +
@@ -74,11 +74,28 @@ public class RunJdbcTemplateRepository implements RunRepository {
                 "on r.club_id = c.club_id " +
                 "left join run_status rs " +
                 "on r.run_status_id = rs.run_status_id " +
-                "inner join runner ru " +
-                "on r.run_id = ru.run_id " +
-                "where ru.user_id = ?;";
+                "where r.user_id = ?;";
 
         return jdbcTemplate.query(sql, new RunMapper(), userId);
+    }
+
+    @Override
+    public List<Run> findByClubId(int clubId) {
+        final String sql = "select r.run_id, r.date, r.address, r.description run_description, " +
+                "r.max_capacity, r.start_time, r.latitude, r.longitude, " +
+                "u.user_id user_id_creator, u.first_name first_name_creator, u.last_name last_name_creator, u.email email_creator, " +
+                "c.club_id, c.name, c.description club_description, " +
+                "rs.run_status_id, rs.status " +
+                "from run r " +
+                "left join user u " +
+                "on r.user_id = u.user_id " +
+                "left join club c " +
+                "on r.club_id = c.club_id " +
+                "left join run_status rs " +
+                "on r.run_status_id = rs.run_status_id " +
+                "where r.club_id = ?;";
+
+        return jdbcTemplate.query(sql, new RunMapper(), clubId);
     }
 
     @Override
