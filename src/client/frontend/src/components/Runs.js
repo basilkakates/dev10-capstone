@@ -10,10 +10,15 @@ import AdminOptionsForRun from "./AdminOptionsForRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
+
+  const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
+
   const [showAddModal, setShowAddModal] = useState(false);
 
   const handleAddModalClose = () => setShowAddModal(false);
   const handleAddModalShow = () => setShowAddModal(true);
+
+  let joined = false;
 
   const getRuns = async () => {
     try {
@@ -25,8 +30,20 @@ function Runs() {
     }
   };
 
+  const getRunsUserSignedUpFor = async () => { 
+    try {
+      const response = await fetch("http://localhost:8080/api/runner/user/1");
+      const data = await response.json();
+      setRunsUserSignedUpFor(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   useEffect(() => {
     getRuns();
+    getRunsUserSignedUpFor();
   }, []);
 
   return (
@@ -58,7 +75,12 @@ function Runs() {
                     <SignUpCount runId={run.runId} />/{run.maxCapacity}
                   </td>
 
-                  <JoinRun runId={run.runId} />
+                  {runsUserSignedUpFor.map((runner) => {
+                    if (runner.run.runId === run.runId) joined = true;
+                  })}
+
+                  <JoinRun joined={joined} />
+                  {joined = false}
 
                   {run.runStatus.status === "Approved" && (
                     <AdminOptionsForRun
