@@ -6,10 +6,10 @@ import RunTableHeader from "./RunTableHeader";
 import AddRun from "./AddRun";
 import EditRun from "./EditRun";
 import CancelRun from "./CancelRun";
+import JoinRun from "./JoinRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
-  const [userRuns, setUserRuns] = useState([]);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -24,33 +24,18 @@ function Runs() {
   const handleCancelModalClose = () => setShowCancelModal(false);
   const handleCancelModalShow = () => setShowCancelModal(true);
 
-  const getRuns = () => {
-    fetch("http://localhost:8080/api/run")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setRuns(json))
-      .catch(console.log);
-  };
-
-  const getUserRuns = () => {
-    fetch("http://localhost:8080/api/run/user/1")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setUserRuns(json))
-      .catch(console.log);
+  const getRuns = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/run");
+      const data = await response.json();
+      setRuns(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getRuns();
-    getUserRuns();
   }, []);
 
   return (
@@ -71,7 +56,7 @@ function Runs() {
         <tbody>
           {runs.map((run) => (
             <tr key={run.runId}>
-              {run.status !== "pending" && (
+              {run.runStatus.runStatusId !== 1 && (
                 <>
                   <th scope="row">{run.date}</th>
                   <td>{run.startTime}</td>
@@ -80,13 +65,10 @@ function Runs() {
                   <td>{run.clubId}</td>
                   <td>{run.maxCapacity}</td>
 
-                  {run.status === "approved" && (
+                  <JoinRun runId={run.runId} />
+
+                  {run.runStatus.runStatusId === 2 && (
                     <td>
-                      {userRuns.some((run) => run.runId) ? (
-                        <td className="btn btn-success btn-sm">Joined</td>
-                      ) : (
-                        <td className="btn btn-success btn-sm">Join</td>
-                      )}
                       <div>
                         <Button variant="primary" onClick={handleEditModalShow}>
                           Edit
@@ -113,7 +95,7 @@ function Runs() {
                       </div>
                     </td>
                   )}
-                  {run.status === "canceled" && (
+                  {run.runStatus.runStatusId === 3 && (
                     <td className="btn btn-outline-danger btn-sm" disabled>
                       CANCELED
                     </td>
