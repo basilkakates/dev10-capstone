@@ -43,7 +43,7 @@ public class MemberService {
         result.setPayload(repository.findAdminsByUserId(userId));
 
         if (result.getPayload() == null) {
-            String msg = String.format("userId %s is not an Admin for any club");
+            String msg = String.format("userId %s is not an Admin for any club", userId);
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
