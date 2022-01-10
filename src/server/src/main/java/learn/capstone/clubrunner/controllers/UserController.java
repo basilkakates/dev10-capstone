@@ -52,6 +52,7 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
+    @GetMapping("/run/{runId}")
     public List<User> findUsersByRunId(@PathVariable int runId) {
         return service.findUsersByRunId(runId);
     }

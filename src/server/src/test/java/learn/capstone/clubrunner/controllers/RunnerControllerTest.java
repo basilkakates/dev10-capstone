@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -137,6 +137,20 @@ class RunnerControllerTest {
         mvc.perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void deleteShouldReturn404WhenMissing() throws Exception {
+        when(repository.deleteById(anyInt())).thenReturn(false);
+        mvc.perform(delete("/api/runner/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteShouldReturn204() throws Exception {
+        when(repository.deleteById(anyInt())).thenReturn(true);
+        mvc.perform(delete("/api/runner/1"))
+                .andExpect(status().isNoContent());
     }
 
     private Runner makeRunner() {

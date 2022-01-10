@@ -2,6 +2,7 @@ package learn.capstone.clubrunner.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.capstone.clubrunner.data.UserRepository;
+import learn.capstone.clubrunner.models.Run;
 import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,17 @@ class UserControllerTest {
 
         String urlTemplate = String.format("/api/user/%s", user.getUserId());
         mvc.perform(get(urlTemplate))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findUsersByRunIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findUsersByRunId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/user/run/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
@@ -309,6 +321,8 @@ class UserControllerTest {
         mvc.perform(request)
                 .andExpect(status().isNoContent());
     }
+
+
 
     private User makeUser() {
         User user = new User();
