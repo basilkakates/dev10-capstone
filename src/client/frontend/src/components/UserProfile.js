@@ -7,7 +7,7 @@ function UserProfile() {
   const [user, setUser] = useState([]);
 
   const getUser = () => {
-    fetch("http://localhost:8080/api/user")
+    fetch("http://localhost:8080/api/user/1")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("user fetch failed");
