@@ -30,7 +30,7 @@ function Runs() {
     }
   };
 
-  const getRunsUserSignedUpFor = async () => { 
+  const getRunsUserSignedUpFor = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/runner/user/1");
       const data = await response.json();
@@ -38,8 +38,7 @@ function Runs() {
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
 
   useEffect(() => {
     getRuns();
@@ -70,7 +69,7 @@ function Runs() {
                   <td>{run.startTime}</td>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
-                  <td>{run.clubId}</td>
+                  <td>{run.club.name}</td>
                   <td>
                     <SignUpCount runId={run.runId} />/{run.maxCapacity}
                   </td>
@@ -80,7 +79,7 @@ function Runs() {
                   })}
 
                   <JoinRun joined={joined} />
-                  {joined = false}
+                  {(joined = false)}
 
                   {run.runStatus.status === "Approved" && (
                     <AdminOptionsForRun
