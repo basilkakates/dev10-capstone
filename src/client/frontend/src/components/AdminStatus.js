@@ -23,7 +23,8 @@ function AdminStatus({ clubId }) {
 
   return (
     <Container>
-      {clubUserIsAdminOf === clubId && <Button>Admin</Button>}
+      {clubUserIsAdminOf.isAdmin === 1 &&
+        clubUserIsAdminOf.club.clubId === clubId && <Button>Admin</Button>}
     </Container>
   );
 }
