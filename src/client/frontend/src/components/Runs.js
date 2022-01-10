@@ -7,6 +7,7 @@ import AddRun from "./AddRun";
 import EditRun from "./EditRun";
 import CancelRun from "./CancelRun";
 import JoinRun from "./JoinRun";
+import SignUpCount from "./SignUpCount";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
@@ -63,7 +64,9 @@ function Runs() {
                   <td>{run.address}</td>
                   <td>{run.description}</td>
                   <td>{run.clubId}</td>
-                  <td>{run.maxCapacity}</td>
+                  <td>
+                    <SignUpCount runId={run.runId} />/{run.maxCapacity}
+                  </td>
 
                   <JoinRun runId={run.runId} />
 
