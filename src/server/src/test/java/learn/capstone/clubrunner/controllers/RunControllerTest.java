@@ -143,7 +143,7 @@ class RunControllerTest {
         runStatus.setRunStatusId(1);
         runStatus.setStatus("Test");
 
-        run.setDate(LocalDate.now());
+        run.setDate(LocalDate.now().plusDays(1));
         run.setAddress("000 Test");
         run.setMaxCapacity(25);
         run.setUser(user);

@@ -126,10 +126,8 @@ public class RunService {
 
         if (LocalDate.parse(run.getDate()).isBefore(LocalDate.now())) {
             result.addMessage("date cannot be in the past", ResultType.INVALID);
-
-            if (LocalTime.parse(run.getStartTime()).isBefore(LocalTime.now())) {
-                result.addMessage("start time cannot be in the past", ResultType.INVALID);
-            }
+        } else if (LocalDate.parse(run.getDate()).isEqual(LocalDate.now()) && LocalTime.parse(run.getStartTime()).isBefore(LocalTime.now())) {
+            result.addMessage("start time cannot be in the past", ResultType.INVALID);
         }
 
         return result;
