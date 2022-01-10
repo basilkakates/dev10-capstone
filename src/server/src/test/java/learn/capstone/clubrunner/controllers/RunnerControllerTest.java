@@ -45,6 +45,28 @@ class RunnerControllerTest {
     }
 
     @Test
+    void findByUserIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByUserId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/runner/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findByRunIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByRunId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/runner/run/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
     void findByIdShouldReturn404WhenMissing() throws Exception {
         when(repository.findById(anyInt())).thenReturn(null);
         mvc.perform(get("/api/runner/1"))

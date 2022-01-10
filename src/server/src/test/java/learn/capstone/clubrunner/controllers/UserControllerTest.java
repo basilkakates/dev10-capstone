@@ -65,17 +65,6 @@ class UserControllerTest {
     }
 
     @Test
-    void findUsersByRunIdShouldReturn200() throws Exception {
-        ObjectMapper jsonMapper = new ObjectMapper();
-        when(repository.findUsersByRunId(1)).thenReturn(new ArrayList<>());
-        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
-
-        mvc.perform(get("/api/user/run/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedJson));
-    }
-
-    @Test
     void findByNameShouldReturn400WhenInvalid() throws Exception {
         mvc.perform(get("/api/user/name"))
                 .andExpect(status().isBadRequest());

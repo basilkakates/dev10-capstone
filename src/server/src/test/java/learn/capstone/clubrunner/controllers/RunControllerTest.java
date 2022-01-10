@@ -49,6 +49,28 @@ class RunControllerTest {
     }
 
     @Test
+    void findByUserIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByUserId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/run/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findByClubIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByClubId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/run/club/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
     void findByIdShouldReturn404WhenMissing() throws Exception {
         when(repository.findById(anyInt())).thenReturn(null);
         mvc.perform(get("/api/run/1"))
@@ -62,17 +84,6 @@ class RunControllerTest {
         String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
 
         mvc.perform(get("/api/run"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedJson));
-    }
-
-    @Test
-    void findRunsByUserIdShouldReturn200() throws Exception {
-        ObjectMapper jsonMapper = new ObjectMapper();
-        when(repository.findRunsByUserId(1)).thenReturn(new ArrayList<>());
-        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
-
-        mvc.perform(get("/api/run/user/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
