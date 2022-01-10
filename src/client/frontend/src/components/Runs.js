@@ -4,26 +4,16 @@ import Button from "react-bootstrap/Button";
 
 import RunTableHeader from "./RunTableHeader";
 import AddRun from "./AddRun";
-import EditRun from "./EditRun";
-import CancelRun from "./CancelRun";
 import JoinRun from "./JoinRun";
 import SignUpCount from "./SignUpCount";
+import AdminOptionsForRun from "./AdminOptionsForRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
-
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handleAddModalClose = () => setShowAddModal(false);
   const handleAddModalShow = () => setShowAddModal(true);
-
-  const handleEditModalClose = () => setShowEditModal(false);
-  const handleEditModalShow = () => setShowEditModal(true);
-
-  const handleCancelModalClose = () => setShowCancelModal(false);
-  const handleCancelModalShow = () => setShowCancelModal(true);
 
   const getRuns = async () => {
     try {
@@ -57,7 +47,7 @@ function Runs() {
         <tbody>
           {runs.map((run) => (
             <tr key={run.runId}>
-              {run.runStatus.runStatusId !== 1 && (
+              {run.runStatus.status !== "Pending Approval" && (
                 <>
                   <th scope="row">{run.date}</th>
                   <td>{run.startTime}</td>
@@ -70,35 +60,13 @@ function Runs() {
 
                   <JoinRun runId={run.runId} />
 
-                  {run.runStatus.runStatusId === 2 && (
-                    <td>
-                      <div>
-                        <Button variant="primary" onClick={handleEditModalShow}>
-                          Edit
-                        </Button>
-
-                        <EditRun
-                          showModal={showEditModal}
-                          closeModal={handleEditModalClose}
-                          runId={run.runId}
-                        />
-                      </div>
-                      <div>
-                        <Button
-                          variant="secondary"
-                          onClick={handleCancelModalShow}
-                        >
-                          Cancel
-                        </Button>
-                        <CancelRun
-                          showModal={showCancelModal}
-                          closeModal={handleCancelModalClose}
-                          runId={run.runId}
-                        />
-                      </div>
-                    </td>
+                  {run.runStatus.status === "Approved" && (
+                    <AdminOptionsForRun
+                      runId={run.runId}
+                      clubId={run.club.clubId}
+                    />
                   )}
-                  {run.runStatus.runStatusId === 3 && (
+                  {run.runStatus.status === "Cancelled" && (
                     <td className="btn btn-outline-danger btn-sm" disabled>
                       CANCELED
                     </td>
