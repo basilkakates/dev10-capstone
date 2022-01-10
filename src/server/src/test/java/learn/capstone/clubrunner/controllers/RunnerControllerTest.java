@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +40,28 @@ class RunnerControllerTest {
         String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
 
         mvc.perform(get("/api/runner"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findByUserIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByUserId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/runner/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findByRunIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByRunId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/runner/run/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
@@ -137,6 +159,20 @@ class RunnerControllerTest {
         mvc.perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void deleteShouldReturn404WhenMissing() throws Exception {
+        when(repository.deleteById(anyInt())).thenReturn(false);
+        mvc.perform(delete("/api/runner/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteShouldReturn204() throws Exception {
+        when(repository.deleteById(anyInt())).thenReturn(true);
+        mvc.perform(delete("/api/runner/1"))
+                .andExpect(status().isNoContent());
     }
 
     private Runner makeRunner() {

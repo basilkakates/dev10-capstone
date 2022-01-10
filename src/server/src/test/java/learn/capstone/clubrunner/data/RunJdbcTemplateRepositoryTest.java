@@ -43,10 +43,21 @@ class RunJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFindRunById() {
-        Run run = repository.findById(1);
+    void shouldFindRunByUserId() {
+        User user = new User();
+        user.setUserId(1);
+        List<Run> run = repository.findByUserId(1);
         assertNotNull(run);
-        assertEquals(1, run.getRunId());
+        assertEquals(1, user.getUserId());
+    }
+
+    @Test
+    void shouldFindRunByClubId() {
+        Club club = new Club();
+        club.setClubId(1);
+        List<Run> run = repository.findByClubId(1);
+        assertNotNull(run);
+        assertEquals(1, club.getClubId());
     }
 
     @Test
