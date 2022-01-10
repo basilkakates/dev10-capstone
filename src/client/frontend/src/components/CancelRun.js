@@ -19,7 +19,7 @@ function CancelRun({ showModal, closeModal, runId }) {
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/run/${runId}`)
+    fetch(`http://localhost:8080/api/run/${runId}`)
       .then((response) => {
         if (response.status === 404) {
           return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
@@ -62,7 +62,7 @@ function CancelRun({ showModal, closeModal, runId }) {
       body: JSON.stringify(updatedRun),
     };
 
-    fetch(`http://localhost:8080/run/${updatedRun.runId}`, init)
+    fetch(`http://localhost:8080/api/run/${updatedRun.runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;

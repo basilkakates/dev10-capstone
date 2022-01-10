@@ -19,7 +19,7 @@ function PendingRuns() {
   const handleDeclineModalShow = () => setShowDeclineModal(true);
 
   const getRuns = () => {
-    fetch("http://localhost:8080/run")
+    fetch("http://localhost:8080/api/run")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
@@ -39,7 +39,7 @@ function PendingRuns() {
       method: "DELETE",
     };
 
-    fetch(`http://localhost:8080/run/${runId}`, init)
+    fetch(`http://localhost:8080/api/run/${runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           getRuns();

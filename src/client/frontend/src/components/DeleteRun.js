@@ -18,7 +18,7 @@ function DeleteRun({ showModal, closeModal, runId }) {
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/run/${runId}`)
+    fetch(`http://localhost:8080/api/run/${runId}`)
       .then((response) => {
         if (response.status === 404) {
           return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
@@ -55,7 +55,7 @@ function DeleteRun({ showModal, closeModal, runId }) {
       body: JSON.stringify(run),
     };
 
-    fetch(`http://localhost:8080/run/${run.runId}`, init)
+    fetch(`http://localhost:8080/api/run/${run.runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;
