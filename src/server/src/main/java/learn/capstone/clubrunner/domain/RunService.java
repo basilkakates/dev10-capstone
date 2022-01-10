@@ -21,7 +21,7 @@ public class RunService {
     public List<Run> findAll() {
         List<Run> futureRuns = new ArrayList<>();
         for (Run run : repository.findAll()) {
-            if (run.getDate().isAfter(LocalDate.now()) || run.getDate().isEqual(LocalDate.now())) {
+            if (LocalDate.parse(run.getDate()).isAfter(LocalDate.now()) || LocalDate.parse(run.getDate()).isEqual(LocalDate.now())) {
                 futureRuns.add(run);
             }
         }
@@ -53,7 +53,6 @@ public class RunService {
 
         if (run.getRunId() != 0) {
             result.addMessage("run id cannot be set for `add` operation", ResultType.INVALID);
-            return result;
         } else {
             result.setPayload(repository.add(run));
         }
@@ -87,6 +86,7 @@ public class RunService {
 
     private Result<Run> validate(Run run) {
         Result<Run> result = new Result<>();
+
         if (run == null) {
             result.addMessage("run cannot be null", ResultType.INVALID);
             return result;
@@ -94,42 +94,38 @@ public class RunService {
 
         if (Validations.isNullOrBlank(run.getAddress())) {
             result.addMessage("address is required", ResultType.INVALID);
-            return result;
-        }
-
-        if (run.getDate() == null) {
-            result.addMessage("date is required", ResultType.INVALID);
-            return result;
-        }
-
-        if (run.getDate().isBefore(LocalDate.now())) {
-            result.addMessage("date cannot be in the past", ResultType.INVALID);
-            return result;
         }
 
         if (run.getMaxCapacity() <= 0) {
             result.addMessage("max capacity cannot be zero or negative", ResultType.INVALID);
-            return result;
-        }
-
-        if (run.getStartTime() == null) {
-            result.addMessage("start time is required", ResultType.INVALID);
-            return result;
-        }
-
-        if (run.getStartTime().isBefore(LocalTime.now())) {
-            result.addMessage("start time cannot be in the past", ResultType.INVALID);
-            return result;
         }
 
         if (run.getLatitude() == null) {
             result.addMessage("latitude is required", ResultType.INVALID);
-            return result;
         }
 
         if (run.getLongitude() == null) {
             result.addMessage("longitude is required", ResultType.INVALID);
+        }
+
+        if (run.getDate() == null) {
+            result.addMessage("date is required", ResultType.INVALID);
+        }
+
+        if (run.getStartTime() == null) {
+            result.addMessage("start time is required", ResultType.INVALID);
+        }
+
+        if (!result.isSuccess()) {
             return result;
+        }
+
+        if (LocalDate.parse(run.getDate()).isBefore(LocalDate.now())) {
+            result.addMessage("date cannot be in the past", ResultType.INVALID);
+        }
+
+        if (LocalTime.parse(run.getStartTime()).isBefore(LocalTime.now())) {
+            result.addMessage("start time cannot be in the past", ResultType.INVALID);
         }
 
         return result;
