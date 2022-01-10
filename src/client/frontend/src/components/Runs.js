@@ -10,6 +10,7 @@ import JoinRun from "./JoinRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
+  const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -24,6 +25,8 @@ function Runs() {
   const handleCancelModalClose = () => setShowCancelModal(false);
   const handleCancelModalShow = () => setShowCancelModal(true);
 
+  let joined = false;
+
   const getRuns = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/run");
@@ -34,8 +37,20 @@ function Runs() {
     }
   };
 
+  const getRunsUserSignedUpFor = async () => { 
+    try {
+      const response = await fetch("http://localhost:8080/api/runner/user/1");
+      const data = await response.json();
+      setRunsUserSignedUpFor(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   useEffect(() => {
     getRuns();
+    getRunsUserSignedUpFor();
   }, []);
 
   return (
@@ -65,7 +80,12 @@ function Runs() {
                   <td>{run.clubId}</td>
                   <td>{run.maxCapacity}</td>
 
-                  <JoinRun runId={run.runId} />
+                  {runsUserSignedUpFor.map((runner) => {
+                    if (runner.run.runId === run.runId) joined = true;
+                  })}
+
+                  <JoinRun joined={joined} />
+                  {joined = false}
 
                   {run.runStatus.runStatusId === 2 && (
                     <td>
