@@ -10,7 +10,9 @@ public interface RunRepository {
 
     Run findById(int runId);
 
-    List<Run> findRunsByUserId(int userId);
+    List<Run> findByUserId(int userId);
+
+    List<Run> findByClubId(int clubId);
 
     Run add(Run run);
 

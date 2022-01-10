@@ -30,6 +30,21 @@ public class MemberController {
         return service.findAdmins();
     }
 
+    @GetMapping("/admins/user/{userId}")
+    public ResponseEntity<Object> findAdminsByUserId(@PathVariable int userId) {
+        Result<Member> result = service.findAdminsByUserId(userId);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+
+        return ErrorResponse.build(result);
+    }
+
+    @GetMapping("/admins/club/{clubId}")
+    public List<Member> findAdminsByClubId(@PathVariable int clubId) {
+        return service.findAdminsByClubId(clubId);
+    }
+
     @GetMapping("/{memberId}")
     public ResponseEntity<Object> findById(@PathVariable int memberId) {
         Result<Member> result = service.findById(memberId);

@@ -33,18 +33,4 @@ public class ClubController {
         }
         return ErrorResponse.build(result);
     }
-
-    @GetMapping("/admin/{userId}")
-    public ResponseEntity<Object> findAdminForClubByUserId(@PathVariable int userId) {
-        Result<Club> result = service.findAdminForClubByUserId(userId);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
-        }
-        return ErrorResponse.build(result);
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<Club> findClubsByUserId(@PathVariable int userId) {
-        return service.findClubsByUserId(userId);
-    }
 }

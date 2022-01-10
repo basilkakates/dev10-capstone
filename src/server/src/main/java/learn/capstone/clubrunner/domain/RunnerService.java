@@ -19,6 +19,14 @@ public class RunnerService {
         return repository.findAll();
     }
 
+    public List<Runner> findByUserId(int userId) {
+        return repository.findByUserId(userId);
+    }
+
+    public List<Runner> findByRunId(int runId) {
+        return repository.findByRunId(runId);
+    }
+
     public Result<Runner> findById(int runnerId) {
         Result<Runner> result = new Result<>();
         result.setPayload(repository.findById(runnerId));

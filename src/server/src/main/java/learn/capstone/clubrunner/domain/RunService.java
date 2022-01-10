@@ -40,8 +40,12 @@ public class RunService {
         return runResult;
     }
 
-    public List<Run> findRunsByUserId(int userId) {
-        return repository.findRunsByUserId(userId);
+    public List<Run> findByUserId(int userId) {
+        return repository.findByUserId(userId);
+    }
+
+    public List<Run> findByClubId(int clubId) {
+        return repository.findByClubId(clubId);
     }
 
     public Result<Run> add(Run run) {
@@ -122,9 +126,7 @@ public class RunService {
 
         if (LocalDate.parse(run.getDate()).isBefore(LocalDate.now())) {
             result.addMessage("date cannot be in the past", ResultType.INVALID);
-        }
-
-        if (LocalTime.parse(run.getStartTime()).isBefore(LocalTime.now())) {
+        } else if (LocalDate.parse(run.getDate()).isEqual(LocalDate.now()) && LocalTime.parse(run.getStartTime()).isBefore(LocalTime.now())) {
             result.addMessage("start time cannot be in the past", ResultType.INVALID);
         }
 

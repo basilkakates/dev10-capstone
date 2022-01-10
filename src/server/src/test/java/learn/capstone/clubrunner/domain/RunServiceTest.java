@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -145,7 +146,10 @@ class RunServiceTest {
     @Test
     void shouldNotAddStartTimeInThePast() {
         Run run = makeRun();
-        run.setStartTime(LocalTime.parse("00:00"));
+        run.setStartTime(LocalDateTime.now().minusHours(1).toLocalTime());
+        run.setDate(LocalDateTime.now().minusHours(1).toLocalDate());
+
+        System.out.println(run);
 
         Result<Run> actual = service.add(run);
         assertNotNull(actual);
@@ -253,9 +257,13 @@ class RunServiceTest {
 
         User user = new User();
         user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
 
         Club club = new Club();
         club.setClubId(1);
+        club.setName("Test");
 
         RunStatus runStatus = new RunStatus();
         runStatus.setRunStatusId(2);

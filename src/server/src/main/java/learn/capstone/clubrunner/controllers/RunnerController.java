@@ -25,6 +25,16 @@ public class RunnerController {
         return service.findAll();
     }
 
+    @GetMapping("/user/{userId}")
+    public List<Runner> findByUserId(@PathVariable int userId) {
+        return service.findByUserId(userId);
+    }
+
+    @GetMapping("/run/{runId}")
+    public List<Runner> findByRunId(@PathVariable int runId) {
+        return service.findByRunId(runId);
+    }
+
     @GetMapping("/{runnerId}")
     public ResponseEntity<Object> findById(@PathVariable int runnerId) {
         Result<Runner> result = service.findById(runnerId);

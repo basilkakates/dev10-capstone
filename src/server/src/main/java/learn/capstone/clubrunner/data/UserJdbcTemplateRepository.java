@@ -49,17 +49,6 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     @Override
-    public List<User> findUsersByRunId(int runId) {
-        final String sql = "select u.user_id, u.first_name, u.last_name, u.email, u.password " +
-                "from user u " +
-                "inner join runner ru " +
-                "on u.user_id = ru.user_id " +
-                "where ru.run_id = ?;";
-
-        return jdbcTemplate.query(sql, new UserMapper(), runId);
-    }
-
-    @Override
     public List<User> findAll() {
         final String sql = "select user_id, first_name, last_name, email, password " +
                 "from user;";
