@@ -3,7 +3,6 @@ package learn.capstone.clubrunner.controllers;
 import learn.capstone.clubrunner.domain.Result;
 import learn.capstone.clubrunner.domain.RunService;
 import learn.capstone.clubrunner.models.Run;
-import learn.capstone.clubrunner.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

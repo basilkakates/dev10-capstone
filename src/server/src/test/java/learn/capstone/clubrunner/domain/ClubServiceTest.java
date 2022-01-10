@@ -2,16 +2,16 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.ClubRepository;
 import learn.capstone.clubrunner.models.Club;
-import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ClubServiceTest {
@@ -25,7 +25,7 @@ class ClubServiceTest {
     @Test
     void shouldFindAll() {
         List<Club> expected = service.findAll();
-        List<Club> actual =  service.findAll();
+        List<Club> actual = service.findAll();
         assertEquals(expected, actual);
     }
 

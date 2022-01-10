@@ -2,7 +2,6 @@ package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.RunnerRepository;
 import learn.capstone.clubrunner.models.Runner;
-import learn.capstone.clubrunner.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,18 +1,18 @@
 package learn.capstone.clubrunner.domain;
 
 import learn.capstone.clubrunner.data.RunnerRepository;
-import learn.capstone.clubrunner.models.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
-
+import learn.capstone.clubrunner.models.Run;
+import learn.capstone.clubrunner.models.Runner;
+import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RunnerServiceTest {

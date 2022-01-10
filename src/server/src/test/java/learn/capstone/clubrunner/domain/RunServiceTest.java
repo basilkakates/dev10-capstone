@@ -11,14 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -57,7 +54,7 @@ class RunServiceTest {
 
         Result<Run> actual = service.findById(100000);
         assertNotNull(actual);
-        assertEquals(ResultType.NOT_FOUND ,actual.getType());
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
         assertNull(actual.getPayload());
     }
 
