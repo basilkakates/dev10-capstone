@@ -30,19 +30,4 @@ public class ClubService {
 
         return result;
     }
-
-    public Result<Club> findAdminForClubByUserId(int userId) {
-        Result<Club> result = new Result<>();
-        result.setPayload(repository.findAdminForClubByUserId(userId));
-
-        if (result.getPayload() == null) {
-            result.addMessage("no clubs found", ResultType.NOT_FOUND);
-        }
-
-        return result;
-    }
-
-    public List<Club> findClubsByUserId(int userId) {
-        return repository.findClubsByUserId(userId);
-    }
 }

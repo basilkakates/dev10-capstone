@@ -38,6 +38,22 @@ public class MemberService {
         return repository.findAdmins();
     }
 
+    public Result<Member> findAdminsByUserId(int userId) {
+        Result<Member> result = new Result<>();
+        result.setPayload(repository.findAdminsByUserId(userId));
+
+        if (result.getPayload() == null) {
+            String msg = String.format("userId %s is not an Admin for any club");
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
+    }
+
+    public List<Member> findAdminsByClubId(int clubId) {
+        return repository.findAdminsByClubId(clubId);
+    }
+
     public List<Member> findAll() {
         return repository.findAll();
     }
