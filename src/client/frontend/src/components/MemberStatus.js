@@ -6,7 +6,7 @@ function MemberStatus({ clubId }) {
   const [clubsUserIsMemberOf, setClubsUserIsMemberOf] = useState([]);
 
   const getClubsUserIsMemberOf = () => {
-    fetch("http://localhost:8080/api/member/user/4")
+    fetch("http://localhost:8080/api/member/user/1")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
