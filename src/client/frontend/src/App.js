@@ -23,6 +23,7 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import RunForm from "./components/RunForm";
 
 const TOKEN_KEY = "user-api-topken";
 

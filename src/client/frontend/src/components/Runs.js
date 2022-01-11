@@ -7,15 +7,15 @@ import AddRun from "./AddRun";
 import JoinRun from "./JoinRun";
 import SignUpCount from "./SignUpCount";
 import AdminOptionsForRun from "./AdminOptionsForRun";
+import RunForm from "./RunForm";
+import { Link } from "react-router-dom";
+import useModal from "./useModal";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-
-  const handleAddModalClose = () => setShowAddModal(false);
-  const handleAddModalShow = () => setShowAddModal(true);
+  const {isVisible, toggleModal, viewModal} = useModal(false);
 
   let joined = false;
   let currentRunner;
@@ -50,10 +50,10 @@ function Runs() {
       <h2 className="my-4">Runs</h2>
 
       <div>
-        <Button variant="primary" onClick={handleAddModalShow}>
+        <Link className="btn btn-primary" onClick={viewModal} to={`/run/add`}>
           Add Run
-        </Button>
-        <AddRun showModal={showAddModal} closeModal={handleAddModalClose} />
+        </Link>
+        <RunForm isVisible={isVisible} toggleModal={toggleModal}/>
       </div>
 
       <table className="table">
@@ -88,6 +88,7 @@ function Runs() {
                     <AdminOptionsForRun
                       runId={run.runId}
                       clubId={run.club.clubId}
+                      viewModal={viewModal}
                     />
                   )}
                   {run.runStatus.status === "Cancelled" && (

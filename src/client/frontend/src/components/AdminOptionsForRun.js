@@ -3,14 +3,12 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import EditRun from "./EditRun";
 import CancelRun from "./CancelRun";
+import RunForm from "./RunForm";
+import { Link } from "react-router-dom";
 
-function AdminOptionsForRun({ runId, clubId }) {
+function AdminOptionsForRun({ runId, clubId, viewModal }) {
   const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-
-  const handleEditModalClose = () => setShowEditModal(false);
-  const handleEditModalShow = () => setShowEditModal(true);
 
   const handleCancelModalClose = () => setShowCancelModal(false);
   const handleCancelModalShow = () => setShowCancelModal(true);
@@ -37,15 +35,9 @@ function AdminOptionsForRun({ runId, clubId }) {
         clubUserIsAdminOf.club.clubId === clubId && (
           <div>
             <div>
-              <Button variant="primary" onClick={handleEditModalShow}>
+              <Link className="btn btn-primary" onClick={viewModal} to={`/run/edit/${runId}`}>
                 Edit
-              </Button>
-
-              <EditRun
-                showModal={showEditModal}
-                closeModal={handleEditModalClose}
-                runId={runId}
-              />
+              </Link>
             </div>
             <div>
               <Button variant="secondary" onClick={handleCancelModalShow}>
