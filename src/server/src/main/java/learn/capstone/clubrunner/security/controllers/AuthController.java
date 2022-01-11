@@ -1,9 +1,8 @@
-package learn.capstone.clubrunner.controllers;
+package learn.capstone.clubrunner.security.controllers;
 
-import learn.capstone.clubrunner.domain.UserService;
 import learn.capstone.clubrunner.security.models.AppUser;
 import learn.capstone.clubrunner.security.domain.AppUserService;
-import learn.capstone.clubrunner.domain.JwtConverter;
+import learn.capstone.clubrunner.security.domain.JwtConverter;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +23,16 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AuthController {
 
-    // new... add UserService as a dependency
+    // new... add AppUserService as a dependency
 
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
-    private final UserService userService;
+    private final AppUserService appUserService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, UserService userService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, AppUserService appUserService) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
-        this.userService = userService;
+        this.appUserService = appUserService;
     }
 
     @PostMapping("/authenticate")
@@ -63,14 +62,13 @@ public class AuthController {
 
     @PostMapping("/create_account")
     public ResponseEntity<?> createAccount(@RequestBody Map<String, String> credentials) {
-        User user = null;
+        AppUser appUser = null;
 
         try {
-
-            String email = credentials.get("username");
+            String username = credentials.get("username");
             String password = credentials.get("password");
 
-            user = userService.add(email, password);
+            appUser = appUserService.create(username, password);
         } catch (ValidationException ex) {
             return new ResponseEntity<>(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (DuplicateKeyException ex) {
@@ -80,7 +78,7 @@ public class AuthController {
         // happy path...
 
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("userId", user.getUserId());
+        map.put("appUserId", appUser.getAppUserId());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
