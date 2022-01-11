@@ -23,6 +23,7 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import RunForm from "./components/RunForm";
 
 // const TOKEN_KEY = "user-api-topken";
 
@@ -95,37 +96,27 @@ function App() {
           <UserProfile />
         </Route>
 
-        <Route exact path="/runs">
-          {/* {user ? <Runs /> : <Redirect to="login" />} */}
-          <Runs />
-        </Route>
-
         <Route exact path="/runs/pending">
           {/* {user ? <PendingRuns /> : <Redirect to="../login" />} */}
           <PendingRuns />
         </Route>
 
-        <Route path="/runs/add">
+        <Route exactpath={["/runs", "/runs/add", "/runs/edit/:runId"]}>
           {/* {user ? <AddRun /> : <Redirect to="../login" />} */}
-          <AddRun />
+          <Runs />
         </Route>
 
-        <Route path="/runs/edit/:run_id">
-          {/* {user ? <EditRun /> : <Redirect to="../../login" />} */}
-          <EditRun />
-        </Route>
-
-        <Route path="/runs/approve/:run_id">
+        <Route path="/runs/approve/:runId">
           {/* {user ? <ApproveRun /> : <Redirect to="../../login" />} */}
           <ApproveRun />
         </Route>
 
-        <Route path="/runs/delete/:run_id">
+        <Route path="/runs/delete/:runId">
           {/* {user ? <DeleteRun /> : <Redirect to="../../login" />} */}
           <DeleteRun />
         </Route>
 
-        <Route path="/runs/cancel/:run_id">
+        <Route path="/runs/cancel/:runId">
           {/* {user ? <CancelRun /> : <Redirect to="../../login" />} */}
           <CancelRun />
         </Route>
