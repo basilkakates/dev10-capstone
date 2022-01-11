@@ -15,7 +15,7 @@ function Runs() {
   const [runs, setRuns] = useState([]);
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
-  const {isVisible, toggleModal, viewModal, runId, setRunId} = useModal();
+  const {isVisible, toggleModal, viewModal} = useModal(false);
 
   let joined = false;
   let currentRunner;
@@ -50,10 +50,10 @@ function Runs() {
       <h2 className="my-4">Runs</h2>
 
       <div>
-        <Button className="btn btn-primary" onClick={viewModal}>
+        <Link className="btn btn-primary" onClick={viewModal} to={`/run/add`}>
           Add Run
-        </Button>
-        <RunForm isVisible={isVisible} toggleModal={toggleModal} runId={runId}/>
+        </Link>
+        <RunForm isVisible={isVisible} toggleModal={toggleModal}/>
       </div>
 
       <table className="table">
@@ -89,7 +89,6 @@ function Runs() {
                       runId={run.runId}
                       clubId={run.club.clubId}
                       viewModal={viewModal}
-                      setRunId={setRunId}
                     />
                   )}
                   {run.runStatus.status === "Cancelled" && (

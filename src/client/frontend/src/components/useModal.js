@@ -2,7 +2,6 @@ import { useState } from "react"
 
 const useModal = () => {
     const [isVisible, setIsVisible] = useState(false);
-    const [runId, setRunId] = useState();
 
     function toggleModal() {
         setIsVisible(!isVisible);
@@ -15,9 +14,7 @@ const useModal = () => {
     return {
         isVisible,
         toggleModal,
-        viewModal,
-        runId,
-        setRunId
+        viewModal
     }
 };
 

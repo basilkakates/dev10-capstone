@@ -6,7 +6,7 @@ import CancelRun from "./CancelRun";
 import RunForm from "./RunForm";
 import { Link } from "react-router-dom";
 
-function AdminOptionsForRun({ runId, clubId, viewModal, setRunId }) {
+function AdminOptionsForRun({ runId, clubId, viewModal }) {
   const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);
   const [showCancelModal, setShowCancelModal] = useState(false);
 
@@ -35,9 +35,9 @@ function AdminOptionsForRun({ runId, clubId, viewModal, setRunId }) {
         clubUserIsAdminOf.club.clubId === clubId && (
           <div>
             <div>
-              <Button className="btn btn-primary" onClick={viewModal, setRunId(runId)}>
+              <Link className="btn btn-primary" onClick={viewModal} to={`/run/edit/${runId}`}>
                 Edit
-              </Button>
+              </Link>
             </div>
             <div>
               <Button variant="secondary" onClick={handleCancelModalShow}>
