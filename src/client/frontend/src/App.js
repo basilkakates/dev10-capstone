@@ -106,16 +106,6 @@ function App() {
             <PendingRuns />
           </Route>
 
-          <Route path="/runs/add">
-            {/* {user ? <AddRun /> : <Redirect to="../login" />} */}
-            <AddRun />
-          </Route>
-
-          <Route path="/runs/edit/:run_id">
-            {/* {user ? <EditRun /> : <Redirect to="../../login" />} */}
-            <EditRun />
-          </Route>
-
           <Route path="/runs/approve/:run_id">
             {/* {user ? <ApproveRun /> : <Redirect to="../../login" />} */}
             <ApproveRun />
