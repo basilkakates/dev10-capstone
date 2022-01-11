@@ -133,11 +133,11 @@ public class RunJdbcTemplateRepository implements RunRepository {
     public boolean update(Run run) {
 
         final String sql = "update run set date = ?, address = ?, description = ?, max_capacity = ?, " +
-                "start_time = ?, latitude = ?, longitude = ? where run_id = ?";
+                "start_time = ?, latitude = ?, longitude = ?, user_id = ?, club_id = ?, run_status_id = ? where run_id = ?";
 
         return jdbcTemplate.update(sql, run.getDate(), run.getAddress(), run.getDescription(),
                 run.getMaxCapacity(), run.getStartTime(), run.getLatitude(),
-                run.getLongitude(), run.getRunId()) > 0;
+                run.getLongitude(), run.getUser().getUserId(), run.getClub().getClubId(), run.getRunStatus().getRunStatusId(), run.getRunId()) > 0;
     }
 
     @Override

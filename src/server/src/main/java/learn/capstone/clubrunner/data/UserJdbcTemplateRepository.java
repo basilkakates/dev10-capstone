@@ -85,15 +85,13 @@ public class UserJdbcTemplateRepository implements UserRepository {
         final String sql = "update user set " +
                 "first_name = ?, " +
                 "last_name = ?, " +
-                "email = ?, " +
-                "password = ? " +
+                "email = ? " +
                 "where user_id = ?;";
 
         return jdbcTemplate.update(sql,
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getPassword(),
                 user.getUserId()) > 0;
     }
 
