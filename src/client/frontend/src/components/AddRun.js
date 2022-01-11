@@ -1,11 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import DatePicker from "react-datepicker";
+import TimePicker from "react-time-picker";
+import PlacesAutocomplete from "./PlacesAutocomplete";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 import Errors from "./Errors";
 
-function DeleteRun({ showModal, closeModal, runId }) {
+function AddRun({ showModal, closeModal }) {
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -15,39 +20,48 @@ function DeleteRun({ showModal, closeModal, runId }) {
   const [maxCapacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [time, setTime] = useState("");
+
   const history = useHistory();
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/run/${runId}`)
-      .then((response) => {
-        if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setDate(data.date);
-        setStartTime(data.startTime);
-        setAddress(data.address);
-        setDescription(data.description);
-        setClubId(data.clubId);
-        setUserId(data.userId);
-        setMaxCapacity(data.maxCapacity);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [runId]);
+  const dateOnChangeHandler = (event) => {
+    setDate(event.target.value);
+  };
 
-  const deleteRunFormSubmitHandler = (event) => {
+  const startTimeOnChangeHandler = (event) => {
+    setStartTime(event.target.value);
+  };
+
+  const addressOnChangeHandler = (event) => {
+    setAddress(event.target.value);
+  };
+
+  const descriptionOnChangeHandler = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const maxCapacityOnChangeHandler = (event) => {
+    setMaxCapacity(event.target.value);
+  };
+
+  const addRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const run = {
-      runId: runId,
+      runId: 0,
+      date,
+      startTime,
+      address,
+      description,
+      clubId,
+      userId,
+      maxCapacity,
+      status: "pending",
     };
 
     const init = {
-      method: "DELETE",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -55,17 +69,16 @@ function DeleteRun({ showModal, closeModal, runId }) {
       body: JSON.stringify(run),
     };
 
-    fetch(`http://localhost:8080/api/run/${run.runId}`, init)
+    fetch("http://localhost:8080/run", init)
       .then((response) => {
-        if (response.status === 204) {
-          return null;
-        } else if (response.status === 404) {
+        if (response.status === 201 || response.status === 400) {
           return response.json();
         }
         return Promise.reject("Something unexpected went wrong :)");
       })
       .then((data) => {
-        if (!data) {
+        // TODO: This needs to be changed to run_id. The test api required it to be id.
+        if (data.id) {
           history.push("/runs");
         } else {
           setErrors(data);
@@ -77,46 +90,43 @@ function DeleteRun({ showModal, closeModal, runId }) {
   return (
     <Modal show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Decline Run</Modal.Title>
+        <Modal.Title>Add Run</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Errors errors={errors} />
-        <form onSubmit={deleteRunFormSubmitHandler}>
+        <form onSubmit={addRunFormSubmitHandler}>
           <table className="table">
             <tbody>
               <tr>
                 <td>Date: </td>
                 <td>
-                  <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={date}
-                    readOnly
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
                   />
                 </td>
               </tr>
               <tr>
                 <td>Start Time: </td>
+
                 <td>
-                  <input
-                    type="text"
-                    id="startTime"
-                    name="startTime"
-                    value={startTime}
-                    readOnly
+                  <TimePicker
+                    onChange={(time) => setTime(time)}
+                    value={time}
+                    disableClock={true}
                   />
                 </td>
               </tr>
               <tr>
                 <td>Address: </td>
                 <td>
+                  <PlacesAutocomplete />
                   <input
                     type="text"
                     id="address"
                     name="address"
                     value={address}
-                    readOnly
+                    onChange={addressOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -128,7 +138,7 @@ function DeleteRun({ showModal, closeModal, runId }) {
                     id="description"
                     name="description"
                     value={description}
-                    readOnly
+                    onChange={descriptionOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -140,7 +150,7 @@ function DeleteRun({ showModal, closeModal, runId }) {
                     id="maxCapacity"
                     name="maxCapacity"
                     value={maxCapacity}
-                    readOnly
+                    onChange={maxCapacityOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -161,4 +171,4 @@ function DeleteRun({ showModal, closeModal, runId }) {
   );
 }
 
-export default DeleteRun;
+export default AddRun;

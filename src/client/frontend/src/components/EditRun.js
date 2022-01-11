@@ -1,48 +1,75 @@
 import { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 import Errors from "./Errors";
 
-function ApproveRun({ showModal, closeModal, runId }) {
-  const [run, setRun] = useState("");
+function EditRun({ showModal, closeModal, runId }) {
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [address, setAddress] = useState("");
+  const [description, setDescription] = useState("");
+  const [clubId, setClubId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState([]);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
 
+  const dateOnChangeHandler = (event) => {
+    setDate(event.target.value);
+  };
+
+  const startTimeOnChangeHandler = (event) => {
+    setStartTime(event.target.value);
+  };
+
+  const addressOnChangeHandler = (event) => {
+    setAddress(event.target.value);
+  };
+
+  const descriptionOnChangeHandler = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const maxCapacityOnChangeHandler = (event) => {
+    setMaxCapacity(event.target.value);
+  };
+
   useEffect(() => {
     fetch(`http://localhost:8080/api/run/${runId}`)
       .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
+        if (response.status === 404) {
+          return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
         }
         return response.json();
       })
-      .then((json) => setRun(json))
-      .catch(console.log);
+      .then((data) => {
+        setDate(data.date);
+        setStartTime(data.startTime);
+        setAddress(data.address);
+        setDescription(data.description);
+        setMaxCapacity(data.maxCapacity);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [runId]);
 
-  const approveRunFormSubmitHandler = (event) => {
+  const editRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const updatedRun = {
-      runId: run.runId,
-      date: run.date,
-      address: run.address,
-      description: run.description,
-      maxCapacity: run.maxCapacity,
-      startTime: run.startTime,
-      latitude: run.latitude,
-      longitude: run.longitude,
-      club: run.club,
-      user: run.user,
-      user: run.user,
-      club: run.club,
-      runStatus: {
-        runStatusId: 2,
-        status: "Approved",
-      },
+      runId: runId,
+      date,
+      startTime,
+      address,
+      description,
+      clubId,
+      userId,
+      maxCapacity,
+      status: "approved",
     };
 
     const init = {
@@ -54,7 +81,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
       body: JSON.stringify(updatedRun),
     };
 
-    fetch(`http://localhost:8080/api/run/${run.runId}`, init)
+    fetch(`http://localhost:8080/api/run/${updatedRun.runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;
@@ -65,7 +92,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
       })
       .then((data) => {
         if (!data) {
-          history.push("/runs/pending");
+          history.push("/runs");
         } else {
           setErrors(data);
         }
@@ -76,11 +103,11 @@ function ApproveRun({ showModal, closeModal, runId }) {
   return (
     <Modal show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Approve Run</Modal.Title>
+        <Modal.Title>Edit Run</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Errors errors={errors} />
-        <form onSubmit={approveRunFormSubmitHandler}>
+        <form onSubmit={editRunFormSubmitHandler}>
           <table className="table">
             <tbody>
               <tr>
@@ -90,8 +117,8 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="date"
                     name="date"
-                    value={run.date}
-                    readOnly
+                    value={date}
+                    onChange={dateOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -102,8 +129,8 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="startTime"
                     name="startTime"
-                    value={run.startTime}
-                    readOnly
+                    value={startTime}
+                    onChange={startTimeOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -114,8 +141,8 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="address"
                     name="address"
-                    value={run.address}
-                    readOnly
+                    value={address}
+                    onChange={addressOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -126,8 +153,8 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="description"
                     name="description"
-                    value={run.description}
-                    readOnly
+                    value={description}
+                    onChange={descriptionOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -138,8 +165,8 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={run.maxCapacity}
-                    readOnly
+                    value={maxCapacity}
+                    onChange={maxCapacityOnChangeHandler}
                   />
                 </td>
               </tr>
@@ -160,4 +187,4 @@ function ApproveRun({ showModal, closeModal, runId }) {
   );
 }
 
-export default ApproveRun;
+export default EditRun;
