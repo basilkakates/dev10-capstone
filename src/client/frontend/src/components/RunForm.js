@@ -6,6 +6,8 @@ import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import PlacesAutocomplete from "./PlacesAutocomplete";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 import Errors from "./Errors";
 import Button from "react-bootstrap/esm/Button";
 

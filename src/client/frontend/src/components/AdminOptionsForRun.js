@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import EditRun from "./EditRun";
 import CancelRun from "./CancelRun";
-import RunForm from "./RunForm";
 import { Link } from "react-router-dom";
 
 function AdminOptionsForRun({ runId, clubId, viewModal, setRunId }) {
