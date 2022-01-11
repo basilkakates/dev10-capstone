@@ -10,7 +10,6 @@ import AdminOptionsForRun from "./AdminOptionsForRun";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
-
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -19,6 +18,7 @@ function Runs() {
   const handleAddModalShow = () => setShowAddModal(true);
 
   let joined = false;
+  let currentRunner;
 
   const getRuns = async () => {
     try {
@@ -75,10 +75,13 @@ function Runs() {
                   </td>
 
                   {runsUserSignedUpFor.map((runner) => {
-                    if (runner.run.runId === run.runId) joined = true;
+                    if (runner.run.runId === run.runId) {
+                      joined = true;
+                      currentRunner = runner;
+                    }
                   })}
 
-                  <JoinRun joined={joined} run={run}/>
+                  <JoinRun joined={joined} run={run} runner={currentRunner} />
                   {(joined = false)}
 
                   {run.runStatus.status === "Approved" && (
