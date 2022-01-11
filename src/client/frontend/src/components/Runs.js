@@ -78,7 +78,7 @@ function Runs() {
                     if (runner.run.runId === run.runId) joined = true;
                   })}
 
-                  <JoinRun joined={joined} />
+                  <JoinRun joined={joined} run={run}/>
                   {(joined = false)}
 
                   {run.runStatus.status === "Approved" && (

@@ -1,18 +1,61 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-function JoinRun({ joined }) {
-  const joinRun = () => {};
-  const dropRun = (event) => {};
+function JoinRun({ joined, run }) {
+  const [errors, setErrors] = useState([]);
+
+  const history = useHistory();
+
+  const joinRun = (event) => {
+    event.preventDefault();
+
+    const createRunnerStatus = {};
+  };
+
+  const dropRun = (event) => {
+    event.preventDefault();
+
+    const runnerToDelete = {
+      runnerId: run.runner.runnerId,
+    };
+
+    const init = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(runnerToDelete),
+    };
+
+    fetch(`http://localhost:8080/api/run/runner/${run.runner.runnerId}`, init)
+      .then((response) => {
+        if (response.status === 204) {
+          return null;
+        } else if (response.status === 404) {
+          return response.json();
+        }
+        return Promise.reject("Something unexpected went wrong :)");
+      })
+      .then((data) => {
+        if (!data) {
+          history.push("/runs");
+        } else {
+          setErrors(data);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Container>
-          {joined === true ? (
-            <Button onClick={dropRun}>Joined</Button>
-          ) : (
-            <Button onClick={joinRun}>Join</Button>
-          )}
+      {joined === true ? (
+        <Button onClick={dropRun}>Joined</Button>
+      ) : (
+        <Button onClick={joinRun}>Join</Button>
+      )}
     </Container>
   );
 }
