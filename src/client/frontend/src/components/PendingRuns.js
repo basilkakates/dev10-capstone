@@ -33,10 +33,10 @@ function PendingRuns() {
         </thead>
         <tbody>
           {runs.map((run) => (
-                <ShowPendingRun run={run} />
-              )
-
-          )}
+            <tr key={run.runId}>
+              <ShowPendingRun run={run} />
+            </tr>
+          ))}
         </tbody>
       </table>
     </Container>

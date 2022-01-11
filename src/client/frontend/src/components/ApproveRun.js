@@ -6,50 +6,43 @@ import Modal from "react-bootstrap/Modal";
 import Errors from "./Errors";
 
 function ApproveRun({ showModal, closeModal, runId }) {
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [address, setAddress] = useState("");
-  const [description, setDescription] = useState("");
-  const [clubId, setClubId] = useState("");
-  const [userId, setUserId] = useState("");
-  const [maxCapacity, setMaxCapacity] = useState([]);
+  const [run, setRun] = useState("");
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/run/${runId}`)
+    fetch(`http://localhost:8080/api/run/${runId}`)
       .then((response) => {
-        if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
+        if (response.status !== 200) {
+          return Promise.reject("runs fetch failed");
         }
         return response.json();
       })
-      .then((data) => {
-        setDate(data.date);
-        setStartTime(data.startTime);
-        setAddress(data.address);
-        setDescription(data.description);
-        setMaxCapacity(data.maxCapacity);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((json) => setRun(json))
+      .catch(console.log);
   }, [runId]);
 
   const approveRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const updatedRun = {
-      runId: runId,
-      date,
-      startTime,
-      address,
-      description,
-      clubId,
-      userId,
-      maxCapacity,
-      status: "approved",
+      runId: run.runId,
+      date: run.date,
+      address: run.address,
+      description: run.description,
+      maxCapacity: run.maxCapacity,
+      startTime: run.startTime,
+      latitude: run.latitude,
+      longitude: run.longitude,
+      club: run.club,
+      user: run.user,
+      user: run.user,
+      club: run.club,
+      runStatus: {
+        runStatusId: 2,
+        status: "Approved",
+      },
     };
 
     const init = {
@@ -61,7 +54,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
       body: JSON.stringify(updatedRun),
     };
 
-    fetch(`http://localhost:8080/run/${updatedRun.runId}`, init)
+    fetch(`http://localhost:8080/api/run/${run.runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;
@@ -97,7 +90,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="date"
                     name="date"
-                    value={date}
+                    value={run.date}
                     readOnly
                   />
                 </td>
@@ -109,7 +102,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="startTime"
                     name="startTime"
-                    value={startTime}
+                    value={run.startTime}
                     readOnly
                   />
                 </td>
@@ -121,7 +114,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="address"
                     name="address"
-                    value={address}
+                    value={run.address}
                     readOnly
                   />
                 </td>
@@ -133,7 +126,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="description"
                     name="description"
-                    value={description}
+                    value={run.description}
                     readOnly
                   />
                 </td>
@@ -145,7 +138,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={maxCapacity}
+                    value={run.maxCapacity}
                     readOnly
                   />
                 </td>

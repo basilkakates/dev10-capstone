@@ -13,12 +13,12 @@ import useModal from "./useModal";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
-
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
   const {isVisible, toggleModal, viewModal} = useModal(false);
 
   let joined = false;
+  let currentRunner;
 
   const getRuns = async () => {
     try {
@@ -75,10 +75,13 @@ function Runs() {
                   </td>
 
                   {runsUserSignedUpFor.map((runner) => {
-                    if (runner.run.runId === run.runId) joined = true;
+                    if (runner.run.runId === run.runId) {
+                      joined = true;
+                      currentRunner = runner;
+                    }
                   })}
 
-                  <JoinRun joined={joined} />
+                  <JoinRun joined={joined} run={run} runner={currentRunner} />
                   {(joined = false)}
 
                   {run.runStatus.status === "Approved" && (

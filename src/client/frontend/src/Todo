@@ -1,0 +1,20 @@
+Input validation
+Instead of address, maybe just have city and state to simplify latitude and longitude?
+Need to display validation errors such as trying to create a date in the past
+Runs need a current capacity
+Can't sign up for run if full
+People need to be able to see who signed up for runs
+Back end should only return runs that are in the future.
+User Profile and Clubs need to specify if user is an admin.
+Spell check
+Update modals to camel case
+Clean up routing
+Declining a run isn't working
+Data and Time should specify formatting in Add/Edit (yyyy-mm-dd)
+
+user api contains runsParticipating which is a list of runner entries. These entries are null besides runnerId. It'd be useful to have this just be a list of runs instead.
+
+Character limit on description
+How to have max capcity be where you only select an int?
+Max capacity can be false.
+Users can't join run if capacity reached

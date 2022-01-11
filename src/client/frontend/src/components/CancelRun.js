@@ -6,13 +6,7 @@ import Button from "react-bootstrap/Button";
 import Errors from "./Errors";
 
 function CancelRun({ showModal, closeModal, runId }) {
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [address, setAddress] = useState("");
-  const [description, setDescription] = useState("");
-  const [clubId, setClubId] = useState("");
-  const [userId, setUserId] = useState("");
-  const [maxCapacity, setMaxCapacity] = useState([]);
+  const [run, setRun] = useState("");
   const [errors, setErrors] = useState([]);
 
   // const { run_id } = useParams();
@@ -27,11 +21,7 @@ function CancelRun({ showModal, closeModal, runId }) {
         return response.json();
       })
       .then((data) => {
-        setDate(data.date);
-        setStartTime(data.startTime);
-        setAddress(data.address);
-        setDescription(data.description);
-        setMaxCapacity(data.maxCapacity);
+        setRun(data);
       })
       .catch((error) => {
         console.log(error);
@@ -42,15 +32,22 @@ function CancelRun({ showModal, closeModal, runId }) {
     event.preventDefault();
 
     const updatedRun = {
-      runId: runId,
-      date,
-      startTime,
-      address,
-      description,
-      clubId,
-      userId,
-      maxCapacity,
-      status: "canceled",
+      runId: run.runId,
+      date: run.date,
+      address: run.address,
+      description: run.description,
+      maxCapacity: run.maxCapacity,
+      startTime: run.startTime,
+      latitude: run.latitude,
+      longitude: run.longitude,
+      club: run.club,
+      user: run.user,
+      user: run.user,
+      club: run.club,
+      runStatus: {
+        runStatusId: 3,
+        status: "Cancelled",
+      },
     };
 
     const init = {
@@ -98,7 +95,7 @@ function CancelRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="date"
                     name="date"
-                    value={date}
+                    value={run.date}
                     readOnly
                   />
                 </td>
@@ -110,7 +107,7 @@ function CancelRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="startTime"
                     name="startTime"
-                    value={startTime}
+                    value={run.startTime}
                     readOnly
                   />
                 </td>
@@ -122,7 +119,7 @@ function CancelRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="address"
                     name="address"
-                    value={address}
+                    value={run.address}
                     readOnly
                   />
                 </td>
@@ -134,7 +131,7 @@ function CancelRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="description"
                     name="description"
-                    value={description}
+                    value={run.description}
                     readOnly
                   />
                 </td>
@@ -146,7 +143,7 @@ function CancelRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={maxCapacity}
+                    value={run.maxCapacity}
                     readOnly
                   />
                 </td>
