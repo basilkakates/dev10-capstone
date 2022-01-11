@@ -47,11 +47,14 @@ function AddRun({ showModal, closeModal }) {
 
   const addRunFormSubmitHandler = (event) => {
     event.preventDefault();
+    console.log(date.getDay());
 
     const run = {
       runId: 0,
       date,
-      startTime,
+      startTime: "0",
+      latitude: 0,
+      longitude: 0,
       address,
       description,
       clubId,
