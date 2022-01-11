@@ -11,8 +11,6 @@ import AuthContext from "./AuthContext";
 import UserProfile from "./components/UserProfile";
 import Runs from "./components/Runs";
 import PendingRuns from "./components/PendingRuns";
-import AddRun from "./components/AddRun";
-import EditRun from "./components/EditRun";
 import ApproveRun from "./components/ApproveRun";
 import DeleteRun from "./components/DeleteRun";
 import CancelRun from "./components/CancelRun";
@@ -23,7 +21,6 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import RunForm from "./components/RunForm";
 
 // const TOKEN_KEY = "user-api-topken";
 
@@ -104,16 +101,6 @@ function App() {
         <Route exact path="/runs/pending">
           {/* {user ? <PendingRuns /> : <Redirect to="../login" />} */}
           <PendingRuns />
-        </Route>
-
-        <Route path="/runs/add">
-          {/* {user ? <AddRun /> : <Redirect to="../login" />} */}
-          <AddRun />
-        </Route>
-
-        <Route path="/runs/edit/:run_id">
-          {/* {user ? <EditRun /> : <Redirect to="../../login" />} */}
-          <EditRun />
         </Route>
 
         <Route path="/runs/approve/:run_id">
