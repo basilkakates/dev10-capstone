@@ -28,13 +28,11 @@ const DEFAULT_RUN = {
     }
 };
 
-function RunForm({ isVisible, toggleModal }) {
+function RunForm({ isVisible, toggleModal, runId }) {
     const [run, setRun] = useState(DEFAULT_RUN);
     const [errors, setErrors] = useState([]);
 
     const history = useHistory();
-    const { runId } = useParams();
-
     useEffect(() => {
         const getData = async () => {
             try {
@@ -47,15 +45,15 @@ function RunForm({ isVisible, toggleModal }) {
                 console.log(error);
                 history.push(`/runs`)
             }
-        };
+        };  
         getData();
     }, [history, runId]);
 
     const handleChange = (event) => {
         const updatedRun = { ...run };
-        updatedRun[event.name] = event.value;
+        updatedRun[event.target.name] = event.target.value;
         setRun(updatedRun);
-    }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -113,7 +111,7 @@ function RunForm({ isVisible, toggleModal }) {
         <>
             <Modal show={isVisible} onHide={toggleModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{run.runId ? "Update An Agent" : "Add An Agent"}</Modal.Title>
+                    <Modal.Title>{run.runId ? "Update An Run" : "Add An Run"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Errors errors={errors} />
@@ -128,7 +126,12 @@ function RunForm({ isVisible, toggleModal }) {
                                             name="date"
                                             required
                                             selected={run.date}
-                                            onChange={handleChange}
+                                            onChange={(date) => {
+                                                const updatedRun = { ...run };
+                                                updatedRun[`date`] = date;
+                                                console.log(updatedRun)
+                                                setRun(updatedRun);
+                                            }}
                                         />
                                     </td>
                                 </tr>
@@ -188,9 +191,9 @@ function RunForm({ isVisible, toggleModal }) {
                             <Button className="btn btn-primary" onClick={errors ? null : toggleModal} type="submit">
                                 <i className="bi bi-plus-circle-fill"></i> Submit
                             </Button>
-                            <Link className="btn btn-secondary" onClick={toggleModal} to={`/runs`}>
+                            <Button className="btn btn-secondary" onClick={toggleModal}>
                                 <i className="bi bi-x"></i> Go Back
-                            </Link>
+                            </Button>
                         </div>
                     </form>
                 </Modal.Body>
