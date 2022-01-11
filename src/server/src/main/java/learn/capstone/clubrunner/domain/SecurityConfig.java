@@ -1,9 +1,9 @@
-package learn.capstone.clubrunner.security.domain;
+package learn.capstone.clubrunner.domain;
 
 // imports
 
-import learn.capstone.clubrunner.security.domain.JwtConverter;
-import learn.capstone.clubrunner.security.domain.JwtRequestFilter;
+import learn.capstone.clubrunner.domain.JwtConverter;
+import learn.capstone.clubrunner.domain.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;

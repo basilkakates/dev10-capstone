@@ -1,4 +1,4 @@
-package learn.capstone.clubrunner.security.domain;
+package learn.capstone.clubrunner.domain;
 
 // imports
 
