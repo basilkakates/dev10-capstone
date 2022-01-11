@@ -23,16 +23,16 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AuthController {
 
-    // new... add AppUserService as a dependency
+    // new... add UserService as a dependency
 
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
-    private final AppUserService appUserService;
+    private final UserService UserService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, AppUserService appUserService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, UserService UserService) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
-        this.appUserService = appUserService;
+        this.UserService = UserService;
     }
 
     @PostMapping("/authenticate")
@@ -62,13 +62,13 @@ public class AuthController {
 
     @PostMapping("/create_account")
     public ResponseEntity<?> createAccount(@RequestBody Map<String, String> credentials) {
-        AppUser appUser = null;
+        User User = null;
 
         try {
             String username = credentials.get("username");
             String password = credentials.get("password");
 
-            appUser = appUserService.create(username, password);
+            User = UserService.create(username, password);
         } catch (ValidationException ex) {
             return new ResponseEntity<>(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (DuplicateKeyException ex) {
@@ -78,7 +78,7 @@ public class AuthController {
         // happy path...
 
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("appUserId", appUser.getAppUserId());
+        map.put("UserId", User.getUserId());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
