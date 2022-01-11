@@ -123,7 +123,7 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
     @Override
     public Runner add(Runner runner) {
 
-        final String sql = "insert into runner (run_id, user_id) values (?,?);";
+        final String sql = "insert into runner (user_id, run_id) values (?,?);";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
