@@ -10,7 +10,7 @@ function NavBar() {
 
   return (
     <>
-      {/* {!auth.user && (
+      {!auth.user && (
         <>
           <Link to="/login" className="btn btn-primary">
             Login
@@ -26,7 +26,7 @@ function NavBar() {
             Logout
           </button>
         </div>
-      )} */}
+      )}
 
       <Container>
         <Row className="align-items-start">
