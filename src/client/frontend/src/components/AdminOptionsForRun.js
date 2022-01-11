@@ -35,7 +35,7 @@ function AdminOptionsForRun({ runId, clubId, viewModal, setRunId }) {
         clubUserIsAdminOf.club.clubId === clubId && (
           <div>
             <div>
-              <Button className="btn btn-primary" onClick={viewModal, setRunId(runId)}>
+              <Button className="btn btn-primary" onClick={() => {viewModal(); setRunId(runId);}}>
                 Edit
               </Button>
             </div>

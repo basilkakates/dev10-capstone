@@ -15,7 +15,8 @@ function Runs() {
   const [runs, setRuns] = useState([]);
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
-  const {isVisible, toggleModal, viewModal, runId, setRunId} = useModal();
+  const {isVisible, toggleModal, viewModal} = useModal();
+  const [runId, setRunId] = useState();
 
   let joined = false;
   let currentRunner;
