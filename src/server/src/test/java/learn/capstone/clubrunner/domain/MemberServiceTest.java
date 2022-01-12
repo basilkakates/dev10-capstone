@@ -150,7 +150,7 @@ class MemberServiceTest {
 
         Result<Member> actual = service.add(member);
         assertNotNull(actual);
-        assertEquals(ResultType.INVALID, actual.getType());
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
         assertNull(actual.getPayload());
     }
 
@@ -161,7 +161,7 @@ class MemberServiceTest {
 
         Result<Member> actual = service.add(member);
         assertNotNull(actual);
-        assertEquals(ResultType.INVALID, actual.getType());
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
         assertNull(actual.getPayload());
     }
 
@@ -259,7 +259,7 @@ class MemberServiceTest {
 
         Result<Member> actual = service.update(member);
         assertNotNull(actual);
-        assertEquals(ResultType.INVALID, actual.getType());
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
         assertNull(actual.getPayload());
     }
 
@@ -271,7 +271,7 @@ class MemberServiceTest {
 
         Result<Member> actual = service.update(member);
         assertNotNull(actual);
-        assertEquals(ResultType.INVALID, actual.getType());
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
         assertNull(actual.getPayload());
     }
 
