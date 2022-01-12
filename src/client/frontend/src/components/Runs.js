@@ -9,6 +9,7 @@ import AdminOptionsForRun from "./AdminOptionsForRun";
 import RunForm from "./RunForm";
 import useModal from "./useModal";
 import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
+import PlacesAutocomplete from "./PlacesAutocomplete";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
@@ -47,6 +48,7 @@ function Runs() {
 
   return (
     <Container>
+      <PlacesAutocomplete />
       <MarkerInfoWindowGmapsObj runs={runs} />
       <h2 className="my-4">Runs</h2>
 

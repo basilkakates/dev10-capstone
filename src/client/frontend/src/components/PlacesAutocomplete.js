@@ -3,6 +3,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
+import Helmet from "react-helmet";
 
 const PlacesAutocomplete = () => {
   const {
@@ -63,6 +64,9 @@ const PlacesAutocomplete = () => {
 
   return (
     <div ref={ref}>
+      {/* <Helmet>
+        <script src="https://maps.googleapis.com/maps/api/js?key='AIzaSyBcwRE65schUtuHQfHvoYzV6Yc2_iSCn24'&libraries=places"></script>
+      </Helmet> */}
       <input
         value={value}
         onChange={handleInput}
