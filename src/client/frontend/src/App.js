@@ -87,7 +87,7 @@ function App() {
       <Header />
       <Switch>
         <Route exactpath={"/", "/runs"}>
-          <Runs userId={3}/>
+          <Runs user={DEFAULT_USER}/>
         </Route>
 
         <Route exact path="/about">
