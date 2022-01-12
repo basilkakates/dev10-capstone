@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import Modal from "react-bootstrap/Modal";
 import DatePicker from "react-datepicker";
-import TimePicker from "react-time-picker";
 import PlacesAutocomplete from "./PlacesAutocomplete";
 
 import "react-datepicker/dist/react-datepicker.css";
+import "react-time-picker/dist/TimePicker.css";
 
 import Errors from "./Errors";
 import Button from "react-bootstrap/esm/Button";
 
 const DEFAULT_RUN = {
-    date: "",
+    runId: 0,
+    timestamp: new Date(),
     address: "",
-    startTime: "",
+    description: "",
+    maxCapacity: "",
     latitude: "",
     longitude: "",
     user: {
@@ -35,6 +37,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
     const [errors, setErrors] = useState([]);
 
     const history = useHistory();
+
     useEffect(() => {
         const getData = async () => {
             try {
@@ -42,14 +45,16 @@ function RunForm({ isVisible, toggleModal, runId }) {
                     const response = await fetch(`http://localhost:8080/api/run/${runId}`);
                     const data = await response.json();
                     setRun(data);
+                } else {
+                    setRun(DEFAULT_RUN);
                 }
             } catch (error) {
                 console.log(error);
                 history.push(`/runs`)
             }
-        };  
+        };
         getData();
-    }, [history, runId]);
+    }, [isVisible]);
 
     const handleChange = (event) => {
         const updatedRun = { ...run };
@@ -81,6 +86,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
                     throw new Error(`Response is not 204 No Content: ${data}`);
                 } else {
                     console.log(`Successfully updated Run#${runId}.`);
+                    toggleModal();
                     history.push(`/runs`);
                 }
             } else {
@@ -101,6 +107,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
                     throw new Error(`Response is not 201 Created: ${data}`);
                 } else {
                     console.log(`Successfully created Run.`);
+                    toggleModal();
                     history.push(`/runs`);
                 }
             }
@@ -113,7 +120,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
         <>
             <Modal show={isVisible} onHide={toggleModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{run.runId ? "Update An Run" : "Add An Run"}</Modal.Title>
+                    <Modal.Title>{runId ? "Update An Run" : "Add An Run"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Errors errors={errors} />
@@ -124,29 +131,17 @@ function RunForm({ isVisible, toggleModal, runId }) {
                                     <td>Date: </td>
                                     <td>
                                         <DatePicker
-                                            id="date"
-                                            name="date"
+                                            id="timestamp"
+                                            name="timestamp"
                                             required
-                                            selected={run.date}
-                                            onChange={(date) => {
+                                            showTimeSelect
+                                            showTimeInput
+                                            selected={new Date(run.timestamp)}
+                                            onChange={(timestamp) => {
                                                 const updatedRun = { ...run };
-                                                updatedRun[`date`] = date;
-                                                console.log(updatedRun)
+                                                updatedRun[`timestamp`] = timestamp;
                                                 setRun(updatedRun);
                                             }}
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Start Time: </td>
-
-                                    <td>
-                                        <TimePicker
-                                            id="startTime"
-                                            name="startTime"
-                                            onChange={handleChange}
-                                            value={run.startTime}
-                                            disableClock={true}
                                         />
                                     </td>
                                 </tr>
@@ -193,7 +188,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
                             <Button className="btn btn-primary" onClick={errors ? null : toggleModal} type="submit">
                                 <i className="bi bi-plus-circle-fill"></i> Submit
                             </Button>
-                            <Button className="btn btn-secondary" onClick={toggleModal}>
+                            <Button className="btn btn-secondary" onClick={() => {toggleModal(); setErrors([]);}}>
                                 <i className="bi bi-x"></i> Go Back
                             </Button>
                         </div>

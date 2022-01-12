@@ -7,8 +7,8 @@ import JoinRun from "./JoinRun";
 import SignUpCount from "./SignUpCount";
 import AdminOptionsForRun from "./AdminOptionsForRun";
 import RunForm from "./RunForm";
-import { Link } from "react-router-dom";
 import useModal from "./useModal";
+import RunTime from "./RunTime";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
@@ -43,14 +43,14 @@ function Runs() {
   useEffect(() => {
     getRuns();
     getRunsUserSignedUpFor();
-  }, []);
+  }, [isVisible]);
 
   return (
     <Container>
       <h2 className="my-4">Runs</h2>
 
       <div>
-        <Button className="btn btn-primary" onClick={viewModal}>
+        <Button className="btn btn-primary" onClick={() => {viewModal(); setRunId(0);}}>
           Add Run
         </Button>
         <RunForm isVisible={isVisible} toggleModal={toggleModal} runId={runId}/>
@@ -65,8 +65,7 @@ function Runs() {
             <tr key={run.runId}>
               {run.runStatus.status !== "Pending Approval" && (
                 <>
-                  <th scope="row">{run.date}</th>
-                  <td>{run.startTime}</td>
+                  <RunTime timestamp={run.timestamp}/>
                   <td>{run.address}</td>
                   <td>{run.description}</td>
                   <td>{run.club.name}</td>
