@@ -11,7 +11,7 @@ import useModal from "./useModal";
 import RunTime from "./RunTime";
 import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
 
-function Runs({ user }) {
+function Runs({ userId }) {
   const [runs, setRuns] = useState([]);
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
@@ -34,7 +34,7 @@ function Runs({ user }) {
   const getRunsUserSignedUpFor = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/runner/user/${user.userId}`
+        `http://localhost:8080/api/runner/user/${userId}`
       );
       const data = await response.json();
       setRunsUserSignedUpFor(data);
@@ -46,7 +46,7 @@ function Runs({ user }) {
   useEffect(() => {
     getRuns();
     getRunsUserSignedUpFor();
-  }, [isVisible, user.userId]);
+  }, [isVisible, userId]);
 
   return (
     <Container>
@@ -67,7 +67,6 @@ function Runs({ user }) {
           isVisible={isVisible}
           toggleModal={toggleModal}
           runId={runId}
-          user={user}
         />
       </div>
 
@@ -104,7 +103,7 @@ function Runs({ user }) {
                       clubId={run.club.clubId}
                       viewModal={viewModal}
                       setRunId={setRunId}
-                      user={user}
+                      userId={userId}
                     />
                   )}
                   {run.runStatus.status === "Cancelled" && (
