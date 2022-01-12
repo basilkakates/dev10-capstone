@@ -3,24 +3,24 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import RunTableHeader from "./RunTableHeader";
 
-function UserProfile() {
-  const [user, setUser] = useState([]);
+function UserProfile({ user }) {
+  // const [user, setUser] = useState([]);
 
-  const getUser = () => {
-    fetch("http://localhost:8080/api/user/1")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("user fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setUser(json))
-      .catch(console.log);
-  };
+  // const getUser = () => {
+  //   fetch(`http://localhost:8080/api/user/${user.userId}`)
+  //     .then((response) => {
+  //       if (response.status !== 200) {
+  //         return Promise.reject("user fetch failed");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((json) => setUser(json))
+  //     .catch(console.log);
+  // };
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   return (
     <Container>

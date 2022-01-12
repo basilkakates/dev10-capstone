@@ -74,13 +74,20 @@ function App() {
   //   return null;
   // }
 
+  const DEFAULT_USER = {
+    userId: 3,
+    firstName: "Testy",
+    lastName: "McTest",
+    email: "tmctest@test.com"
+  }
+
   return (
     // <AuthContext.Provider value={auth}>
     <Router>
       <Header />
       <Switch>
-        <Route exactpath={"/", "/runs"}>
-          <Runs userId={3}/>
+        <Route exact path={"/", "/runs"}>
+          <Runs user={DEFAULT_USER}/>
         </Route>
 
         <Route exact path="/about">
@@ -89,7 +96,7 @@ function App() {
 
         <Route exact path="/userprofile">
           {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
-          <UserProfile />
+          <UserProfile user={DEFAULT_USER}/>
         </Route>
 
         <Route exact path="/runs/pending">

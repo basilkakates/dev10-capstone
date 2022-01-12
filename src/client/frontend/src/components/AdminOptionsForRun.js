@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import CancelRun from "./CancelRun";
 import { Link } from "react-router-dom";
 
-function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, userId }) {
+function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, user }) {
   const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);
   const [showCancelModal, setShowCancelModal] = useState(false);
 
@@ -12,7 +12,7 @@ function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, userId }) {
   const handleCancelModalShow = () => setShowCancelModal(true);
 
   const getClubUserIsAdminOf = () => {
-    fetch(`http://localhost:8080/api/member/admins/user/${userId}`)
+    fetch(`http://localhost:8080/api/member/admins/user/${user.userId}`)
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");

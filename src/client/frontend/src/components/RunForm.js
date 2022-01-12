@@ -32,8 +32,9 @@ const DEFAULT_RUN = {
   },
 };
 
-function RunForm({ isVisible, toggleModal, runId }) {
+function RunForm({ isVisible, toggleModal, runId, user }) {
   const [run, setRun] = useState(DEFAULT_RUN);
+  const [clubs, setClubs] = useState()
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -42,14 +43,22 @@ function RunForm({ isVisible, toggleModal, runId }) {
     const getData = async () => {
       try {
         if (runId) {
-          const response = await fetch(
+          const runResponse = await fetch(
             `http://localhost:8080/api/run/${runId}`
           );
-          const data = await response.json();
-          setRun(data);
+          const runData = await runResponse.json();
+          setRun(runData);
         } else {
           setRun(DEFAULT_RUN);
         }
+
+        const memberResponse = await fetch(
+          `http://localhost:8080/api/member/user/${user.userId}`
+        );
+        const memberData = await memberResponse.json();
+        setClubs(memberData.flatMap(member => [member.club]));
+        console.log(clubs)
+
       } catch (error) {
         console.log(error);
         history.push(`/runs`);
@@ -158,6 +167,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
                       type="text"
                       id="address"
                       name="address"
+                      required
                       value={run.address}
                       onChange={handleChange}
                     />
@@ -182,6 +192,7 @@ function RunForm({ isVisible, toggleModal, runId }) {
                       type="text"
                       id="maxCapacity"
                       name="maxCapacity"
+                      required
                       value={run.maxCapacity}
                       onChange={handleChange}
                     />
