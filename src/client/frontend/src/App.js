@@ -15,7 +15,6 @@ import ApproveRun from "./components/ApproveRun";
 import DeleteRun from "./components/DeleteRun";
 import CancelRun from "./components/CancelRun";
 import Clubs from "./components/Clubs";
-import Home from "./components/Home";
 import About from "./components/About";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
@@ -75,13 +74,20 @@ function App() {
   //   return null;
   // }
 
+  const DEFAULT_USER = {
+    userId: 5,
+    firstName: "Testy",
+    lastName: "McTest",
+    email: "tmctest@test.com",
+  };
+
   return (
     // <AuthContext.Provider value={auth}>
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/">
-          <Home />
+        <Route exact path={("/", "/runs")}>
+          <Runs user={DEFAULT_USER} />
         </Route>
 
         <Route exact path="/about">
@@ -90,12 +96,7 @@ function App() {
 
         <Route exact path="/userprofile">
           {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
-          <UserProfile />
-        </Route>
-
-        <Route exact path="/runs">
-          {/* {user ? <Runs /> : <Redirect to="login" />} */}
-          <Runs />
+          <UserProfile user={DEFAULT_USER} />
         </Route>
 
         <Route exact path="/runs/pending">

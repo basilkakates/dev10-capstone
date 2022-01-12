@@ -369,7 +369,7 @@ select {
   word-wrap: normal;
 }
 select:disabled {
-  opacity: 1;
+  opacity: 0;
 }
 
 [list]::-webkit-calendar-picker-indicator {
@@ -3543,6 +3543,8 @@ textarea.form-control-lg {
 
 .btn-cancel {
   color: #a16468;
+  font-weight: 800;
+  background-color: #a16468;
   border-color: #a16468;
 }
 .btn-cancel:hover {
