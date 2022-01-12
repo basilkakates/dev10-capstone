@@ -16,7 +16,7 @@ function Header() {
             <Link to="/login" className="btn btn-primary">
               Login
             </Link>
-            <Link to="/register" className="btn btn-primary">
+            <Link to="/register" className="btn btn-secondary">
               Register
             </Link>
           </Col>

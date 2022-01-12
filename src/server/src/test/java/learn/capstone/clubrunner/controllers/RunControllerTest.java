@@ -1,6 +1,7 @@
 package learn.capstone.clubrunner.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import learn.capstone.clubrunner.data.RunRepository;
 import learn.capstone.clubrunner.models.Club;
 import learn.capstone.clubrunner.models.Run;
@@ -15,15 +16,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -95,6 +95,7 @@ class RunControllerTest {
 
         when(repository.add(any())).thenReturn(expected);
         ObjectMapper jsonMapper = new ObjectMapper();
+        jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         String jsonIn = jsonMapper.writeValueAsString(makeRun());
         String expectedJson = jsonMapper.writeValueAsString(expected);
@@ -155,11 +156,10 @@ class RunControllerTest {
         Run run = makeRun();
         run.setRunId(1);
 
-        when(repository.update(run)).thenReturn(true);
-
         String runJson = jsonMapper.writeValueAsString(run);
-
         String urlTemplate = String.format("/api/run/%s", run.getRunId());
+
+        when(repository.update(any())).thenReturn(true);
 
         var request = put(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -289,13 +289,12 @@ class RunControllerTest {
         runStatus.setRunStatusId(1);
         runStatus.setStatus("Test");
 
-        run.setDate(LocalDate.now().plusDays(1));
+        run.setTimestamp(Timestamp.valueOf(LocalDateTime.now().plusHours(1)));
         run.setAddress("000 Test");
         run.setMaxCapacity(25);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.now().plusHours(1));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
         run.setDescription("A test run");

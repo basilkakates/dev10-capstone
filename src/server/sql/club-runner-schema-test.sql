@@ -65,11 +65,10 @@ DROP TABLE IF EXISTS `club-runner-test`.`run` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`run` (
   `run_id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
+  `timestamp` TIMESTAMP NOT NULL,
   `address` VARCHAR(45) NOT NULL,
   `description` VARCHAR(45) NULL,
   `max_capacity` INT NULL,
-  `start_time` TIME NOT NULL,
   `latitude` DECIMAL(8,6) NOT NULL,
   `longitude` DECIMAL(9,6) NOT NULL,
   `user_id` INT NOT NULL,
