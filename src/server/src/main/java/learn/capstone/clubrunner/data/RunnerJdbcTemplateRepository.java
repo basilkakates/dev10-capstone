@@ -25,8 +25,8 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
     public List<Runner> findAll() {
         final String sql = "select ru.runner_id, " +
                 "u1.user_id, u1.first_name, u1.last_name, u1.email, " +
-                "r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
-                "r.start_time, r.latitude, r.longitude, " +
+                "r.run_id, r.timestamp, r.address, r.description run_description, r.max_capacity, " +
+                "r.latitude, r.longitude, " +
                 "u2.user_id user_id_creator, u2.first_name first_name_creator, u2.last_name last_name_creator, u2.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +
@@ -49,8 +49,8 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
     public Runner findById(int runnerId) {
         final String sql = "select ru.runner_id, " +
                 "u1.user_id, u1.first_name, u1.last_name, u1.email, " +
-                "r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
-                "r.start_time, r.latitude, r.longitude, " +
+                "r.run_id, r.timestamp, r.address, r.description run_description, r.max_capacity, " +
+                "r.latitude, r.longitude, " +
                 "u2.user_id user_id_creator, u2.first_name first_name_creator, u2.last_name last_name_creator, u2.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +
@@ -74,8 +74,8 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
     public List<Runner> findByUserId(int userId) {
         final String sql = "select ru.runner_id, " +
                 "u1.user_id, u1.first_name, u1.last_name, u1.email, " +
-                "r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
-                "r.start_time, r.latitude, r.longitude, " +
+                "r.run_id, r.timestamp, r.address, r.description run_description, r.max_capacity, " +
+                "r.latitude, r.longitude, " +
                 "u2.user_id user_id_creator, u2.first_name first_name_creator, u2.last_name last_name_creator, u2.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +
@@ -99,8 +99,8 @@ public class RunnerJdbcTemplateRepository implements RunnerRepository {
     public List<Runner> findByRunId(int runId) {
         final String sql = "select ru.runner_id, " +
                 "u1.user_id, u1.first_name, u1.last_name, u1.email, " +
-                "r.run_id, r.date, r.address, r.description run_description, r.max_capacity, " +
-                "r.start_time, r.latitude, r.longitude, " +
+                "r.run_id, r.timestamp, r.address, r.description run_description, r.max_capacity, " +
+                "r.latitude, r.longitude, " +
                 "u2.user_id user_id_creator, u2.first_name first_name_creator, u2.last_name last_name_creator, u2.email email_creator, " +
                 "c.club_id, c.name, c.description club_description, " +
                 "rs.run_status_id, rs.status " +

@@ -11,11 +11,10 @@ public class RunMapper implements RowMapper<Run> {
     public Run mapRow(ResultSet resultSet, int i) throws SQLException {
         Run run = new Run();
         run.setRunId(resultSet.getInt("run_id"));
-        run.setDate(resultSet.getDate("date").toLocalDate());
+        run.setTimestamp(resultSet.getTimestamp("timestamp"));
         run.setAddress(resultSet.getString("address"));
         run.setDescription(resultSet.getString("run_description"));
         run.setMaxCapacity(resultSet.getInt("max_capacity"));
-        run.setStartTime(resultSet.getTime("start_time").toLocalTime());
         run.setLatitude(resultSet.getBigDecimal("latitude"));
         run.setLongitude(resultSet.getBigDecimal("longitude"));
 

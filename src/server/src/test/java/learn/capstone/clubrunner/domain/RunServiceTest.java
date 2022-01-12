@@ -11,9 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,7 +90,7 @@ class RunServiceTest {
     @Test
     void shouldNotAddNullDate() {
         Run run = makeRun();
-        run.setDate(null);
+        run.setTimestamp(null);
 
         Result<Run> actual = service.add(run);
         assertNotNull(actual);
@@ -100,9 +99,9 @@ class RunServiceTest {
     }
 
     @Test
-    void shouldNotAddNullDateInPast() {
+    void shouldNotAddNullTimestampInPast() {
         Run run = makeRun();
-        run.setDate(LocalDate.parse("2022-01-01"));
+        run.setTimestamp(Timestamp.valueOf("2022-01-01 1:00:00"));
 
         Result<Run> actual = service.add(run);
         assertNotNull(actual);
@@ -125,31 +124,6 @@ class RunServiceTest {
     void shouldNotAddNegativeMaxCapacity() {
         Run run = makeRun();
         run.setMaxCapacity(-1);
-
-        Result<Run> actual = service.add(run);
-        assertNotNull(actual);
-        assertEquals(ResultType.INVALID, actual.getType());
-        assertNull(actual.getPayload());
-    }
-
-    @Test
-    void shouldNotAddNullStartTime() {
-        Run run = makeRun();
-        run.setStartTime(null);
-
-        Result<Run> actual = service.add(run);
-        assertNotNull(actual);
-        assertEquals(ResultType.INVALID, actual.getType());
-        assertNull(actual.getPayload());
-    }
-
-    @Test
-    void shouldNotAddStartTimeInThePast() {
-        Run run = makeRun();
-        run.setStartTime(LocalDateTime.now().minusHours(1).toLocalTime());
-        run.setDate(LocalDateTime.now().minusHours(1).toLocalDate());
-
-        System.out.println(run);
 
         Result<Run> actual = service.add(run);
         assertNotNull(actual);
@@ -268,13 +242,12 @@ class RunServiceTest {
         RunStatus runStatus = new RunStatus();
         runStatus.setRunStatusId(2);
 
-        run.setDate(LocalDate.now().plusYears(10));
+        run.setTimestamp(Timestamp.valueOf(LocalDateTime.now().plusHours(1)));
         run.setAddress("000 Test");
         run.setMaxCapacity(25);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.now().plusHours(1));
         run.setLatitude(BigDecimal.valueOf(41.902324));
         run.setLongitude(BigDecimal.valueOf(-88.00001));
 

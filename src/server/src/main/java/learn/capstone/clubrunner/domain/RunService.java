@@ -4,8 +4,8 @@ import learn.capstone.clubrunner.data.RunRepository;
 import learn.capstone.clubrunner.models.Run;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class RunService {
     public List<Run> findAll() {
         List<Run> futureRuns = new ArrayList<>();
         for (Run run : repository.findAll()) {
-            if (LocalDate.parse(run.getDate()).isAfter(LocalDate.now()) || LocalDate.parse(run.getDate()).isEqual(LocalDate.now())) {
+            if (run.getTimestamp().compareTo(Timestamp.valueOf(LocalDateTime.now())) > 0) {
                 futureRuns.add(run);
             }
         }
@@ -78,7 +78,6 @@ public class RunService {
         if (!repository.update(run)) {
             String msg = String.format("run id: %s, not found", run.getRunId());
             result.addMessage(msg, ResultType.NOT_FOUND);
-            //return result;
         }
 
         return result;
@@ -112,22 +111,13 @@ public class RunService {
             result.addMessage("longitude is required", ResultType.INVALID);
         }
 
-        if (run.getDate() == null) {
-            result.addMessage("date is required", ResultType.INVALID);
-        }
-
-        if (run.getStartTime() == null) {
-            result.addMessage("start time is required", ResultType.INVALID);
-        }
-
-        if (!result.isSuccess()) {
+        if (run.getTimestamp() == null) {
+            result.addMessage("timestamp is required", ResultType.INVALID);
             return result;
         }
 
-        if (LocalDate.parse(run.getDate()).isBefore(LocalDate.now())) {
-            result.addMessage("date cannot be in the past", ResultType.INVALID);
-        } else if (LocalDate.parse(run.getDate()).isEqual(LocalDate.now()) && LocalTime.parse(run.getStartTime()).isBefore(LocalTime.now())) {
-            result.addMessage("start time cannot be in the past", ResultType.INVALID);
+        if (run.getTimestamp().compareTo(Timestamp.valueOf(LocalDateTime.now())) <= 0) {
+            result.addMessage("timestamp cannot be in the past", ResultType.INVALID);
         }
 
         return result;
