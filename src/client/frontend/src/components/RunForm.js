@@ -207,9 +207,9 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                   <td>
                     <select
                       className="form-select"
-                      aria-lable="Default select example"
+                      aria-label="Default select example"
                     >
-                      <option selected>{run.club.name}</option>
+                      <option defaultValue={run.club.name}></option>
                       {clubs
                         .filter((club) => {
                           return club.clubId !== run.club.clubId;
