@@ -15,7 +15,6 @@ import ApproveRun from "./components/ApproveRun";
 import DeleteRun from "./components/DeleteRun";
 import CancelRun from "./components/CancelRun";
 import Clubs from "./components/Clubs";
-import Home from "./components/Home";
 import About from "./components/About";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
@@ -80,8 +79,8 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/">
-          <Home />
+        <Route exactpath={"/", "/runs"}>
+          <Runs userId={3}/>
         </Route>
 
         <Route exact path="/about">
@@ -91,11 +90,6 @@ function App() {
         <Route exact path="/userprofile">
           {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
           <UserProfile />
-        </Route>
-
-        <Route exact path="/runs">
-          {/* {user ? <Runs /> : <Redirect to="login" />} */}
-          <Runs />
         </Route>
 
         <Route exact path="/runs/pending">

@@ -19,7 +19,7 @@ function SignUpCount({ runId }) {
     getUsersSignedUp();
   }, []);
 
-  return <div>{usersSignedUp.length}</div>;
+  return <>{usersSignedUp.length}</>;
 }
 
 export default SignUpCount;
