@@ -93,8 +93,8 @@ function Runs() {
                     />
                   )}
                   {run.runStatus.status === "Cancelled" && (
-                    <td className="btn btn-outline-danger btn-sm" disabled>
-                      CANCELED
+                    <td className="btn btn-cancel btn-sm" disabled>
+                      CANCELLED
                     </td>
                   )}
                 </>
