@@ -57,8 +57,6 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
         );
         const memberData = await memberResponse.json();
         setClubs(memberData.flatMap(member => [member.club]));
-        console.log(clubs)
-
       } catch (error) {
         console.log(error);
         history.push(`/runs`);
