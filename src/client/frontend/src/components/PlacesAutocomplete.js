@@ -3,9 +3,8 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-import Helmet from "react-helmet";
 
-const PlacesAutocomplete = () => {
+const PlacesAutocomplete = (props) => {
   const {
     ready,
     value,
@@ -42,7 +41,9 @@ const PlacesAutocomplete = () => {
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
           console.log("📍 Coordinates: ", { lat, lng });
+          props.addressToForm(description, lat, lng);
         })
+
         .catch((error) => {
           console.log("😱 Error: ", error);
         });
@@ -64,16 +65,12 @@ const PlacesAutocomplete = () => {
 
   return (
     <div ref={ref}>
-      {/* <Helmet>
-        <script src="https://maps.googleapis.com/maps/api/js?key='AIzaSyBcwRE65schUtuHQfHvoYzV6Yc2_iSCn24'&libraries=places"></script>
-      </Helmet> */}
       <input
         value={value}
         onChange={handleInput}
         disabled={!ready}
         placeholder="Where are you going?"
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );

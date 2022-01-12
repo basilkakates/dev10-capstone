@@ -38,6 +38,14 @@ function RunForm({ isVisible, toggleModal, runId }) {
 
   const history = useHistory();
 
+  const addressToForm = (add, lat, lng) => {
+    const updatedRun = { ...run };
+    updatedRun.address = add;
+    updatedRun.latitude = lat;
+    updatedRun.longitude = lng;
+    setRun(updatedRun);
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -153,13 +161,9 @@ function RunForm({ isVisible, toggleModal, runId }) {
                 <tr>
                   <td>Address: </td>
                   <td>
-                    <PlacesAutocomplete />
-                    <input
-                      type="text"
+                    <PlacesAutocomplete
                       id="address"
-                      name="address"
-                      value={run.address}
-                      onChange={handleChange}
+                      addressToForm={addressToForm}
                     />
                   </td>
                 </tr>
