@@ -78,16 +78,16 @@ function App() {
     userId: 3,
     firstName: "Testy",
     lastName: "McTest",
-    email: "tmctest@test.com"
-  }
+    email: "tmctest@test.com",
+  };
 
   return (
     // <AuthContext.Provider value={auth}>
     <Router>
       <Header />
       <Switch>
-        <Route exactpath={"/", "/runs"}>
-          <Runs user={DEFAULT_USER}/>
+        <Route exactpath={("/", "/runs")}>
+          <Runs user={DEFAULT_USER} />
         </Route>
 
         <Route exact path="/about">
@@ -96,7 +96,7 @@ function App() {
 
         <Route exact path="/userprofile">
           {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
-          <UserProfile user={DEFAULT_USER}/>
+          <UserProfile user={DEFAULT_USER} />
         </Route>
 
         <Route exact path="/runs/pending">
