@@ -9,12 +9,13 @@ import AdminOptionsForRun from "./AdminOptionsForRun";
 import RunForm from "./RunForm";
 import useModal from "./useModal";
 import RunTime from "./RunTime";
+import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
-  const {isVisible, toggleModal, viewModal} = useModal();
+  const { isVisible, toggleModal, viewModal } = useModal();
   const [runId, setRunId] = useState();
 
   let joined = false;
@@ -47,13 +48,24 @@ function Runs() {
 
   return (
     <Container>
+      <MarkerInfoWindowGmapsObj runs={runs} />
       <h2 className="my-4">Runs</h2>
 
       <div>
-        <Button className="btn btn-primary" onClick={() => {viewModal(); setRunId(0);}}>
+        <Button
+          className="btn btn-primary"
+          onClick={() => {
+            viewModal();
+            setRunId(0);
+          }}
+        >
           Add Run
         </Button>
-        <RunForm isVisible={isVisible} toggleModal={toggleModal} runId={runId}/>
+        <RunForm
+          isVisible={isVisible}
+          toggleModal={toggleModal}
+          runId={runId}
+        />
       </div>
 
       <table className="table">
@@ -65,7 +77,7 @@ function Runs() {
             <tr key={run.runId}>
               {run.runStatus.status !== "Pending Approval" && (
                 <>
-                  <RunTime timestamp={run.timestamp}/>
+                  <RunTime timestamp={run.timestamp} />
                   <td>{run.address}</td>
                   <td>{run.description}</td>
                   <td>{run.club.name}</td>
@@ -92,8 +104,8 @@ function Runs() {
                     />
                   )}
                   {run.runStatus.status === "Cancelled" && (
-                    <td className="btn btn-outline-danger btn-sm" disabled>
-                      CANCELED
+                    <td className="btn btn-cancel btn-sm" disabled>
+                      CANCELLED
                     </td>
                   )}
                 </>
