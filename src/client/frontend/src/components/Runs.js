@@ -8,12 +8,13 @@ import SignUpCount from "./SignUpCount";
 import AdminOptionsForRun from "./AdminOptionsForRun";
 import RunForm from "./RunForm";
 import useModal from "./useModal";
+import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
 
 function Runs() {
   const [runs, setRuns] = useState([]);
   const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
-  const {isVisible, toggleModal, viewModal} = useModal();
+  const { isVisible, toggleModal, viewModal } = useModal();
   const [runId, setRunId] = useState();
 
   let joined = false;
@@ -46,13 +47,18 @@ function Runs() {
 
   return (
     <Container>
+      <MarkerInfoWindowGmapsObj runs={runs} />
       <h2 className="my-4">Runs</h2>
 
       <div>
         <Button className="btn btn-primary" onClick={viewModal}>
           Add Run
         </Button>
-        <RunForm isVisible={isVisible} toggleModal={toggleModal} runId={runId}/>
+        <RunForm
+          isVisible={isVisible}
+          toggleModal={toggleModal}
+          runId={runId}
+        />
       </div>
 
       <table className="table">

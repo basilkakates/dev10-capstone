@@ -21,10 +21,6 @@ function JoinRun({ joined, run, runner }) {
       .catch(console.log);
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   const joinRun = (event) => {
     event.preventDefault();
 
@@ -57,6 +53,8 @@ function JoinRun({ joined, run, runner }) {
         }
       })
       .catch((error) => console.log(error));
+
+    window.location.reload(false);
   };
 
   const dropRun = (event) => {
@@ -92,7 +90,13 @@ function JoinRun({ joined, run, runner }) {
         }
       })
       .catch((error) => console.log(error));
+
+    window.location.reload(false);
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Container>
