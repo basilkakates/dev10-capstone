@@ -149,16 +149,6 @@ CREATE TABLE IF NOT EXISTS `club-runner-test`.`member` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `club-runner-test`.`table1`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `club-runner-test`.`table1` ;
-
-CREATE TABLE IF NOT EXISTS `club-runner-test`.`table1` (
-)
-ENGINE = InnoDB;
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
