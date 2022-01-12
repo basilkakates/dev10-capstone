@@ -83,7 +83,7 @@ function MarkerInfoWindowGmapsObj({ runs }) {
               defaultZoom={10}
               defaultCenter={{ lat: 41.8781, lng: -87.6298 }}
               bootstrapURLKeys={{
-                key: "AIzaSyBcwRE65schUtuHQfHvoYzV6Yc2_iSCn24",
+                key: "",
               }}
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) =>
@@ -92,6 +92,7 @@ function MarkerInfoWindowGmapsObj({ runs }) {
             />
           </div>
         </div>
+
       )}
     </>
   );
