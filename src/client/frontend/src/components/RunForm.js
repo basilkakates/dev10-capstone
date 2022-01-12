@@ -34,7 +34,7 @@ const DEFAULT_RUN = {
 
 function RunForm({ isVisible, toggleModal, runId, user }) {
   const [run, setRun] = useState(DEFAULT_RUN);
-  const [clubs, setClubs] = useState()
+  const [clubs, setClubs] = useState([]);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -64,7 +64,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
           `http://localhost:8080/api/member/user/${user.userId}`
         );
         const memberData = await memberResponse.json();
-        setClubs(memberData.flatMap(member => [member.club]));
+        setClubs(memberData.flatMap((member) => [member.club]));
       } catch (error) {
         console.log(error);
         history.push(`/runs`);
@@ -140,7 +140,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
     <>
       <Modal show={isVisible} onHide={toggleModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{runId ? "Update An Run" : "Add An Run"}</Modal.Title>
+          <Modal.Title>{runId ? "Update A Run" : "Add A Run"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Errors errors={errors} />
@@ -153,6 +153,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                     <DatePicker
                       id="timestamp"
                       name="timestamp"
+                      className="form-control"
                       required
                       showTimeSelect
                       showTimeInput
@@ -181,6 +182,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                       type="text"
                       id="description"
                       name="description"
+                      className="form-control"
                       value={run.description}
                       onChange={handleChange}
                     />
@@ -193,10 +195,29 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                       type="text"
                       id="maxCapacity"
                       name="maxCapacity"
+                      className="form-control"
                       required
                       value={run.maxCapacity}
                       onChange={handleChange}
                     />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Club: </td>
+                  <td>
+                    <select
+                      className="form-select"
+                      aria-lable="Default select example"
+                    >
+                      <option selected>{run.club.name}</option>
+                      {clubs
+                        .filter((club) => {
+                          return club.clubId !== run.club.clubId;
+                        })
+                        .map((club) => {
+                          <option>{club.name}</option>;
+                        })}
+                    </select>
                   </td>
                 </tr>
               </tbody>
