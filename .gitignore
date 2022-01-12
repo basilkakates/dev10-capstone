@@ -663,4 +663,3 @@ FodyWeavers.xsd
 *.bak
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,java,maven,react,intellij,visualstudio,visualstudiocode,gradle
-config.js

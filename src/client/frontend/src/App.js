@@ -79,7 +79,7 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path={"/" || "/runs"}>
+        <Route exactpath={"/", "/runs"}>
           <Runs userId={3}/>
         </Route>
 
