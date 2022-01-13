@@ -60,7 +60,7 @@ function Login() {
       <Errors errors={errors} />
       <form onSubmit={formSubmitHandler}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Email:</label>
           <input
             className="form-control"
             type="text"
