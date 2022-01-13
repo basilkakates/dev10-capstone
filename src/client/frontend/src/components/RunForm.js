@@ -65,6 +65,8 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
         );
         const memberData = await memberResponse.json();
         setClubs(memberData.flatMap((member) => [member.club]));
+        console.log(clubs);
+        console.log(run);
       } catch (error) {
         console.log(error);
         history.push(`/runs`);
@@ -148,7 +150,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
             <table className="table">
               <tbody>
                 <tr>
-                  <td>Date: </td>
+                  <td>{`Date & Time:` }</td>
                   <td>
                     <DatePicker
                       id="timestamp"
@@ -172,6 +174,8 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                     <PlacesAutocomplete
                       id="address"
                       addressToForm={addressToForm}
+                      runAddress={run.address}
+                      run={run}
                     />
                   </td>
                 </tr>
@@ -208,15 +212,18 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                     <select
                       className="form-select"
                       aria-label="Default select example"
+                      id="club.clubId"
+                      name="club.clubId"
+                      onChange={handleChange}
                     >
-                      <option defaultValue={run.club.name}></option>
+                      <option >{run.club.name}</option>
                       {clubs
-                        .filter((club) => {
-                          return club.clubId !== run.club.clubId;
-                        })
-                        .map((club) => {
-                          <option>{club.name}</option>;
-                        })}
+                        .filter((club) => (
+                          club.clubId !== run.club.clubId
+                        ))
+                        .map((club) => (
+                          <option value={club.clubId}>{club.name}</option>
+                      ))}
                     </select>
                   </td>
                 </tr>
