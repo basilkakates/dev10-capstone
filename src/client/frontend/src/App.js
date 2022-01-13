@@ -35,8 +35,14 @@ function App() {
       login(token);
     }
 
+    if (user !== null && user.username) {
+      getUser();
+    } else {
+      setUserProfile({})
+    }
+
     setInitialized(true);
-  }, []);
+  }, [user]);
 
   const login = (token) => {
     const { id, sub: username, roles: userRoles } = jwt_decode(token);
@@ -56,21 +62,12 @@ function App() {
     console.log(user);
 
     setUser(user);
-    getUser();
     return user;
   };
 
   const getUser = async () => {
-    const init = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(user.username),
-    };
     try {
-      const response = await fetch(`http://localhost:8080/api/email`, init);
+      const response = await fetch(`http://localhost:8080/api/user/email/${user.username}`);
       const data = await response.json();
       setUserProfile(data);
       console.log(data)
@@ -119,7 +116,7 @@ function App() {
           </Route>
 
           <Route exact path="/userprofile">
-            {user ? <UserProfile /> : <Redirect to="/login" />}
+            {user ? <UserProfile user={userProfile}/> : <Redirect to="/login" />}
           </Route>
 
           <Route exact path="/runs/pending">

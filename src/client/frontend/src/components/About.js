@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 function About() {
   return (
     <Container>
-      <h2 className="my-4">About</h2>
+      <h2 className="my-4"style={{color: "white", background: "#375d83", width: "120px", height: "42px", fontWeight: "500", borderRadius: "10px"}}>&nbsp;About&nbsp;</h2>
       <table className="table">
         <thead>
           <tr>

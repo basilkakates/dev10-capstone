@@ -29,7 +29,7 @@ function Runs({ user }) {
 
   useEffect(() => {
     getRuns();
-  }, [isVisible, user.userId]);
+  }, [isVisible, user]);
 
   return (
     <Container>
@@ -37,15 +37,17 @@ function Runs({ user }) {
       <h2 className="my-4"></h2>
 
       <div>
-        {user.userId ? (<Button
-          className="btn btn-primary"
-          onClick={() => {
-            viewModal();
-            setRunId(0);
-          }}
-        >
-          Add Run
-        </Button>) : null}
+        {user.userId ? (
+          <Button
+            className="btn btn-primary"
+            onClick={() => {
+              viewModal();
+              setRunId(0);
+            }}
+          >
+            Add Run
+          </Button>
+        ) : null}
         <h2 className="my-4"></h2>
         <RunForm
           isVisible={isVisible}
@@ -73,8 +75,7 @@ function Runs({ user }) {
                   </td>
 
                   {run.runStatus.status === "Approved" && (
-                    <div>
-                      {user.userId ? (<JoinRun run={run} user={user} />) : null}
+                    <>
                       <AdminOptionsForRun
                         runId={run.runId}
                         clubId={run.club.clubId}
@@ -82,7 +83,16 @@ function Runs({ user }) {
                         setRunId={setRunId}
                         user={user}
                       />
-                    </div>
+                      <>
+                        {user.userId ? (
+                          <JoinRun run={run} user={user} />
+                        ) : (
+                          <td className="btn btn-scheduled btn-sm" disabled>
+                            SCHEDULED
+                          </td>
+                        )}
+                      </>
+                    </>
                   )}
                   {run.runStatus.status === "Cancelled" && (
                     <td className="btn btn-cancel btn-sm" disabled>
