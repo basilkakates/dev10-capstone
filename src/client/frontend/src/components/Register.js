@@ -6,6 +6,8 @@ import Errors from "./Errors";
 
 function Register() {
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -16,6 +18,14 @@ function Register() {
 
   const usernameOnChangeHandler = (event) => {
     setUsername(event.target.value);
+  };
+
+  const firstNameOnChangeHandler = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const lastNameOnChangeHandler = (event) => {
+    setLastName(event.target.value);
   };
 
   const passwordOnChangeHandler = (event) => {
@@ -38,6 +48,8 @@ function Register() {
 
     const newUser = {
       username,
+      firstName,
+      lastName,
       password,
     };
 
@@ -97,7 +109,7 @@ function Register() {
       <Errors errors={errors} />
       <form onSubmit={formSubmitHandler}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Email:</label>
           <input
             className="form-control"
             type="text"
@@ -105,6 +117,28 @@ function Register() {
             name="username"
             value={username}
             onChange={usernameOnChangeHandler}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            className="form-control"
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={firstName}
+            onChange={firstNameOnChangeHandler}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            className="form-control"
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={lastName}
+            onChange={lastNameOnChangeHandler}
           />
         </div>
         <div className="form-group">

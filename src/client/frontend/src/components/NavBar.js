@@ -6,11 +6,11 @@ import Col from "react-bootstrap/Col";
 import AuthContext from "../AuthContext";
 
 function NavBar() {
-  // const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext);
 
   return (
     <>
-      {/* {!auth.user && (
+      {!auth.user && (
         <>
           <Link to="/login" className="btn btn-primary">
             Login
@@ -26,7 +26,7 @@ function NavBar() {
             Logout
           </button>
         </div>
-      )} */}
+      )}
 
       <Container>
         <Row className="align-items-start">

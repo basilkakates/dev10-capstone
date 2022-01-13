@@ -21,58 +21,58 @@ import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
-// const TOKEN_KEY = "user-api-topken";
+const TOKEN_KEY = "user-api-topken";
 
 function App() {
-  // const [user, setUser] = useState(null);
-  // const [initialized, setInitialized] = useState(false);
+  const [user, setUser] = useState(null);
+  const [initialized, setInitialized] = useState(false);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem(TOKEN_KEY);
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
 
-  //   if (token) {
-  //     login(token);
-  //   }
+    if (token) {
+      login(token);
+    }
 
-  //   setInitialized(true);
-  // }, []);
+    setInitialized(true);
+  }, []);
 
-  // const login = (token) => {
-  //   const { id, sub: username, roles: userRoles } = jwt_decode(token);
+  const login = (token) => {
+    const { id, sub: username, roles: userRoles } = jwt_decode(token);
 
-  //   const roles = userRoles?.split(",");
+    const roles = userRoles?.split(",");
 
-  //   const user = {
-  //     id,
-  //     username,
-  //     roles,
-  //     token,
-  //     hasRole(role) {
-  //       return this.roles.includes(role);
-  //     },
-  //   };
+    const user = {
+      id,
+      username,
+      roles,
+      token,
+      hasRole(role) {
+        return this.roles.includes(role);
+      },
+    };
 
-  //   console.log(user);
+    console.log(user);
 
-  //   setUser(user);
+    setUser(user);
 
-  //   return user;
-  // };
+    return user;
+  };
 
-  // const logout = () => {
-  //   localStorage.removeItem(TOKEN_KEY);
-  //   setUser(null);
-  // };
+  const logout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    setUser(null);
+  };
 
-  // const auth = {
-  //   user: user ? { ...user } : null,
-  //   login,
-  //   logout,
-  // };
+  const auth = {
+    user: user ? { ...user } : null,
+    login,
+    logout,
+  };
 
-  // if (!initialized) {
-  //   return null;
-  // }
+  if (!initialized) {
+    return null;
+  }
 
   const DEFAULT_USER = {
     userId: 5,
@@ -82,7 +82,7 @@ function App() {
   };
 
   return (
-    // <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={auth}>
     <Router>
       <Header />
       <Switch>
@@ -137,7 +137,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
-    // </AuthContext.Provider>
+  </AuthContext.Provider>
   );
 }
 
