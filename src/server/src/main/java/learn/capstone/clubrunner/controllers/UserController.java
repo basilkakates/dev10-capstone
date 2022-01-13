@@ -43,8 +43,8 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    @GetMapping("/email")
-    public ResponseEntity<Object> findByEmail(@RequestBody String email) {
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Object> findByEmail(@PathVariable String email) {
         Result<User> result = service.findByEmail(email);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
