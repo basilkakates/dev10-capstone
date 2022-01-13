@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import isEmpty from "lodash.isempty";
 import { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
@@ -67,7 +67,7 @@ function MarkerInfoWindowGmapsObj({ runs }) {
 
   useEffect(() => {
     setRunMarkers(runs);
-  }, [runMarkers]);
+  }, [runs]);
 
   return (
     <>
