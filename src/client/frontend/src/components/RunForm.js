@@ -27,7 +27,7 @@ const DEFAULT_RUN = {
   club: {
     name: "",
   },
-  status: {
+  runStatus: {
     status: "",
   },
 };
@@ -35,6 +35,8 @@ const DEFAULT_RUN = {
 function RunForm({ isVisible, toggleModal, runId, user }) {
   const [run, setRun] = useState(DEFAULT_RUN);
   const [clubs, setClubs] = useState([]);
+  const [runStatuses, setRunStatuses] = useState([]);
+  const [isAdmin, setIsAdmin] = useState({});
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -57,7 +59,9 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
           const runData = await runResponse.json();
           setRun(runData);
         } else {
-          setRun(DEFAULT_RUN);
+          const updatedRun = { ...DEFAULT_RUN };
+          updatedRun["user"] = user;
+          setRun(updatedRun);
         }
 
         const memberResponse = await fetch(
@@ -65,8 +69,18 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
         );
         const memberData = await memberResponse.json();
         setClubs(memberData.flatMap((member) => [member.club]));
-        console.log(clubs);
-        console.log(run);
+
+        memberData.map((member) => {
+          if (member.isAdmin) {
+            setIsAdmin(member.club);
+          }
+        });
+
+        const runStatusResponse = await fetch(
+          `http://localhost:8080/api/runStatus`
+        );
+        const runStatusData = await runStatusResponse.json();
+        setRunStatuses(runStatusData);
       } catch (error) {
         console.log(error);
         history.push(`/runs`);
@@ -85,6 +99,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
     event.preventDefault();
 
     const updatedRun = { ...run };
+    console.log(updatedRun)
 
     try {
       if (runId) {
@@ -150,7 +165,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
             <table className="table">
               <tbody>
                 <tr>
-                  <td>{`Date & Time:` }</td>
+                  <td>{`Date & Time:`}</td>
                   <td>
                     <DatePicker
                       id="timestamp"
@@ -209,21 +224,100 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                 <tr>
                   <td>Club: </td>
                   <td>
+                    <select className="form-select" id="club" name="club">
+                      <option
+                        key={run.club.clubId}
+                        value={run.club}
+                        onClick={() => {
+                          const updatedRun = { ...run };
+                          updatedRun.club = run.club;
+                          updatedRun.runStatus = "";
+                          setRun(updatedRun);
+                        }}
+                      >
+                        {run.club.name}
+                      </option>
+                      {clubs
+                        .filter((club) => run.club.clubId !== club.clubId)
+                        .map((club) => (
+                          <option
+                            key={club.clubId}
+                            value={club}
+                            onClick={() => {
+                              const updatedRun = { ...run };
+                              updatedRun.club = club;
+                              updatedRun.runStatus = "";
+                              setRun(updatedRun);
+                            }}
+                          >
+                            {club.name}
+                          </option>
+                        ))}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>User: </td>
+                  <td>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="user"
+                      name="user"
+                      value={run.user.firstName + " " + run.user.lastName}
+                      disabled
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Run Status: </td>
+                  <td>
                     <select
                       className="form-select"
-                      aria-label="Default select example"
-                      id="club.clubId"
-                      name="club.clubId"
-                      onChange={handleChange}
+                      id="runStatus"
+                      name="runStatus"
                     >
-                      <option >{run.club.name}</option>
-                      {clubs
-                        .filter((club) => (
-                          club.clubId !== run.club.clubId
-                        ))
-                        .map((club) => (
-                          <option value={club.clubId}>{club.name}</option>
-                      ))}
+                      <option
+                        key={run.runStatus.runStatusId}
+                        onClick={() => {
+                          const updatedRun = { ...run };
+                          updatedRun.runStatus = run.runStatus;
+                          setRun(updatedRun);
+                        }}
+                      >
+                        {run.runStatus.status}
+                      </option>
+                      {runStatuses
+                        .filter((runStatus) => {
+                          if (!runId && runStatus.status === "Cancelled") {
+                            return false;
+                          }
+
+                          if (runStatus.runStatusId === run.runStatus.runStatusId) {
+                            return false;
+                          }
+
+                          if (
+                            isAdmin !== run.club &&
+                            runStatus.status !== "Pending Approval"
+                          ) {
+                            return false;
+                          }
+
+                          return true;
+                        })
+                        .map((runStatus) => (
+                          <option
+                            key={runStatus.runStatusId}
+                            onClick={() => {
+                              const updatedRun = { ...run };
+                              updatedRun.runStatus = runStatus;
+                              setRun(updatedRun);
+                            }}
+                          >
+                            {runStatus.status}
+                          </option>
+                        ))}
                     </select>
                   </td>
                 </tr>

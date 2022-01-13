@@ -25,7 +25,7 @@ function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, user }) {
 
   useEffect(() => {
     getClubUserIsAdminOf();
-  }, []);
+  }, [user.userId]);
 
   return (
     <>
