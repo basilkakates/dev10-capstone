@@ -1,12 +1,39 @@
 import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 
-import RunTableHeader from "./RunTableHeader";
-import ShowPendingRun from "./ShowPendingRun";
+
+import PendingRunTableHeader from "./PendingRunTableHeader";
+import RunTime from "./RunTime";
+import Button from "react-bootstrap/Button";
+import ApproveRun from "./ApproveRun";
+import DeleteRun from "./DeleteRun";
 
 function PendingRuns() {
   const [runs, setRuns] = useState([]);
+  const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
 
+  const handleApproveModalClose = () => setShowApproveModal(false);
+  const handleApproveModalShow = () => setShowApproveModal(true);
+
+  const handleDeclineModalClose = () => setShowDeclineModal(false);
+  const handleDeclineModalShow = () => setShowDeclineModal(true);
+
+  
+
+  const getClubUserIsAdminOf = () => {
+    fetch("http://localhost:8080/api/member/admins/user/5")
+      .then((response) => {
+        if (response.status !== 200) {
+          return Promise.reject("runs fetch failed");
+        }
+        return response.json();
+      })
+      .then((json) => setClubUserIsAdminOf(json))
+      .catch(console.log);
+  };
+  
   const getRuns = () => {
     fetch("http://localhost:8080/api/run")
       .then((response) => {
@@ -19,8 +46,14 @@ function PendingRuns() {
       .catch(console.log);
   };
 
+
+
   useEffect(() => {
     getRuns();
+  }, []);
+
+  useEffect(() => {
+    getClubUserIsAdminOf();
   }, []);
 
   return (
@@ -29,12 +62,43 @@ function PendingRuns() {
 
       <table className="table">
         <thead>
-          <RunTableHeader />
+          <PendingRunTableHeader />
         </thead>
         <tbody>
-          {runs.map((run) => (
+        {runs.map((run) => (
             <tr key={run.runId}>
-              <ShowPendingRun run={run} />
+              {run.runStatus.status == "Pending Approval" && (
+                <>
+                  <RunTime timestamp={run.timestamp} />
+                  <td>{run.address}</td>
+                  <td>{run.description}</td>
+                  <td>{run.club.name}</td>
+                  <td>{run.maxCapacity}</td>
+                  <td>
+              <div>
+                <Button variant="primary" onClick={handleApproveModalShow}>
+                  Approve
+                </Button>
+                <ApproveRun
+                  showModal={showApproveModal}
+                  closeModal={handleApproveModalClose}
+                  runId={run.runId}
+
+                />
+              </div>
+              <div>
+                <Button variant="secondary" onClick={handleDeclineModalShow}>
+                  Decline
+                </Button>
+                <DeleteRun
+                  showModal={showDeclineModal}
+                  closeModal={handleDeclineModalClose}
+                  runId={run.runId}
+                />
+              </div>
+            </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

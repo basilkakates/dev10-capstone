@@ -3,6 +3,12 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import DatePicker from "react-datepicker";
+import PlacesAutocomplete from "./PlacesAutocomplete";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "react-time-picker/dist/TimePicker.css";
+
 import Errors from "./Errors";
 
 function ApproveRun({ showModal, closeModal, runId }) {
@@ -28,11 +34,10 @@ function ApproveRun({ showModal, closeModal, runId }) {
 
     const updatedRun = {
       runId: run.runId,
-      date: run.date,
+      timestamp: run.timestamp,
       address: run.address,
       description: run.description,
       maxCapacity: run.maxCapacity,
-      startTime: run.startTime,
       latitude: run.latitude,
       longitude: run.longitude,
       club: run.club,
@@ -65,7 +70,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
       })
       .then((data) => {
         if (!data) {
-          history.push("/runs/pending");
+          history.push("/runs");
         } else {
           setErrors(data);
         }
@@ -84,28 +89,24 @@ function ApproveRun({ showModal, closeModal, runId }) {
           <table className="table">
             <tbody>
               <tr>
-                <td>Date: </td>
+                <td>{`Date:` }</td>
                 <td>
-                  <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={run.date}
-                    readOnly
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Start Time: </td>
-                <td>
-                  <input
-                    type="text"
-                    id="startTime"
-                    name="startTime"
-                    value={run.startTime}
-                    readOnly
-                  />
-                </td>
+                    <DatePicker
+                      id="timestamp"
+                      name="timestamp"
+                      className="form-control"
+                      required
+                      showTimeSelect
+                      showTimeInput
+                      selected={new Date(run.timestamp)}
+                      onChange={(timestamp) => {
+                        const updatedRun = { ...run };
+                        updatedRun[`timestamp`] = timestamp;
+                        setRun(updatedRun);
+                      }}
+                      readOnly
+                    />
+                  </td>
               </tr>
               <tr>
                 <td>Address: </td>
