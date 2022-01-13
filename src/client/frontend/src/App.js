@@ -35,6 +35,10 @@ function App() {
       login(token);
     }
 
+    if (user !== null && user.username) {
+      getUser();
+    }
+
     setInitialized(true);
   }, []);
 
@@ -56,7 +60,6 @@ function App() {
     console.log(user);
 
     setUser(user);
-    getUser();
     return user;
   };
 
@@ -119,7 +122,7 @@ function App() {
           </Route>
 
           <Route exact path="/userprofile">
-            {user ? <UserProfile /> : <Redirect to="/login" />}
+            {user ? <UserProfile user={userProfile}/> : <Redirect to="/login" />}
           </Route>
 
           <Route exact path="/runs/pending">
