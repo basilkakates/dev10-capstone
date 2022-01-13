@@ -64,17 +64,19 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
           setRun(updatedRun);
         }
 
-        const memberResponse = await fetch(
-          `http://localhost:8080/api/member/user/${user.userId}`
-        );
-        const memberData = await memberResponse.json();
-        setClubs(memberData.flatMap((member) => [member.club]));
+        if (user.userId) {
+          const memberResponse = await fetch(
+            `http://localhost:8080/api/member/user/${user.userId}`
+          );
+          const memberData = await memberResponse.json();
+          setClubs(memberData.flatMap((member) => [member.club]));
 
-        memberData.map((member) => {
-          if (member.isAdmin) {
-            setIsAdmin(member.club);
-          }
-        });
+          memberData.map((member) => {
+            if (member.isAdmin) {
+              setIsAdmin(member.club);
+            }
+          });
+        }
 
         const runStatusResponse = await fetch(
           `http://localhost:8080/api/runStatus`
@@ -99,7 +101,7 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
     event.preventDefault();
 
     const updatedRun = { ...run };
-    console.log(updatedRun)
+    console.log(updatedRun);
 
     try {
       if (runId) {
@@ -293,7 +295,9 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                             return false;
                           }
 
-                          if (runStatus.runStatusId === run.runStatus.runStatusId) {
+                          if (
+                            runStatus.runStatusId === run.runStatus.runStatusId
+                          ) {
                             return false;
                           }
 

@@ -1,5 +1,5 @@
 function Errors({ errors }) {
-  if (errors.length === 0) {
+  if (!errors || errors.length === 0) {
     return null;
   }
 

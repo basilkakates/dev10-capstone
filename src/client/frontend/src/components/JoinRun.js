@@ -24,14 +24,16 @@ function JoinRun({ run, user }) {
   // };
 
   const getRunsUserSignedUpFor = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/runner/user/${user.userId}`
-      );
-      const data = await response.json();
-      setRunsUserSignedUpFor(data);
-    } catch (error) {
-      console.log(error);
+    if (user.userId) {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/runner/user/${user.userId}`
+        );
+        const data = await response.json();
+        setRunsUserSignedUpFor(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

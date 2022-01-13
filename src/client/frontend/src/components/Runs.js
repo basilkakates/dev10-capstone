@@ -37,7 +37,7 @@ function Runs({ user }) {
       <h2 className="my-4"></h2>
 
       <div>
-        <Button
+        {user.userId ? (<Button
           className="btn btn-primary"
           onClick={() => {
             viewModal();
@@ -45,7 +45,7 @@ function Runs({ user }) {
           }}
         >
           Add Run
-        </Button>
+        </Button>) : null}
         <RunForm
           isVisible={isVisible}
           toggleModal={toggleModal}
@@ -73,7 +73,7 @@ function Runs({ user }) {
 
                   {run.runStatus.status === "Approved" && (
                     <div>
-                      <JoinRun run={run} user={user} />
+                      {user.userId ? (<JoinRun run={run} user={user} />) : null}
                       <AdminOptionsForRun
                         runId={run.runId}
                         clubId={run.club.clubId}

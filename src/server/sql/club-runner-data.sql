@@ -19,12 +19,12 @@ insert into `club` (`name`)
 
 insert into `user` (`first_name`, `last_name`, `email`, `password_hash`, `disabled`)
 	values 
-		('Joe', 'Shmoe', 'jshmoe@test.com', '123abcd', '0'),
-        ('Mary', 'Doe', 'mdoe@test.com', 'asdfqwerty!', '0'),
-        ('John', 'Sean', 'jsean@test.com', 'password', '0'),
-        ('Susan', 'Sean', 'ssean@test.com', 'birthday', '0'),
-        ('Admin', 'Jr.', 'ajr@test.com', 'supersecure', '0'),
-        ('Admin', 'Sr.', 'asr@test.com', 'supersecure', '0');
+		('Joe', 'Shmoe', 'jshmoe@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Mary', 'Doe', 'mdoe@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('John', 'Sean', 'jsean@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Susan', 'Sean', 'ssean@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Admin', 'Jr.', 'ajr@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Admin', 'Sr.', 'asr@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0');
         
 insert into `member` (`user_id`, `club_id`, `isAdmin`)
 	values 

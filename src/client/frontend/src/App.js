@@ -25,6 +25,7 @@ const TOKEN_KEY = "user-api-topken";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userProfile, setUserProfile] = useState({});
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -55,8 +56,27 @@ function App() {
     console.log(user);
 
     setUser(user);
-
+    getUser();
     return user;
+  };
+
+  const getUser = async () => {
+    const init = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(user.username),
+    };
+    try {
+      const response = await fetch(`http://localhost:8080/api/email`, init);
+      const data = await response.json();
+      setUserProfile(data);
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const logout = () => {
@@ -87,11 +107,11 @@ function App() {
         <Header />
         <Switch>
           <Route exact path={"/"}>
-            <Runs user={DEFAULT_USER} />
+            <Runs user={userProfile} />
           </Route>
 
           <Route exact path={"/runs"}>
-            <Runs user={DEFAULT_USER} />
+            <Runs user={userProfile} />
           </Route>
 
           <Route exact path="/about">
@@ -99,33 +119,27 @@ function App() {
           </Route>
 
           <Route exact path="/userprofile">
-            {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
-            <UserProfile user={DEFAULT_USER} />
+            {user ? <UserProfile /> : <Redirect to="/login" />}
           </Route>
 
           <Route exact path="/runs/pending">
-            {/* {user ? <PendingRuns /> : <Redirect to="../login" />} */}
-            <PendingRuns />
+            {user ? <PendingRuns /> : <Redirect to="../login" />}
           </Route>
 
           <Route path="/runs/approve/:run_id">
-            {/* {user ? <ApproveRun /> : <Redirect to="../../login" />} */}
-            <ApproveRun />
+            {user ? <ApproveRun /> : <Redirect to="../../login" />}
           </Route>
 
           <Route path="/runs/delete/:run_id">
-            {/* {user ? <DeleteRun /> : <Redirect to="../../login" />} */}
-            <DeleteRun />
+            {user ? <DeleteRun /> : <Redirect to="../../login" />}
           </Route>
 
           <Route path="/runs/cancel/:run_id">
-            {/* {user ? <CancelRun /> : <Redirect to="../../login" />} */}
-            <CancelRun />
+            {user ? <CancelRun /> : <Redirect to="../../login" />}
           </Route>
 
           <Route path="/clubs">
-            {/* {user ? <Clubs /> : <Redirect to="login" />} */}
-            <Clubs />
+            {user ? <Clubs /> : <Redirect to="login" />}
           </Route>
 
           <Route path="/login">
