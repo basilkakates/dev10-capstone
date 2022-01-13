@@ -34,7 +34,6 @@ function Runs({ user }) {
 
   return (
     <Container>
-      <PlacesAutocomplete />
       <MarkerInfoWindowGmapsObj runs={runs} />
       <h2 className="my-4">Runs</h2>
 
@@ -75,10 +74,7 @@ function Runs({ user }) {
 
                   {run.runStatus.status === "Approved" && (
                     <div>
-                      <JoinRun
-                        run={run}
-                        user={user}
-                      />
+                      <JoinRun run={run} user={user} />
                       <AdminOptionsForRun
                         runId={run.runId}
                         clubId={run.club.clubId}
