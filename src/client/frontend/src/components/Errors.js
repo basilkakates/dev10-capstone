@@ -6,7 +6,6 @@ function Errors({ errors }) {
   return (
     <div className="alert alert-danger">
       <ul>
-        {/* {console.log(errors)}; */}
         {errors.map((error) => (
           <li key={error}>{error}</li>
         ))}
