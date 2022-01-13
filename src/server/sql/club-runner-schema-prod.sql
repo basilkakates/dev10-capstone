@@ -149,6 +149,42 @@ CREATE TABLE IF NOT EXISTS `club-runner`.`member` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `club-runner`.`role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `club-runner`.`role` ;
+
+CREATE TABLE IF NOT EXISTS `club-runner`.`role` (
+  `role_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`role_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `club-runner`.`user_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `club-runner`.`user_role` ;
+
+CREATE TABLE IF NOT EXISTS `club-runner`.`user_role` (
+  `user_id` INT NOT NULL,
+  `role_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `role_id`),
+  INDEX `fk_user_role_role_idx` (`role_id` ASC) VISIBLE,
+  INDEX `fk_user_role_user_idx` (`user_id` ASC) INVISIBLE,
+  CONSTRAINT `fk_user_role_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `club-runner`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_role_role`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `club-runner`.`role` (`role_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
