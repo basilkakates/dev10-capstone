@@ -106,11 +106,11 @@ function Register() {
 
   return (
     <Container>
-      <h2 className="my-4">Register</h2>
+      <h2 className="my-4"style={{color: "white", background: "#375d83", width:"145px", height:"45px", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Register&nbsp;</h2>
       <Errors errors={errors} />
       <form onSubmit={formSubmitHandler}>
         <div className="form-group">
-          <label htmlFor="username">Email:</label>
+          <label htmlFor="username"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Email:&nbsp;</label>
           <input
             className="form-control"
             type="text"
@@ -121,7 +121,7 @@ function Register() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="firstName">First Name:</label>
+          <label htmlFor="firstName"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;First Name:&nbsp;</label>
           <input
             className="form-control"
             type="text"
@@ -132,7 +132,7 @@ function Register() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">Last Name:</label>
+          <label htmlFor="lastName"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Last Name:&nbsp;</label>
           <input
             className="form-control"
             type="text"
@@ -143,7 +143,7 @@ function Register() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Password:&nbsp;</label>
           <input
             className="form-control"
             type="password"
@@ -154,7 +154,7 @@ function Register() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <label htmlFor="confirmPassword"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Confirm Password:&nbsp;</label>
           <input
             className="form-control"
             type="password"
