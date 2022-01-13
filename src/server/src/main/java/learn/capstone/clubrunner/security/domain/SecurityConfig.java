@@ -33,15 +33,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/create_account").permitAll()
                 .antMatchers(HttpMethod.GET,
-                        "/api/*").permitAll()
+                        "/api/**").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/api/").permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.PUT,
-                        "/api/*").hasAnyRole("USER", "ADMIN")
+                        "/api/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE,
-                        "/api/*").hasAnyRole("ADMIN")
+                        "/api/**").hasAnyRole("ADMIN")
                 .antMatchers("/**").denyAll()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter))
