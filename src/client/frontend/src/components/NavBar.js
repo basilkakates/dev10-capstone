@@ -1,33 +1,12 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import AuthContext from "../AuthContext";
+
 
 function NavBar() {
-  const auth = useContext(AuthContext);
-
   return (
     <>
-      {!auth.user && (
-        <>
-          <Link to="/login" className="btn btn-primary">
-            Login
-          </Link>
-          <Link to="/register" className="btn btn-primary">
-            Register
-          </Link>
-        </>
-      )}
-      {auth.user && (
-        <div>
-          <button onClick={() => auth.logout()} className="btn btn-primary">
-            Logout
-          </button>
-        </div>
-      )}
-
       <Container>
         <Row className="align-items-start">
           <Col>

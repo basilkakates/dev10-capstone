@@ -14,13 +14,9 @@ import PlacesAutocomplete from "./PlacesAutocomplete";
 
 function Runs({ user }) {
   const [runs, setRuns] = useState([]);
-  const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
 
   const { isVisible, toggleModal, viewModal } = useModal();
   const [runId, setRunId] = useState();
-
-  let joined = false;
-  let currentRunner;
 
   const getRuns = async () => {
     try {
@@ -32,28 +28,14 @@ function Runs({ user }) {
     }
   };
 
-  const getRunsUserSignedUpFor = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/runner/user/${user.userId}`
-      );
-      const data = await response.json();
-      setRunsUserSignedUpFor(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getRuns();
-    getRunsUserSignedUpFor();
   }, [isVisible, user.userId]);
 
   return (
     <Container>
-      <PlacesAutocomplete />
       <MarkerInfoWindowGmapsObj runs={runs} />
-      <h2 className="my-4">Runs</h2>
+      <h2 className="my-4"></h2>
 
       <div>
         <Button
@@ -90,24 +72,17 @@ function Runs({ user }) {
                     <SignUpCount runId={run.runId} />/{run.maxCapacity}
                   </td>
 
-                  {runsUserSignedUpFor.map((runner) => {
-                    if (runner.run.runId === run.runId) {
-                      joined = true;
-                      currentRunner = runner;
-                    }
-                  })}
-
-                  <JoinRun joined={joined} run={run} runner={currentRunner} />
-                  {(joined = false)}
-
                   {run.runStatus.status === "Approved" && (
-                    <AdminOptionsForRun
-                      runId={run.runId}
-                      clubId={run.club.clubId}
-                      viewModal={viewModal}
-                      setRunId={setRunId}
-                      user={user}
-                    />
+                    <div>
+                      <JoinRun run={run} user={user} />
+                      <AdminOptionsForRun
+                        runId={run.runId}
+                        clubId={run.club.clubId}
+                        viewModal={viewModal}
+                        setRunId={setRunId}
+                        user={user}
+                      />
+                    </div>
                   )}
                   {run.runStatus.status === "Cancelled" && (
                     <td className="btn btn-cancel btn-sm" disabled>
