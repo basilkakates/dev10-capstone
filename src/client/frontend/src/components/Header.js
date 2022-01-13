@@ -41,6 +41,7 @@ function Header() {
         </Row>
       </Container>
       <NavBar />
+      <h2 className="my-4"></h2>
     </>
   );
 }
