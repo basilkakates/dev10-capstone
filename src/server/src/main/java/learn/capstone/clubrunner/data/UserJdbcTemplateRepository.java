@@ -68,7 +68,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPassword());
+            ps.setString(4, user.getPasswordHash());
             return ps;
         }, keyHolder);
 
