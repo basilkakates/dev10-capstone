@@ -67,8 +67,10 @@ public class AuthController {
         try {
             String username = credentials.get("username");
             String password = credentials.get("password");
+            String firstName = credentials.get("firstName");
+            String lastName = credentials.get("lastName");
 
-            appUser = appUserService.create(username, password);
+            appUser = appUserService.create(username, password, firstName, lastName);
         } catch (ValidationException ex) {
             return new ResponseEntity<>(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (DuplicateKeyException ex) {
@@ -78,7 +80,7 @@ public class AuthController {
         // happy path...
 
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("appUserId", appUser.getAppUserId());
+        map.put("appUserId", appUser.getUserId());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }

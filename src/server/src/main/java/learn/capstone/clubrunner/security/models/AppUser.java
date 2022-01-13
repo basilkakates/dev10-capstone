@@ -14,26 +14,45 @@ public class AppUser extends User {
 
     private static final String AUTHORITY_PREFIX = "ROLE_";
 
-    private int appUserId;
+    private int userId;
+    private String firstName;
+    private String lastName;
 
-    public AppUser(int appUserId, String username, String password,
+    public AppUser(int userId, String email, String firstName, String lastName, String password,
                    boolean disabled, List<String> roles) {
-        super(username, password, !disabled,
+        super(email, password, !disabled,
                 true, true, true,
                 convertRolesToAuthorities(roles));
-        this.appUserId = appUserId;
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     private List<String> roles = new ArrayList<>();
 
-    public int getAppUserId() {
-        return appUserId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setAppUserId(int appUserId) {
-        this.appUserId = appUserId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public static List<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
