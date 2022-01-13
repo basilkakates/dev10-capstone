@@ -69,7 +69,8 @@ const PlacesAutocomplete = (props) => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        className="form-control"
+        placeholder={props.run ? props.run.address  : "Where are you going?"}
       />
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
