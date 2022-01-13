@@ -319,7 +319,7 @@ class UserControllerTest {
         user.setFirstName("Testy");
         user.setLastName("McTest");
         user.setEmail("tmctest@test.com");
-        user.setPassword("supersecure");
+        user.setPasswordHash("supersecure");
 
         return user;
     }

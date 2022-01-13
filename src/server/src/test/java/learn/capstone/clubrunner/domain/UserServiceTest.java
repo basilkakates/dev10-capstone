@@ -174,7 +174,7 @@ class UserServiceTest {
     void shouldNotAddNullPassword() {
         User user = makeUser();
         user.setUserId(1);
-        user.setPassword(null);
+        user.setPasswordHash(null);
 
         Result<User> actual = service.add(user);
         assertNotNull(actual);
@@ -267,7 +267,7 @@ class UserServiceTest {
     void shouldNotUpdateNullPassword() {
         User user = makeUser();
         user.setUserId(1);
-        user.setPassword(null);
+        user.setPasswordHash(null);
 
         Result<User> actual = service.update(user);
         assertNotNull(actual);
@@ -329,7 +329,7 @@ class UserServiceTest {
         user.setFirstName("Testy");
         user.setLastName("McTest");
         user.setEmail("tmctesty@test.com");
-        user.setPassword("supersecure");
+        user.setPasswordHash("supersecure");
         return user;
     }
 
