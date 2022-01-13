@@ -75,7 +75,7 @@ function App() {
   }
 
   const DEFAULT_USER = {
-    userId: 5,
+    userId: 3,
     firstName: "Testy",
     lastName: "McTest",
     email: "tmctest@test.com",
