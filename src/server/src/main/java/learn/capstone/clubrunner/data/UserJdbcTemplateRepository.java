@@ -21,7 +21,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public User findById(int userId) {
-        final String sql = "select user_id, first_name, last_name, email, password " +
+        final String sql = "select user_id, first_name, last_name, email " +
                 "from user " +
                 "where user_id = ?;";
 
@@ -31,7 +31,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public List<User> findByName(String firstName, String lastName) {
-        final String sql = "select user_id, first_name, last_name, email, password " +
+        final String sql = "select user_id, first_name, last_name, email " +
                 "from user " +
                 "where first_name = ? and last_name = ?;";
 
@@ -40,7 +40,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public User findByEmail(String email) {
-        final String sql = "select user_id, first_name, last_name, email, password " +
+        final String sql = "select user_id, first_name, last_name, email " +
                 "from user " +
                 "where email = ?;";
 
@@ -50,7 +50,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        final String sql = "select user_id, first_name, last_name, email, password " +
+        final String sql = "select user_id, first_name, last_name, email " +
                 "from user;";
 
         return jdbcTemplate.query(sql, new UserMapper());
@@ -58,8 +58,8 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public User add(User user) {
-        final String sql = "insert into user (first_name, last_name, email, password) " +
-                "values (?,?,?,?);";
+        final String sql = "insert into user (first_name, last_name, email) " +
+                "values (?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -68,7 +68,6 @@ public class UserJdbcTemplateRepository implements UserRepository {
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPasswordHash());
             return ps;
         }, keyHolder);
 
