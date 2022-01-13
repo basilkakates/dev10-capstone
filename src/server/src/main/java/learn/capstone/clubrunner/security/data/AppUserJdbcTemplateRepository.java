@@ -40,7 +40,7 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
     @Transactional
     public AppUser create(AppUser user) {
 
-        final String sql = "insert into user (email, password_hash, first_name, last_name) values (?,?,?,?);";
+        final String sql = "insert into user (email, password_hash, first_name, last_name, disabled) values (?,?,?,?,?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -49,6 +49,7 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getLastName());
+            ps.setBoolean(5, !user.isEnabled());
             return ps;
         }, keyHolder);
 
