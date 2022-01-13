@@ -35,7 +35,7 @@ function Runs({ user }) {
   return (
     <Container>
       <MarkerInfoWindowGmapsObj runs={runs} />
-      <h2 className="my-4">Runs</h2>
+      <h2 className="my-4"></h2>
 
       <div>
         <Button
