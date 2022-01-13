@@ -3,9 +3,6 @@ import isEmpty from "lodash.isempty";
 import { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 
-// consts: [34.0522, -118.2437]
-const LOS_ANGELES_CENTER = { lat: 34.0522, lng: -118.2437 };
-
 const getInfoWindowString = (place) => `
     <div>
       <div style="font-size: 16px;">
