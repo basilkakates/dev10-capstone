@@ -70,7 +70,7 @@ function MarkerInfoWindowGmapsObj({ runs }) {
 
   useEffect(() => {
     setRunMarkers(runs);
-  }, [runMarkers]);
+  }, [runs]);
 
   return (
     <>
