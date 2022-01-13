@@ -83,61 +83,65 @@ function App() {
 
   return (
     <AuthContext.Provider value={auth}>
-    <Router>
-      <Header />
-      <Switch>
-        <Route exact path={("/", "/runs")}>
-          <Runs user={DEFAULT_USER} />
-        </Route>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path={"/"}>
+            <Runs user={DEFAULT_USER} />
+          </Route>
 
-        <Route exact path="/about">
-          <About />
-        </Route>
+          <Route exact path={"/runs"}>
+            <Runs user={DEFAULT_USER} />
+          </Route>
 
-        <Route exact path="/userprofile">
-          {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
-          <UserProfile user={DEFAULT_USER} />
-        </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
 
-        <Route exact path="/runs/pending">
-          {/* {user ? <PendingRuns /> : <Redirect to="../login" />} */}
-          <PendingRuns />
-        </Route>
+          <Route exact path="/userprofile">
+            {/* {user ? <UserProfile /> : <Redirect to="/login" />} */}
+            <UserProfile user={DEFAULT_USER} />
+          </Route>
 
-        <Route path="/runs/approve/:run_id">
-          {/* {user ? <ApproveRun /> : <Redirect to="../../login" />} */}
-          <ApproveRun />
-        </Route>
+          <Route exact path="/runs/pending">
+            {/* {user ? <PendingRuns /> : <Redirect to="../login" />} */}
+            <PendingRuns />
+          </Route>
 
-        <Route path="/runs/delete/:run_id">
-          {/* {user ? <DeleteRun /> : <Redirect to="../../login" />} */}
-          <DeleteRun />
-        </Route>
+          <Route path="/runs/approve/:run_id">
+            {/* {user ? <ApproveRun /> : <Redirect to="../../login" />} */}
+            <ApproveRun />
+          </Route>
 
-        <Route path="/runs/cancel/:run_id">
-          {/* {user ? <CancelRun /> : <Redirect to="../../login" />} */}
-          <CancelRun />
-        </Route>
+          <Route path="/runs/delete/:run_id">
+            {/* {user ? <DeleteRun /> : <Redirect to="../../login" />} */}
+            <DeleteRun />
+          </Route>
 
-        <Route path="/clubs">
-          {/* {user ? <Clubs /> : <Redirect to="login" />} */}
-          <Clubs />
-        </Route>
+          <Route path="/runs/cancel/:run_id">
+            {/* {user ? <CancelRun /> : <Redirect to="../../login" />} */}
+            <CancelRun />
+          </Route>
 
-        <Route path="/login">
-          <Login />
-        </Route>
+          <Route path="/clubs">
+            {/* {user ? <Clubs /> : <Redirect to="login" />} */}
+            <Clubs />
+          </Route>
 
-        <Route path="/register">
-          <Register />
-        </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
 
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
-    </Router>
-  </AuthContext.Provider>
+          <Route path="/register">
+            <Register />
+          </Route>
+
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 
