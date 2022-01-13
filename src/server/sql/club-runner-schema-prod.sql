@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS `club-runner`.`user` (
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(64) NOT NULL,
+  `password_hash` VARCHAR(64) NOT NULL,
+  `disabled` TINYINT NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
