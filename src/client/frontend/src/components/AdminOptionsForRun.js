@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import CancelRun from "./CancelRun";
-import { Link } from "react-router-dom";
 
 function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, user }) {
   const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);

@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import DatePicker from "react-datepicker";
-import PlacesAutocomplete from "./PlacesAutocomplete";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";

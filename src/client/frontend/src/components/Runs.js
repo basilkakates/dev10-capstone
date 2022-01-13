@@ -10,7 +10,6 @@ import RunForm from "./RunForm";
 import useModal from "./useModal";
 import RunTime from "./RunTime";
 import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
-import PlacesAutocomplete from "./PlacesAutocomplete";
 
 function Runs({ user }) {
   const [runs, setRuns] = useState([]);
