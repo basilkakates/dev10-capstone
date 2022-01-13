@@ -6,7 +6,7 @@ function Errors({ errors }) {
   return (
     <div className="alert alert-danger">
       <ul>
-        {errors ? null : errors.map((error) => (
+        {!errors ? null : errors.map((error) => (
           <li key={error}>{error}</li>
         ))}
       </ul>
