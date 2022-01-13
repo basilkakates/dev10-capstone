@@ -3569,6 +3569,18 @@ textarea.form-control-lg {
   border-color: #a16468;
 }
 
+.btn-scheduled {
+  color: #808080;
+  font-weight: 800;
+  background-color: #808080;
+  border-color: #808080;
+}
+.btn-scheduled:hover {
+  color: #fff;
+  background-color: #808080;
+  border-color: #808080;
+}
+
 .btn-outline-light {
   color: #f8f9fa;
   border-color: #f8f9fa;

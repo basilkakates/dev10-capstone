@@ -42,7 +42,7 @@ function JoinRun({ run, user }) {
   }, []);
 
   return (
-    <Container>
+    <>
       {runsUserSignedUpFor.map((runner) => {
         if (runner.run.runId === run.runId) {
           joined = true;
@@ -55,7 +55,7 @@ function JoinRun({ run, user }) {
         run={run}
         user={user}
       />
-    </Container>
+    </>
   );
 }
 

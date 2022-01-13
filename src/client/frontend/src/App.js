@@ -37,6 +37,8 @@ function App() {
 
     if (user !== null && user.username) {
       getUser();
+    } else {
+      setUserProfile({})
     }
 
     setInitialized(true);

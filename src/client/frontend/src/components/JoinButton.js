@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 
 function JoinButton({ joined, runner, run, user }) {
   const [errors, setErrors] = useState([]);
@@ -81,13 +79,13 @@ function JoinButton({ joined, runner, run, user }) {
   };
 
   return (
-    <Container>
+    <>
       {joined === true ? (
-        <Button onClick={dropRun}>Joined</Button>
+        <button onClick={dropRun}>Joined</button>
       ) : (
-        <Button onClick={joinRun}>Join</Button>
+        <button onClick={joinRun}>Join</button>
       )}
-    </Container>
+    </>
   );
 }
 
