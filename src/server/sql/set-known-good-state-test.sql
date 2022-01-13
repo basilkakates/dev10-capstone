@@ -21,14 +21,14 @@ insert into `club` (`name`)
 	values
 		('New York Runners');
 
-insert into `user` (`first_name`, `last_name`, `email`, `password`)
+insert into `user` (`first_name`, `last_name`, `email`, `password_hash`, `disabled`)
 	values 
-		('Joe', 'Shmoe', 'jshmoe@test.com', '123abcd'),
-        ('Mary', 'Doe', 'mdoe@test.com', 'asdfqwerty!'),
-        ('John', 'Sean', 'jsean@test.com', 'password'),
-        ('Susan', 'Sean', 'ssean@test.com', 'birthday'),
-        ('Admin', 'Jr.', 'ajr@test.com', 'supersecure'),
-        ('Admin', 'Sr.', 'asr@test.com', 'supersecure');
+		('Joe', 'Shmoe', 'jshmoe@test.com', '123abcd', '0'),
+        ('Mary', 'Doe', 'mdoe@test.com', 'asdfqwerty!', '0'),
+        ('John', 'Sean', 'jsean@test.com', 'password', '0'),
+        ('Susan', 'Sean', 'ssean@test.com', 'birthday', '0'),
+        ('Admin', 'Jr.', 'ajr@test.com', 'supersecure', '0'),
+        ('Admin', 'Sr.', 'asr@test.com', 'supersecure', '0');
         
 insert into `member` (`user_id`, `club_id`, `isAdmin`)
 	values 
