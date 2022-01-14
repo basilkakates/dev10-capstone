@@ -10,20 +10,24 @@ function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, user }) {
   const handleCancelModalClose = () => setShowCancelModal(false);
   const handleCancelModalShow = () => setShowCancelModal(true);
 
-  const getClubUserIsAdminOf = () => {
-    fetch(`http://localhost:8080/api/member/admins/user/${user.userId}`)
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
+  const getClubUserIsAdminOf = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/member/admins/user/${user.userId}`);
+        const data = await response.json();
+        if (response.status === 200) {
+          setClubUserIsAdminOf(data);
+        } else if (response.status !== 404) {
+          throw new Error(`Response is not 200 OK: ${data}`);
         }
-        return response.json();
-      })
-      .then((json) => setClubUserIsAdminOf(json))
-      .catch(console.log);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    getClubUserIsAdminOf();
+    if (user.userId) {
+      getClubUserIsAdminOf();
+    }
   }, [user.userId]);
 
   return (
@@ -32,7 +36,13 @@ function AdminOptionsForRun({ runId, clubId, viewModal, setRunId, user }) {
         clubUserIsAdminOf.club.clubId === clubId && (
           <>
             <Container>
-              <Button className="btn btn-primary" onClick={() => {viewModal(); setRunId(runId);}}>
+              <Button
+                className="btn btn-primary"
+                onClick={() => {
+                  viewModal();
+                  setRunId(runId);
+                }}
+              >
                 Edit
               </Button>
             </Container>

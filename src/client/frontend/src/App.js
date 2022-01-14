@@ -101,7 +101,7 @@ function App() {
   return (
     <AuthContext.Provider value={auth}>
       <Router>
-        <Header />
+        <Header user={userProfile} />
         <Switch>
           <Route exact path={"/"}>
             <Runs user={userProfile} />

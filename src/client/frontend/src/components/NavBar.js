@@ -2,9 +2,33 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useEffect, useState } from "react";
 
+function NavBar({ user }) {
+  const [clubUserAdminOf, setClubUserAdminOf] = useState(null);
 
-function NavBar() {
+  const getClubUserAdminOf = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/member/admins/user/${user.userId}`
+      );
+      const data = await response.json();
+      if (response.status === 200) {
+        setClubUserAdminOf(data.club);
+      }
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user.userId) {
+      getClubUserAdminOf();
+    }
+  });
+
   return (
     <>
       <Container>
@@ -19,13 +43,13 @@ function NavBar() {
               Clubs
             </Link>
           </Col>
-          <Col>
-            {/* {auth.user && ( */}
-            <Link to="/runs/pending" className="btn btn-primary">
-              Pending Runs
-            </Link>
-            {/* )} */}
-          </Col>
+          {clubUserAdminOf !== null ? (
+            <Col>
+              <Link to="/runs/pending" className="btn btn-primary">
+                Pending Runs
+              </Link>
+            </Col>
+          ) : null}
           <Col>
             <Link to="/userprofile" className="btn btn-primary">
               User Profile

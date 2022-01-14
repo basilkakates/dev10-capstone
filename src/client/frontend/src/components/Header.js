@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AuthContext from "../AuthContext";
 
-function Header() {
+function Header({ user }) {
   const auth = useContext(AuthContext);
 
   return (
@@ -40,7 +40,7 @@ function Header() {
           </Col>
         </Row>
       </Container>
-      <NavBar />
+      <NavBar user={user} />
       <h2 className="my-4"></h2>
     </>
   );
