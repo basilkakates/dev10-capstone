@@ -3,31 +3,17 @@ import isEmpty from "lodash.isempty";
 import { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 
-const getInfoWindowString = (place) => `
+const getInfoWindowString = (run) => `
     <div>
       <div style="font-size: 16px;">
-        ${place.name}
+        ${run.timestamp.date}
       </div>
-      <div style="font-size: 14px;">
-        <span style="color: grey;">
-        ${place.rating}
-        </span>
-        <span style="color: orange;">${String.fromCharCode(9733).repeat(
-          Math.floor(place.rating)
-        )}</span><span style="color: lightgrey;">${String.fromCharCode(
-  9733
-).repeat(5 - Math.floor(place.rating))}</span>
-      </div>
-      <div style="font-size: 14px; color: grey;">
-        ${place.types[0]}
-      </div>
-      <div style="font-size: 14px; color: grey;">
-        ${"$".repeat(place.price_level)}
-      </div>
-      <div style="font-size: 14px; color: green;">
-        ${place.opening_hours.open_now ? "Open" : "Closed"}
-      </div>
-    </div>`;
+    <div style="font-size: 16px;">
+    Address: ${run.address}
+  </div>
+  <div style="font-size: 16px;">
+  Description: ${run.description}
+</div>`;
 
 // Refer to https://github.com/google-map-react/google-map-react#use-google-maps-api
 const handleApiLoaded = (map, maps, runs) => {
@@ -48,8 +34,8 @@ const handleApiLoaded = (map, maps, runs) => {
 
       infowindows.push(
         new maps.InfoWindow({
-          content: `<div></div>`,
-          // content: getInfoWindowString(place),
+          // content: `<div></div>`,
+          content: getInfoWindowString(run),
         })
       );
     }
