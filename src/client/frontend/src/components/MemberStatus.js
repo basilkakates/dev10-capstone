@@ -22,17 +22,13 @@ function MemberStatus({ clubId, user }) {
   }, [user]);
 
   return (
-    <td>
-      <Container>
-        {clubsUserIsMemberOf.map((clubUserIsMemberOf) => (
-          <>
-            {clubUserIsMemberOf.club.clubId === clubId && (
-              <Button>Member</Button>
-            )}
-          </>
-        ))}
-      </Container>
-    </td>
+    <Container>
+      {clubsUserIsMemberOf.map((clubUserIsMemberOf) => (
+        <>
+          {clubUserIsMemberOf.club.clubId === clubId && <Button>Member</Button>}
+        </>
+      ))}
+    </Container>
   );
 }
 
