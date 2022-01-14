@@ -37,9 +37,10 @@ function JoinRun({ run, user }) {
     }
   };
 
+  
   useEffect(() => {
     getRunsUserSignedUpFor();
-  }, []);
+  }, [joined]);
 
   return (
     <>
@@ -54,6 +55,7 @@ function JoinRun({ run, user }) {
         runner={currentRunner}
         run={run}
         user={user}
+        
       />
     </>
   );

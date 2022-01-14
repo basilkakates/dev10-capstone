@@ -17,9 +17,9 @@ function SignUpCount({ runId }) {
 
   useEffect(() => {
     getUsersSignedUp();
-  }, []);
+  });
 
-  return <>{usersSignedUp.length}</>;
+  return usersSignedUp && <>{usersSignedUp.length}</>;
 }
 
 export default SignUpCount;

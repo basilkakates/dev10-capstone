@@ -5,9 +5,6 @@ import GoogleMapReact from "google-map-react";
 
 const getInfoWindowString = (run) => `
     <div>
-      <div style="font-size: 16px;">
-        ${run.timestamp.date}
-      </div>
     <div style="font-size: 16px;">
     Address: ${run.address}
   </div>
@@ -59,7 +56,19 @@ function MarkerInfoWindowGmapsObj({ runs }) {
     <>
       {!isEmpty(runs) && (
         <div className="map">
-          <h2 className="map-h2"style={{color: "white", background: "#375d83", width: "270px", height: "42px", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Scheduled Runs&nbsp;</h2>
+          <h2
+            className="map-h2"
+            style={{
+              color: "white",
+              background: "#375d83",
+              width: "270px",
+              height: "42px",
+              fontWeight: "500",
+              borderRadius: "10px",
+            }}
+          >
+            &nbsp;Scheduled Runs&nbsp;
+          </h2>
 
           <div className="google-map" style={{ height: "50vh", width: "100%" }}>
             <GoogleMapReact

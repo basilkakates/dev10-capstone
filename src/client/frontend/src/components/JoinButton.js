@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 function JoinButton({ joined, runner, run, user }) {
   const [errors, setErrors] = useState([]);
+  const [runsUserSignedUpFor, setRunsUserSignedUpFor] = useState([]);
+  const [isJoined, setIsJoined] = useState(joined);
   const history = useHistory();
+
+  //   const getUser = () => {
+  //   fetch("http://localhost:8080/api/user/1")
+  //     .then((response) => {
+  //       if (response.status !== 200) {
+  //         return Promise.reject("user fetch failed");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((json) => setUser(json))
+  //     .catch(console.log);
+  // };
 
   const joinRun = (event) => {
     event.preventDefault();
@@ -37,8 +51,6 @@ function JoinButton({ joined, runner, run, user }) {
         }
       })
       .catch((error) => console.log(error));
-
-    window.location.reload(false);
   };
 
   const dropRun = (event) => {
@@ -74,18 +86,45 @@ function JoinButton({ joined, runner, run, user }) {
         }
       })
       .catch((error) => console.log(error));
+  };
 
-    window.location.reload(false);
+  useEffect(() => {
+    async function getRunsUserSignedUpFor() {
+      if (user.userId) {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/api/runner/user/${user.userId}`
+          );
+          const data = await response.json();
+          setRunsUserSignedUpFor(data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    getRunsUserSignedUpFor();
+  });
+
+  const getIsJoined = () => {
+    let joined = false;
+    runsUserSignedUpFor.map((runner) => {
+      if (runner.run.runId === run.runId) {
+        joined = true;
+      }
+    });
+    return joined;
   };
 
   return (
-    <>
-      {joined === true ? (
-        <button onClick={dropRun}>Joined</button>
-      ) : (
-        <button onClick={joinRun}>Join</button>
-      )}
-    </>
+    runsUserSignedUpFor && (
+      <>
+        {getIsJoined() ? (
+          <button onClick={dropRun}>Joined</button>
+        ) : (
+          <button onClick={joinRun}>Join</button>
+        )}
+      </>
+    )
   );
 }
 
