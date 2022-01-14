@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -58,9 +60,6 @@ function App() {
         return this.roles.includes(role);
       },
     };
-
-    console.log(user);
-
     setUser(user);
     return user;
   };
@@ -70,7 +69,6 @@ function App() {
       const response = await fetch(`http://localhost:8080/api/user/email/${user.username}`);
       const data = await response.json();
       setUserProfile(data);
-      console.log(data)
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +134,7 @@ function App() {
           </Route>
 
           <Route path="/clubs">
-            {user ? <Clubs /> : <Redirect to="login" />}
+            {user ? <Clubs user={userProfile} /> : <Redirect to="login" />}
           </Route>
 
           <Route path="/login">

@@ -3,17 +3,13 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
 import RunTableHeader from "./RunTableHeader";
-import JoinRun from "./JoinRun";
-import SignUpCount from "./SignUpCount";
-import AdminOptionsForRun from "./AdminOptionsForRun";
 import RunForm from "./RunForm";
 import useModal from "./useModal";
-import RunTime from "./RunTime";
 import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
+import RunRow from "./RunRow";
 
 function Runs({ user }) {
   const [runs, setRuns] = useState([]);
-
   const { isVisible, toggleModal, viewModal } = useModal();
   const [runId, setRunId] = useState();
 
@@ -63,45 +59,12 @@ function Runs({ user }) {
         </thead>
         <tbody>
           {runs.map((run) => (
-            <tr key={run.runId}>
-              {run.runStatus.status !== "Pending Approval" && (
-                <>
-                  <RunTime timestamp={run.timestamp} />
-                  <td>{run.address}</td>
-                  <td>{run.description}</td>
-                  <td>{run.club.name}</td>
-                  <td>
-                    <SignUpCount runId={run.runId} />/{run.maxCapacity}
-                  </td>
-
-                  {run.runStatus.status === "Approved" && (
-                    <>
-                      <AdminOptionsForRun
-                        runId={run.runId}
-                        clubId={run.club.clubId}
-                        viewModal={viewModal}
-                        setRunId={setRunId}
-                        user={user}
-                      />
-                      <>
-                        {user.userId ? (
-                          <JoinRun run={run} user={user} />
-                        ) : (
-                          <td className="btn btn-scheduled btn-sm" disabled>
-                            SCHEDULED
-                          </td>
-                        )}
-                      </>
-                    </>
-                  )}
-                  {run.runStatus.status === "Cancelled" && (
-                    <td className="btn btn-cancel btn-sm" disabled>
-                      CANCELLED
-                    </td>
-                  )}
-                </>
-              )}
-            </tr>
+              <RunRow
+                user={user}
+                run={run}
+                viewModal={viewModal}
+                setRunId={setRunId}
+              />
           ))}
         </tbody>
       </table>

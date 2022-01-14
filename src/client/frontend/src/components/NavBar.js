@@ -16,8 +16,6 @@ function NavBar({ user }) {
       if (response.status === 200) {
         setClubUserAdminOf(data.club);
       }
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

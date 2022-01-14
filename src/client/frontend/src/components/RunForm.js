@@ -41,6 +41,51 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
 
   const history = useHistory();
 
+  const getRun = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/run/${runId}`);
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error(`Response is not 200 OK: ${data}`);
+      } else {
+        setRun(data);
+      }
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
+  const getMembershipData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/member/user/${user.userId}`
+      );
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error(`Response is not 200 OK: ${data}`);
+      } else {
+        setClubs(data.flatMap((member) => [member.club]));
+        setIsAdmin(data.filter((member) => member.isAdmin === 1)[0][`club`]);
+      }
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
+  const getRunStatuses = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/runStatus`);
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error(`Response is not 200 OK: ${data}`);
+      } else {
+        setRunStatuses(data);
+      }
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
   const addressToForm = (add, lat, lng) => {
     const updatedRun = { ...run };
     updatedRun.address = add;
@@ -48,48 +93,6 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
     updatedRun.longitude = lng;
     setRun(updatedRun);
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        if (runId) {
-          const runResponse = await fetch(
-            `http://localhost:8080/api/run/${runId}`
-          );
-          const runData = await runResponse.json();
-          setRun(runData);
-        } else {
-          const updatedRun = { ...DEFAULT_RUN };
-          updatedRun["user"] = user;
-          setRun(updatedRun);
-        }
-
-        if (user.userId) {
-          const memberResponse = await fetch(
-            `http://localhost:8080/api/member/user/${user.userId}`
-          );
-          const memberData = await memberResponse.json();
-          setClubs(memberData.flatMap((member) => [member.club]));
-
-          memberData.map((member) => {
-            if (member.isAdmin) {
-              setIsAdmin(member.club);
-            }
-          });
-        }
-
-        const runStatusResponse = await fetch(
-          `http://localhost:8080/api/runStatus`
-        );
-        const runStatusData = await runStatusResponse.json();
-        setRunStatuses(runStatusData);
-      } catch (error) {
-        console.log(error);
-        history.push(`/runs`);
-      }
-    };
-    getData();
-  }, [isVisible]);
 
   const handleChange = (event) => {
     const updatedRun = { ...run };
@@ -155,6 +158,22 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
     }
   };
 
+  useEffect(() => {
+    if (runId) {
+      getRun();
+    } else {
+      const updatedRun = { ...DEFAULT_RUN };
+      updatedRun["user"] = user;
+      setRun(updatedRun);
+    }
+
+    if (user.userId) {
+      getMembershipData();
+    }
+
+    getRunStatuses();
+  }, [isVisible]);
+
   return (
     <>
       <Modal show={isVisible} onHide={toggleModal}>
@@ -177,6 +196,11 @@ function RunForm({ isVisible, toggleModal, runId, user }) {
                       showTimeSelect
                       showTimeInput
                       selected={new Date(run.timestamp)}
+                      value={
+                        new Date(run.timestamp).toDateString() +
+                        " " +
+                        new Date(run.timestamp).toLocaleTimeString()
+                      }
                       onChange={(timestamp) => {
                         const updatedRun = { ...run };
                         updatedRun[`timestamp`] = timestamp;

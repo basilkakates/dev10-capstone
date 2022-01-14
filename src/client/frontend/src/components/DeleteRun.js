@@ -5,46 +5,13 @@ import Modal from "react-bootstrap/Modal";
 
 import Errors from "./Errors";
 
-function DeleteRun({ showModal, closeModal, runId }) {
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [address, setAddress] = useState("");
-  const [description, setDescription] = useState("");
-  const [clubId, setClubId] = useState("");
-  const [userId, setUserId] = useState("");
-  const [maxCapacity, setMaxCapacity] = useState([]);
+function DeleteRun({ showModal, closeModal, run }) {
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/run/${runId}`)
-      .then((response) => {
-        if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setDate(data.date);
-        setStartTime(data.startTime);
-        setAddress(data.address);
-        setDescription(data.description);
-        setClubId(data.clubId);
-        setUserId(data.userId);
-        setMaxCapacity(data.maxCapacity);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [runId]);
-
   const deleteRunFormSubmitHandler = (event) => {
     event.preventDefault();
-
-    const run = {
-      runId: runId,
-    };
 
     const init = {
       method: "DELETE",
@@ -82,29 +49,21 @@ function DeleteRun({ showModal, closeModal, runId }) {
       <Modal.Body>
         <Errors errors={errors} />
         <form onSubmit={deleteRunFormSubmitHandler}>
-          <table className="table">
+        <table className="table">
             <tbody>
               <tr>
-                <td>Date: </td>
+                <td>{`Date & Time:`}</td>
                 <td>
                   <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={date}
+                    id="timestamp"
+                    name="timestamp"
+                    className="form-control"
                     readOnly
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Start Time: </td>
-                <td>
-                  <input
-                    type="text"
-                    id="startTime"
-                    name="startTime"
-                    value={startTime}
-                    readOnly
+                    value={
+                      new Date(run.timestamp).toDateString() +
+                      " " +
+                      new Date(run.timestamp).toLocaleTimeString()
+                    }
                   />
                 </td>
               </tr>
@@ -112,10 +71,10 @@ function DeleteRun({ showModal, closeModal, runId }) {
                 <td>Address: </td>
                 <td>
                   <input
-                    type="text"
                     id="address"
                     name="address"
-                    value={address}
+                    className="form-control"
+                    value={run.address}
                     readOnly
                   />
                 </td>
@@ -127,7 +86,8 @@ function DeleteRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="description"
                     name="description"
-                    value={description}
+                    className="form-control"
+                    value={run.description}
                     readOnly
                   />
                 </td>
@@ -139,7 +99,47 @@ function DeleteRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={maxCapacity}
+                    className="form-control"
+                    value={run.maxCapacity}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Club: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="club"
+                    name="club"
+                    className="form-control"
+                    value={run.club.name}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>User: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="user"
+                    name="user"
+                    className="form-control"
+                    value={run.user.firstName + " " + run.user.lastName}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Run Status: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="runStatus"
+                    name="runStatus"
+                    className="form-control"
+                    value={run.runStatus.status}
                     readOnly
                   />
                 </td>
