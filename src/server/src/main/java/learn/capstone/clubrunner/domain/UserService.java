@@ -130,7 +130,7 @@ public class UserService {
             result.addMessage("email is required", ResultType.INVALID);
         }
 
-        if (Validations.isNullOrBlank(user.getPassword())) {
+        if (Validations.isNullOrBlank(user.getPasswordHash())) {
             result.addMessage("password is required", ResultType.INVALID);
         }
 

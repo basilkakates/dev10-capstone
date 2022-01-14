@@ -4,7 +4,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-const PlacesAutocomplete = () => {
+const PlacesAutocomplete = (props) => {
   const {
     ready,
     value,
@@ -41,7 +41,9 @@ const PlacesAutocomplete = () => {
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
           console.log("📍 Coordinates: ", { lat, lng });
+          props.addressToForm(description, lat, lng);
         })
+
         .catch((error) => {
           console.log("😱 Error: ", error);
         });
@@ -67,9 +69,9 @@ const PlacesAutocomplete = () => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        className="form-control"
+        placeholder={props.run ? props.run.address  : "Where are you going?"}
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );

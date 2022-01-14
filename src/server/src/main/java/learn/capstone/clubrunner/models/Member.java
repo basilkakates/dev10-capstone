@@ -46,11 +46,21 @@ public class Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return memberId == member.memberId && isAdmin == member.isAdmin && Objects.equals(user, member.user) && Objects.equals(club, member.club);
+        return memberId == member.memberId && isAdmin == member.isAdmin && user.equals(member.user) && club.equals(member.club);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(memberId, isAdmin, user, club);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "memberId=" + memberId +
+                ", isAdmin=" + isAdmin +
+                ", user=" + user +
+                ", club=" + club +
+                '}';
     }
 }

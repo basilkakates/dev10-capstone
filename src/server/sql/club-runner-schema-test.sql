@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS `club-runner-test`.`user` (
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(64) NOT NULL,
+  `password_hash` VARCHAR(64) NOT NULL,
+  `disabled` TINYINT NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -65,11 +66,10 @@ DROP TABLE IF EXISTS `club-runner-test`.`run` ;
 
 CREATE TABLE IF NOT EXISTS `club-runner-test`.`run` (
   `run_id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
-  `address` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NULL,
+  `timestamp` TIMESTAMP NOT NULL,
+  `address` VARCHAR(150) NOT NULL,
+  `description` VARCHAR(150) NULL,
   `max_capacity` INT NULL,
-  `start_time` TIME NOT NULL,
   `latitude` DECIMAL(8,6) NOT NULL,
   `longitude` DECIMAL(9,6) NOT NULL,
   `user_id` INT NOT NULL,
@@ -150,12 +150,38 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `club-runner-test`.`table1`
+-- Table `club-runner-test`.`role`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `club-runner-test`.`table1` ;
+DROP TABLE IF EXISTS `club-runner-test`.`role` ;
 
-CREATE TABLE IF NOT EXISTS `club-runner-test`.`table1` (
-)
+CREATE TABLE IF NOT EXISTS `club-runner-test`.`role` (
+  `role_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`role_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `club-runner-test`.`user_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `club-runner-test`.`user_role` ;
+
+CREATE TABLE IF NOT EXISTS `club-runner-test`.`user_role` (
+  `user_id` INT NOT NULL,
+  `role_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `role_id`),
+  INDEX `fk_user_role_role_idx` (`role_id` ASC) VISIBLE,
+  INDEX `fk_user_role_user_idx` (`user_id` ASC) INVISIBLE,
+  CONSTRAINT `fk_user_role_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `club-runner-test`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_role_role`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `club-runner-test`.`role` (`role_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

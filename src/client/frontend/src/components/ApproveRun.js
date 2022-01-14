@@ -1,56 +1,42 @@
 import { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+
+import "react-datepicker/dist/react-datepicker.css";
+import "react-time-picker/dist/TimePicker.css";
+
 import Errors from "./Errors";
 
-function ApproveRun({ showModal, closeModal, runId }) {
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [address, setAddress] = useState("");
-  const [description, setDescription] = useState("");
-  const [clubId, setClubId] = useState("");
-  const [userId, setUserId] = useState("");
-  const [maxCapacity, setMaxCapacity] = useState([]);
+function ApproveRun({ showModal, closeModal, run }) {
   const [errors, setErrors] = useState([]);
+  const [approvedStatus, setApprovedStatus] = useState({});
+  const [updatedRun, setUpdatedRun] = useState([]);
 
   const history = useHistory();
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/run/${runId}`)
-      .then((response) => {
-        if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Run ID: ${runId}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setDate(data.date);
-        setStartTime(data.startTime);
-        setAddress(data.address);
-        setDescription(data.description);
-        setMaxCapacity(data.maxCapacity);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [runId]);
+  const getApprovedRunStatus = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/runStatus/status/approved`
+      );
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error(`Response is not 200 OK: ${data}`);
+      } else {
+        setApprovedStatus(data);
+      }
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
 
   const approveRunFormSubmitHandler = (event) => {
     event.preventDefault();
 
-    const updatedRun = {
-      runId: runId,
-      date,
-      startTime,
-      address,
-      description,
-      clubId,
-      userId,
-      maxCapacity,
-      status: "approved",
-    };
+    const updatedRun = { ...run };
+    updatedRun.runStatus = approvedStatus;
 
     const init = {
       method: "PUT",
@@ -61,7 +47,7 @@ function ApproveRun({ showModal, closeModal, runId }) {
       body: JSON.stringify(updatedRun),
     };
 
-    fetch(`http://localhost:8080/run/${updatedRun.runId}`, init)
+    fetch(`http://localhost:8080/api/run/${updatedRun.runId}`, init)
       .then((response) => {
         if (response.status === 204) {
           return null;
@@ -72,13 +58,17 @@ function ApproveRun({ showModal, closeModal, runId }) {
       })
       .then((data) => {
         if (!data) {
-          history.push("/runs/pending");
+          history.push("/runs");
         } else {
           setErrors(data);
         }
       })
       .catch((error) => console.log(error));
   };
+
+  useEffect(() => {
+    getApprovedRunStatus();
+  }, [run]);
 
   return (
     <Modal show={showModal} onHide={closeModal}>
@@ -91,26 +81,18 @@ function ApproveRun({ showModal, closeModal, runId }) {
           <table className="table">
             <tbody>
               <tr>
-                <td>Date: </td>
+                <td>{`Date & Time:`}</td>
                 <td>
                   <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={date}
+                    id="timestamp"
+                    name="timestamp"
+                    className="form-control"
                     readOnly
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Start Time: </td>
-                <td>
-                  <input
-                    type="text"
-                    id="startTime"
-                    name="startTime"
-                    value={startTime}
-                    readOnly
+                    value={
+                      new Date(run.timestamp).toDateString() +
+                      " " +
+                      new Date(run.timestamp).toLocaleTimeString()
+                    }
                   />
                 </td>
               </tr>
@@ -118,10 +100,10 @@ function ApproveRun({ showModal, closeModal, runId }) {
                 <td>Address: </td>
                 <td>
                   <input
-                    type="text"
                     id="address"
                     name="address"
-                    value={address}
+                    className="form-control"
+                    value={run.address}
                     readOnly
                   />
                 </td>
@@ -133,7 +115,8 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="description"
                     name="description"
-                    value={description}
+                    className="form-control"
+                    value={run.description}
                     readOnly
                   />
                 </td>
@@ -145,7 +128,47 @@ function ApproveRun({ showModal, closeModal, runId }) {
                     type="text"
                     id="maxCapacity"
                     name="maxCapacity"
-                    value={maxCapacity}
+                    className="form-control"
+                    value={run.maxCapacity}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Club: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="club"
+                    name="club"
+                    className="form-control"
+                    value={run.club.name}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>User: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="user"
+                    name="user"
+                    className="form-control"
+                    value={run.user.firstName + " " + run.user.lastName}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Run Status: </td>
+                <td>
+                  <input
+                    type="text"
+                    id="runStatus"
+                    name="runStatus"
+                    className="form-control"
+                    value={run.runStatus.status}
                     readOnly
                   />
                 </td>

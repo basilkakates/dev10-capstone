@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+import MembershipCount from "./MembershipCount";
+import MemberStatus from "./MemberStatus";
+import AdminStatus from "./AdminStatus";
 
 function Clubs() {
   const [clubs, setClubs] = useState([]);
 
   const getClubs = () => {
-    fetch("http://localhost:8080/club")
+    fetch("http://localhost:8080/api/club")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("clubs fetch failed");
@@ -40,7 +42,10 @@ function Clubs() {
               <th scope="row">{club.clubId}</th>
               <td>{club.name}</td>
               <td>{club.description}</td>
-              <td></td>
+              <MembershipCount clubId={club.clubId} />
+
+              <MemberStatus clubId={club.clubId} />
+              <AdminStatus clubId={club.clubId} />
             </tr>
           ))}
         </tbody>

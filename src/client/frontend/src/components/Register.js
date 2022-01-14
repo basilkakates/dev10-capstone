@@ -1,11 +1,14 @@
 import { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../AuthContext";
+import Container from "react-bootstrap/Container";
 
 import Errors from "./Errors";
 
 function Register() {
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -16,6 +19,14 @@ function Register() {
 
   const usernameOnChangeHandler = (event) => {
     setUsername(event.target.value);
+  };
+
+  const firstNameOnChangeHandler = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const lastNameOnChangeHandler = (event) => {
+    setLastName(event.target.value);
   };
 
   const passwordOnChangeHandler = (event) => {
@@ -38,6 +49,8 @@ function Register() {
 
     const newUser = {
       username,
+      firstName,
+      lastName,
       password,
     };
 
@@ -92,12 +105,12 @@ function Register() {
   };
 
   return (
-    <>
-      <h2 className="my-4">Register</h2>
+    <Container>
+      <h2 className="my-4"style={{color: "white", background: "#375d83", width:"145px", height:"45px", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Register&nbsp;</h2>
       <Errors errors={errors} />
       <form onSubmit={formSubmitHandler}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Email:&nbsp;</label>
           <input
             className="form-control"
             type="text"
@@ -108,7 +121,29 @@ function Register() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="firstName"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;First Name:&nbsp;</label>
+          <input
+            className="form-control"
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={firstName}
+            onChange={firstNameOnChangeHandler}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Last Name:&nbsp;</label>
+          <input
+            className="form-control"
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={lastName}
+            onChange={lastNameOnChangeHandler}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Password:&nbsp;</label>
           <input
             className="form-control"
             type="password"
@@ -119,7 +154,7 @@ function Register() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <label htmlFor="confirmPassword"style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Confirm Password:&nbsp;</label>
           <input
             className="form-control"
             type="password"
@@ -138,7 +173,7 @@ function Register() {
           </Link>
         </div>
       </form>
-    </>
+    </Container>
   );
 }
 

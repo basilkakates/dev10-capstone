@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../AuthContext";
+import Container from "react-bootstrap/Container";
 
 import Errors from "./Errors";
 
@@ -54,12 +55,12 @@ function Login() {
   };
 
   return (
-    <>
-      <h2 className="my-4">Login</h2>
+    <Container>
+      <h2 className="my-4" style={{color: "white", background: "#375d83", width:"100px", height:"42px", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Login&nbsp;</h2>
       <Errors errors={errors} />
       <form onSubmit={formSubmitHandler}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username" style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Email:&nbsp;</label>
           <input
             className="form-control"
             type="text"
@@ -70,7 +71,10 @@ function Login() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="blank" style={{}}>&nbsp;</label>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password" style={{color: "white", background: "#375d83", fontWeight: "500", borderRadius: "10px"}}>&nbsp;Password:&nbsp;</label>
           <input
             className="form-control"
             type="password"
@@ -89,7 +93,7 @@ function Login() {
           </Link>
         </div>
       </form>
-    </>
+    </Container>
   );
 }
 

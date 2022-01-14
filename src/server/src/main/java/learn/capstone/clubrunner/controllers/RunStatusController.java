@@ -35,8 +35,8 @@ public class RunStatusController {
         return ErrorResponse.build(result);
     }
 
-    @GetMapping("/status")
-    public ResponseEntity<Object> findByStatus(@RequestBody String status) {
+    @GetMapping("/status/{status}")
+    public ResponseEntity<Object> findByStatus(@PathVariable String status) {
         Result<RunStatus> result = service.findByStatus(status);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);

@@ -1,17 +1,15 @@
 package learn.capstone.clubrunner.models;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Run {
     private int runId;
-    private LocalDate date;
+    private Timestamp timestamp;
     private String address;
     private String description;
     private int maxCapacity;
-    private LocalTime startTime;
     private BigDecimal latitude;
     private BigDecimal longitude;
 
@@ -27,12 +25,12 @@ public class Run {
         this.runId = runId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getAddress() {
@@ -57,14 +55,6 @@ public class Run {
 
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
     }
 
     public BigDecimal getLatitude() {
@@ -112,11 +102,27 @@ public class Run {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Run run = (Run) o;
-        return runId == run.runId && maxCapacity == run.maxCapacity && date.equals(run.date) && address.equals(run.address) && Objects.equals(description, run.description) && startTime.equals(run.startTime) && latitude.equals(run.latitude) && longitude.equals(run.longitude) && club.equals(run.club) && user.equals(run.user) && runStatus.equals(run.runStatus);
+        return runId == run.runId && maxCapacity == run.maxCapacity && timestamp.equals(run.timestamp) && address.equals(run.address) && Objects.equals(description, run.description) && latitude.equals(run.latitude) && longitude.equals(run.longitude) && club.equals(run.club) && user.equals(run.user) && runStatus.equals(run.runStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(runId, date, address, description, maxCapacity, startTime, latitude, longitude, club, user, runStatus);
+        return Objects.hash(runId, timestamp, address, description, maxCapacity, latitude, longitude, club, user, runStatus);
+    }
+
+    @Override
+    public String toString() {
+        return "Run{" +
+                "runId=" + runId +
+                ", timestamp=" + timestamp +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", maxCapacity=" + maxCapacity +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", club=" + club +
+                ", user=" + user +
+                ", runStatus=" + runStatus +
+                '}';
     }
 }

@@ -54,6 +54,39 @@ class MemberControllerTest {
     }
 
     @Test
+    void findAdminsByUserIdShouldReturn200() throws Exception {
+        Member member = makeAdminMember();
+        member.setMemberId(1);
+
+        User user = new User();
+        user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
+
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findAdminsByUserId(user.getUserId())).thenReturn(member);
+
+        String expectedJson = jsonMapper.writeValueAsString(member);
+
+        String urlTemplate = String.format("/api/member/admins/user/%s", user.getUserId());
+        mvc.perform(get(urlTemplate))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findAdminsByClubIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findAdminsByClubId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/member/admins/club/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
     void findByUserIdShouldReturn200() throws Exception {
         ObjectMapper jsonMapper = new ObjectMapper();
         when(repository.findByUserId(anyInt())).thenReturn(new ArrayList<>());
@@ -291,13 +324,38 @@ class MemberControllerTest {
 
         User user = new User();
         user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
 
         Club club = new Club();
         club.setClubId(1);
+        club.setName("Test");
 
         member.setUser(user);
         member.setClub(club);
         member.setIsAdmin(0);
+
+        return member;
+    }
+
+    private Member makeAdminMember() {
+        Member member = new Member();
+        member.setMemberId(0);
+
+        User user = new User();
+        user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
+
+        Club club = new Club();
+        club.setClubId(1);
+        club.setName("Test");
+
+        member.setUser(user);
+        member.setClub(club);
+        member.setIsAdmin(1);
 
         return member;
     }

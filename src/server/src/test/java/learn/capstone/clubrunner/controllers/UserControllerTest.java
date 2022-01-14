@@ -2,6 +2,7 @@ package learn.capstone.clubrunner.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.capstone.clubrunner.data.UserRepository;
+import learn.capstone.clubrunner.models.Run;
 import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -310,13 +311,15 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+
+
     private User makeUser() {
         User user = new User();
         user.setUserId(0);
         user.setFirstName("Testy");
         user.setLastName("McTest");
         user.setEmail("tmctest@test.com");
-        user.setPassword("supersecure");
+        user.setPasswordHash("supersecure");
 
         return user;
     }

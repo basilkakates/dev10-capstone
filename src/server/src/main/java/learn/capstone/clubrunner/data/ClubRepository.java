@@ -8,8 +8,4 @@ public interface ClubRepository {
     List<Club> findAll();
 
     Club findById(int clubId);
-
-    Club findAdminFor(int userId);
-
-    List<Club> findClubMemberships(int userId);
 }

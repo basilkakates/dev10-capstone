@@ -12,6 +12,10 @@ public class ErrorResponse {
     private final LocalDateTime timestamp = LocalDateTime.now();
     private final String message;
 
+    public ErrorResponse(String message, LocalDateTime timestamp) {
+        this.message = message;
+    }
+
     public static <T> ResponseEntity<Object> build(Result<T> result) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (result.getType() == null || result.getType() == ResultType.INVALID) {
@@ -29,9 +33,5 @@ public class ErrorResponse {
 
     public String getMessage() {
         return message;
-    }
-
-    public ErrorResponse(String message, LocalDateTime timestamp) {
-        this.message = message;
     }
 }

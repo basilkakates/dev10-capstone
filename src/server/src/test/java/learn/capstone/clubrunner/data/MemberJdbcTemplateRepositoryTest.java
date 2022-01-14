@@ -93,6 +93,27 @@ class MemberJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldFindAdminsByClubId() {
+        int clubId = 1;
+
+        List<Member> memberships = repository.findAdminsByClubId(clubId);
+        assertNotNull(memberships);
+        assertTrue(memberships.size() > 0);
+
+        assertNotNull(memberships.get(0).getUser());
+        assertNotNull(memberships.get(0).getClub());
+
+        assertEquals(clubId, memberships.get(0).getClub().getClubId());
+    }
+
+    @Test
+    void shouldFindAdminsByUserId() {
+        Member memberships = repository.findAdminsByUserId(3);
+        assertNotNull(memberships);
+        assertTrue(memberships.getIsAdmin() == 1);
+    }
+
+    @Test
     void shouldFindAll() {
         List<Member> memberships = repository.findAll();
         assertNotNull(memberships);

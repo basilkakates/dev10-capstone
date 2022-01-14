@@ -1,12 +1,12 @@
 function Errors({ errors }) {
-  if (errors.length === 0) {
+  if (!errors || errors.length === 0) {
     return null;
   }
 
   return (
     <div className="alert alert-danger">
       <ul>
-        {errors.map((error) => (
+        {!errors ? null : errors.map((error) => (
           <li key={error}>{error}</li>
         ))}
       </ul>

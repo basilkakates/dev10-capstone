@@ -7,7 +7,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
+    private String passwordHash;
+    private boolean disabled;
 
     public int getUserId() {
         return userId;
@@ -41,12 +42,20 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     @Override
@@ -54,11 +63,23 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return userId == user.userId && disabled == user.disabled && firstName.equals(user.firstName) && lastName.equals(user.lastName) && email.equals(user.email) && passwordHash.equals(user.passwordHash);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, email, password);
+        return Objects.hash(userId, firstName, lastName, email, passwordHash, disabled);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", disabled=" + disabled +
+                '}';
     }
 }

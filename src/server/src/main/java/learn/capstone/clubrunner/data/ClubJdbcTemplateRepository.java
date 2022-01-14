@@ -30,27 +30,4 @@ public class ClubJdbcTemplateRepository implements ClubRepository {
         return jdbcTemplate.query(sql, new ClubMapper(), clubId).stream().findAny().orElse(null);
     }
 
-    @Override
-    public Club findAdminFor(int userId) {
-        final String sql = "select club_id, name, description club_description " +
-                "from club c " +
-                "inner join member m " +
-                "on c.club_id = m.club_id " +
-                "where m.isAdmin = 1 " +
-                "and m.user_id = ?;";
-
-        return jdbcTemplate.query(sql, new ClubMapper(), userId).stream()
-                .findFirst().orElse(null);
-    }
-
-    @Override
-    public List<Club> findClubMemberships(int userId) {
-        final String sql = "select club_id, name, description club_description " +
-                "from club c " +
-                "inner join member m " +
-                "on c.club_id = m.club_id " +
-                "where m.user_id = ?;";
-
-        return jdbcTemplate.query(sql, new ClubMapper(), userId);
-    }
 }

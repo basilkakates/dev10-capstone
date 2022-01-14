@@ -3,79 +3,54 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
 import RunTableHeader from "./RunTableHeader";
-import AddRun from "./AddRun";
-import EditRun from "./EditRun";
-import CancelRun from "./CancelRun";
+import RunForm from "./RunForm";
+import useModal from "./useModal";
+import MarkerInfoWindowGmapsObj from "./MarkerInfoWindowGmapsObj";
+import RunRow from "./RunRow";
 
-function Runs() {
+function Runs({ user }) {
   const [runs, setRuns] = useState([]);
-  const [user, setUser] = useState([]);
-  const [runners, setRunners] = useState([]);
+  const { isVisible, toggleModal, viewModal } = useModal();
+  const [runId, setRunId] = useState();
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showCancelModal, setShowCancelModal] = useState(false);
-
-  const handleAddModalClose = () => setShowAddModal(false);
-  const handleAddModalShow = () => setShowAddModal(true);
-
-  const handleEditModalClose = () => setShowEditModal(false);
-  const handleEditModalShow = () => setShowEditModal(true);
-
-  const handleCancelModalClose = () => setShowCancelModal(false);
-  const handleCancelModalShow = () => setShowCancelModal(true);
-
-  const getRuns = () => {
-    fetch("http://localhost:8080/run")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setRuns(json))
-      .catch(console.log);
-  };
-
-  const getUser = () => {
-    fetch("http://localhost:8080/user/1")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setUser(json))
-      .catch(console.log);
-  };
-
-  const getRunners = () => {
-    fetch("http://localhost:8080/runner")
-      .then((response) => {
-        if (response.status !== 200) {
-          return Promise.reject("runs fetch failed");
-        }
-        return response.json();
-      })
-      .then((json) => setRunners(json))
-      .catch(console.log);
+  const getRuns = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/run");
+      const data = await response.json();
+      setRuns(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getRuns();
-    getUser();
-    getRunners();
-  }, []);
+  }, [isVisible, user]);
 
   return (
     <Container>
-      <h2 className="my-4">Runs</h2>
+      <MarkerInfoWindowGmapsObj runs={runs} />
+      <h2 className="my-4"></h2>
 
       <div>
-        <Button variant="primary" onClick={handleAddModalShow}>
-          Add Run
-        </Button>
-        <AddRun showModal={showAddModal} closeModal={handleAddModalClose} />
+        {user.userId ? (
+          <Button
+            className="btn btn-primary"
+            onClick={() => {
+              viewModal();
+              setRunId(0);
+            }}
+          >
+            Add Run
+          </Button>
+        ) : null}
+        <h2 className="my-4"></h2>
+        <RunForm
+          isVisible={isVisible}
+          toggleModal={toggleModal}
+          runId={runId}
+          user={user}
+        />
       </div>
 
       <table className="table">
@@ -84,57 +59,12 @@ function Runs() {
         </thead>
         <tbody>
           {runs.map((run) => (
-            <tr key={run.runId}>
-              {run.status !== "pending" && (
-                <>
-                  <th scope="row">{run.date}</th>
-                  <td>{run.startTime}</td>
-                  <td>{run.address}</td>
-                  <td>{run.description}</td>
-                  <td>{run.clubId}</td>
-                  <td>{run.maxCapacity}</td>
-
-                  {run.status === "approved" && (
-                    <td>
-                      {runners.some((run) => run.runId) ? (
-                        <td className="btn btn-success btn-sm">Joined</td>
-                      ) : (
-                        <td className="btn btn-success btn-sm">Join</td>
-                      )}
-                      <div>
-                        <Button variant="primary" onClick={handleEditModalShow}>
-                          Edit
-                        </Button>
-
-                        <EditRun
-                          showModal={showEditModal}
-                          closeModal={handleEditModalClose}
-                          runId={run.runId}
-                        />
-                      </div>
-                      <div>
-                        <Button
-                          variant="secondary"
-                          onClick={handleCancelModalShow}
-                        >
-                          Cancel
-                        </Button>
-                        <CancelRun
-                          showModal={showCancelModal}
-                          closeModal={handleCancelModalClose}
-                          runId={run.runId}
-                        />
-                      </div>
-                    </td>
-                  )}
-                  {run.status === "canceled" && (
-                    <td className="btn btn-outline-danger btn-sm" disabled>
-                      CANCELED
-                    </td>
-                  )}
-                </>
-              )}
-            </tr>
+              <RunRow
+                user={user}
+                run={run}
+                viewModal={viewModal}
+                setRunId={setRunId}
+              />
           ))}
         </tbody>
       </table>

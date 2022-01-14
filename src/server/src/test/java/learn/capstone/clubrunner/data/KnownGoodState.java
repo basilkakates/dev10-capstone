@@ -6,10 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class KnownGoodState {
+    static boolean hasRun = false;
     @Autowired
     JdbcTemplate jdbcTemplate;
-
-    static boolean hasRun = false;
 
     void set() {
         if (!hasRun) {

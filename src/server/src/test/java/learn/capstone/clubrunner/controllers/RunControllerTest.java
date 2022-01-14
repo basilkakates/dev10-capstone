@@ -1,6 +1,7 @@
 package learn.capstone.clubrunner.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import learn.capstone.clubrunner.data.RunRepository;
 import learn.capstone.clubrunner.models.Club;
 import learn.capstone.clubrunner.models.Run;
@@ -15,15 +16,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,6 +49,28 @@ class RunControllerTest {
     }
 
     @Test
+    void findByUserIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByUserId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/run/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void findByClubIdShouldReturn200() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        when(repository.findByClubId(1)).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
+
+        mvc.perform(get("/api/run/club/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @Test
     void findByIdShouldReturn404WhenMissing() throws Exception {
         when(repository.findById(anyInt())).thenReturn(null);
         mvc.perform(get("/api/run/1"))
@@ -57,39 +79,31 @@ class RunControllerTest {
 
     @Test
     void findByIdShouldReturn200() throws Exception {
-        Run run = makeRun();
-        run.setRunId(1);
-
         ObjectMapper jsonMapper = new ObjectMapper();
-        when(repository.findById(run.getRunId())).thenReturn(run);
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+        String expectedJson = jsonMapper.writeValueAsString(new ArrayList<>());
 
-        String expectedJson = jsonMapper.writeValueAsString(run);
-
-        String urlTemplate = String.format("/api/run/%s", run.getRunId());
-        mvc.perform(get(urlTemplate))
+        mvc.perform(get("/api/run"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
 
     @Test
     void addShouldReturn201() throws Exception {
-        // 1. Configure per-test mock repository behavior.
         Run expected = makeRun();
         expected.setRunId(1);
 
         when(repository.add(any())).thenReturn(expected);
-
-        // 2. Generate both input and expected JSON.
         ObjectMapper jsonMapper = new ObjectMapper();
+        jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         String jsonIn = jsonMapper.writeValueAsString(makeRun());
         String expectedJson = jsonMapper.writeValueAsString(expected);
 
-        // 3. Build the request.
         var request = post("/api/run")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonIn);
 
-        // 4. Send the request and assert.
         mvc.perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(content().json(expectedJson));
@@ -107,11 +121,8 @@ class RunControllerTest {
 
     @Test
     void addShouldReturn400WhenInvalid() throws Exception {
-
         ObjectMapper jsonMapper = new ObjectMapper();
-
-        Run run = makeRun();
-        String agencyJson = jsonMapper.writeValueAsString(run);
+        String agencyJson = jsonMapper.writeValueAsString(new Run());
 
         var request = post("/api/run")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -138,28 +149,155 @@ class RunControllerTest {
                 .andExpect(status().isUnsupportedMediaType());
     }
 
-    Run makeRun() {
+    @Test
+    void updateShouldReturn204() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        Run run = makeRun();
+        run.setRunId(1);
+
+        String runJson = jsonMapper.writeValueAsString(run);
+        String urlTemplate = String.format("/api/run/%s", run.getRunId());
+
+        when(repository.update(any())).thenReturn(true);
+
+        var request = put(urlTemplate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(runJson);
+
+        mvc.perform(request)
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void updateShouldReturn400WhenEmpty() throws Exception {
+        var request = put("/api/run/1")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mvc.perform(request)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateShouldReturn400WhenInvalid() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        Run run = makeRun();
+        run.setRunId(-1);
+
+        String runJson = jsonMapper.writeValueAsString(run);
+
+        String urlTemplate = String.format("/api/run/%s", run.getRunId());
+
+        var request = put(urlTemplate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(runJson);
+
+        mvc.perform(request)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateShouldReturn404WhenMissing() throws Exception {
+        when(repository.update(any())).thenReturn(false);
+
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        Run run = makeRun();
+        run.setRunId(1);
+
+        String runJson = jsonMapper.writeValueAsString(run);
+
+        String urlTemplate = String.format("/api/run/%s", run.getRunId());
+
+        var request = put(urlTemplate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(runJson);
+
+        mvc.perform(request)
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateShouldReturn415WhenMultipart() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        Run run = makeRun();
+        run.setRunId(1);
+
+        when(repository.update(run)).thenReturn(true);
+
+        String userJson = jsonMapper.writeValueAsString(run);
+
+        String urlTemplate = String.format("/api/run/%s", run.getRunId());
+
+        var request = put(urlTemplate)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .content(userJson);
+
+        mvc.perform(request)
+                .andExpect(status().isUnsupportedMediaType());
+    }
+
+    @Test
+    void updateShouldReturn409WhenConflict() throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        Run run = makeRun();
+        run.setRunId(1);
+
+        when(repository.update(run)).thenReturn(true);
+
+        String userJson = jsonMapper.writeValueAsString(run);
+
+        var request = put("/api/run/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userJson);
+
+        mvc.perform(request)
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void deleteShouldReturn404WhenMissing() throws Exception {
+        when(repository.deleteById(anyInt())).thenReturn(false);
+        mvc.perform(delete("/api/run/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteShouldReturn204() throws Exception {
+        when(repository.deleteById(anyInt())).thenReturn(true);
+        mvc.perform(delete("/api/run/1"))
+                .andExpect(status().isNoContent());
+    }
+
+    private Run makeRun() {
         Run run = new Run();
 
         User user = new User();
         user.setUserId(1);
+        user.setFirstName("Testy");
+        user.setLastName("McTest");
+        user.setEmail("tmctest@test.com");
 
         Club club = new Club();
         club.setClubId(1);
+        club.setName("Test Club");
 
         RunStatus runStatus = new RunStatus();
-        runStatus.setRunStatusId(2);
+        runStatus.setRunStatusId(1);
+        runStatus.setStatus("Test");
 
-        run.setDate(LocalDate.parse("2025-12-31"));
+        run.setTimestamp(Timestamp.valueOf(LocalDateTime.now().plusHours(1)));
         run.setAddress("000 Test");
         run.setMaxCapacity(25);
         run.setUser(user);
         run.setClub(club);
         run.setRunStatus(runStatus);
-        run.setStartTime(LocalTime.parse("23:59"));
-        run.setLatitude(new BigDecimal("41.902324"));
-        run.setLongitude(new BigDecimal("-88.00001"));
-        run.setDescription(null);
+        run.setLatitude(BigDecimal.valueOf(41.902324));
+        run.setLongitude(BigDecimal.valueOf(-88.00001));
+        run.setDescription("A test run");
 
         return run;
     }

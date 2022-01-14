@@ -13,6 +13,10 @@ public interface MemberRepository {
 
     List<Member> findAdmins();
 
+    Member findAdminsByUserId(int userId);
+
+    List<Member> findAdminsByClubId(int clubId);
+
     List<Member> findAll();
 
     Member add(Member member);

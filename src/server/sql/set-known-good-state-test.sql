@@ -21,14 +21,14 @@ insert into `club` (`name`)
 	values
 		('New York Runners');
 
-insert into `user` (`first_name`, `last_name`, `email`, `password`)
+insert into `user` (`first_name`, `last_name`, `email`, `password_hash`, `disabled`)
 	values 
-		('Joe', 'Shmoe', 'jshmoe@test.com', '123abcd'),
-        ('Mary', 'Doe', 'mdoe@test.com', 'asdfqwerty!'),
-        ('John', 'Sean', 'jsean@test.com', 'password'),
-        ('Susan', 'Sean', 'ssean@test.com', 'birthday'),
-        ('Admin', 'Jr.', 'ajr@test.com', 'supersecure'),
-        ('Admin', 'Sr.', 'asr@test.com', 'supersecure');
+		('Joe', 'Shmoe', 'jshmoe@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Mary', 'Doe', 'mdoe@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('John', 'Sean', 'jsean@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Susan', 'Sean', 'ssean@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Admin', 'Jr.', 'ajr@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0'),
+        ('Admin', 'Sr.', 'asr@test.com', '$2y$10$XzTc3zTtwys82Cs0UbzRZeSU99QQz7xtwggQ/ldD9jAoKiU9q7oQu', '0');
         
 insert into `member` (`user_id`, `club_id`, `isAdmin`)
 	values 
@@ -45,11 +45,11 @@ insert into `run_status` (`status`)
         ('Approved'),
         ('Cancelled');
         
-insert into `run` (`date`, `address`, `club_id`, `user_id`, `max_capacity`, `start_time`, `run_status_id`, `latitude`, `longitude`)
+insert into `run` (`timestamp`, `address`, `club_id`, `user_id`, `max_capacity`, `run_status_id`, `latitude`, `longitude`)
 	values
-		('2022-02-03', '123 Elm', 1, 1, 23, "13:00", 2, 41.881832, -87.623177),
-		('2022-02-04', '456 Flower', 1, 5, 10, "13:15", 1, 41.891832, -87.633177),
-		('2022-02-04', '789 Shrub', 2, 3, 8, "13:15", 3, 41.991832, -87.933177);
+		('2022-02-03 13:00', '123 Elm', 1, 1, 23, 2, 41.881832, -87.623177),
+		('2022-02-04 13:15', '456 Flower', 1, 5, 10, 1, 41.891832, -87.633177),
+		('2022-02-04 13:15', '789 Shrub', 2, 3, 8, 3, 41.991832, -87.933177);
 
 insert into `runner` (`run_id`, `user_id`)
 	values

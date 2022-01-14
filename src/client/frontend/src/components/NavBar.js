@@ -1,33 +1,36 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import AuthContext from "../AuthContext";
+import { useEffect, useState } from "react";
 
-function NavBar() {
-  const auth = useContext(AuthContext);
+function NavBar({ user }) {
+  const [clubUserAdminOf, setClubUserAdminOf] = useState(null);
+
+  const getClubUserAdminOf = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/member/admins/user/${user.userId}`
+      );
+      const data = await response.json();
+      if (response.status === 200) {
+        setClubUserAdminOf(data.club);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user.userId) {
+      getClubUserAdminOf();
+    } else {
+      setClubUserAdminOf(null);
+    }
+  }, [user.userId]);
 
   return (
     <>
-      {/* {!auth.user && (
-        <>
-          <Link to="/login" className="btn btn-primary">
-            Login
-          </Link>
-          <Link to="/register" className="btn btn-primary">
-            Register
-          </Link>
-        </>
-      )}
-      {auth.user && (
-        <div>
-          <button onClick={() => auth.logout()} className="btn btn-primary">
-            Logout
-          </button>
-        </div>
-      )} */}
-
       <Container>
         <Row className="align-items-start">
           <Col>
@@ -40,13 +43,13 @@ function NavBar() {
               Clubs
             </Link>
           </Col>
-          <Col>
-            {/* {auth.user && ( */}
-            <Link to="/runs/pending" className="btn btn-primary">
-              Pending Runs
-            </Link>
-            {/* )} */}
-          </Col>
+          {clubUserAdminOf !== null ? (
+            <Col>
+              <Link to="/runs/pending" className="btn btn-primary">
+                Pending Runs
+              </Link>
+            </Col>
+          ) : null}
           <Col>
             <Link to="/userprofile" className="btn btn-primary">
               User Profile

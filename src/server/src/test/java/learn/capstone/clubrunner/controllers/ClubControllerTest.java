@@ -3,7 +3,7 @@ package learn.capstone.clubrunner.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.capstone.clubrunner.data.ClubRepository;
 import learn.capstone.clubrunner.models.Club;
-
+import learn.capstone.clubrunner.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

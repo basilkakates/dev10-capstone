@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 
-import RunTableHeader from "./RunTableHeader";
+import PendingRunTableHeader from "./PendingRunTableHeader";
+import RunTime from "./RunTime";
+import Button from "react-bootstrap/Button";
 import ApproveRun from "./ApproveRun";
 import DeleteRun from "./DeleteRun";
 
-function PendingRuns() {
+function PendingRuns({ user }) {
   const [runs, setRuns] = useState([]);
+  const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
 
@@ -18,8 +19,20 @@ function PendingRuns() {
   const handleDeclineModalClose = () => setShowDeclineModal(false);
   const handleDeclineModalShow = () => setShowDeclineModal(true);
 
+  const getClubUserIsAdminOf = () => {
+    fetch(`http://localhost:8080/api/member/admins/user/${user.userId}`)
+      .then((response) => {
+        if (response.status !== 200) {
+          return Promise.reject("runs fetch failed");
+        }
+        return response.json();
+      })
+      .then((json) => setClubUserIsAdminOf(json.club))
+      .catch(console.log);
+  };
+
   const getRuns = () => {
-    fetch("http://localhost:8080/run")
+    fetch("http://localhost:8080/api/run")
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
@@ -32,25 +45,8 @@ function PendingRuns() {
 
   useEffect(() => {
     getRuns();
-  }, []);
-
-  const runDeleteClickHandler = (runId) => {
-    const init = {
-      method: "DELETE",
-    };
-
-    fetch(`http://localhost:8080/run/${runId}`, init)
-      .then((response) => {
-        if (response.status === 204) {
-          getRuns();
-        } else if (response.status === 404) {
-          Promise.reject(`Run ID ${runId} not found`);
-        } else {
-          Promise.reject("Something unexpected went wrong :)");
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+    getClubUserIsAdminOf();
+  }, [user]);
 
   return (
     <Container>
@@ -58,51 +54,54 @@ function PendingRuns() {
 
       <table className="table">
         <thead>
-          <RunTableHeader />
+          <PendingRunTableHeader />
         </thead>
         <tbody>
-          {runs.map((run) => (
-            <tr key={run.runId}>
-              {run.status === "pending" && (
-                <>
-                  <th scrope="row">{run.date}</th>
-                  <td>{run.startTime}</td>
-                  <td>{run.address}</td>
-                  <td>{run.description}</td>
-                  <td>{run.clubid}</td>
-                  <td>{run.maxCapacity}</td>
-                  <td>
-                    <div>
-                      <Button
-                        variant="primary"
-                        onClick={handleApproveModalShow}
-                      >
-                        Approve
-                      </Button>
-                      <ApproveRun
-                        showModal={showApproveModal}
-                        closeModal={handleApproveModalClose}
-                        runId={run.runId}
-                      />
-                    </div>
-                    <div>
-                      <Button
-                        variant="secondary"
-                        onClick={handleDeclineModalShow}
-                      >
-                        Decline
-                      </Button>
-                      <DeleteRun
-                        showModal={showDeclineModal}
-                        closeModal={handleDeclineModalClose}
-                        runId={run.runId}
-                      />
-                    </div>
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
+          {runs
+            .filter((run) => (
+              run.club.clubId === clubUserIsAdminOf.clubId
+            ))
+            .map((run) => (
+              <tr key={run.runId}>
+                {run.runStatus.status == "Pending Approval" && (
+                  <>
+                    <RunTime timestamp={run.timestamp} />
+                    <td>{run.address}</td>
+                    <td>{run.description}</td>
+                    <td>{run.club.name}</td>
+                    <td>{run.maxCapacity}</td>
+                    <td>
+                      <div>
+                        <Button
+                          variant="primary"
+                          onClick={handleApproveModalShow}
+                        >
+                          Approve
+                        </Button>
+                        <ApproveRun
+                          showModal={showApproveModal}
+                          closeModal={handleApproveModalClose}
+                          run={run}
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          variant="secondary"
+                          onClick={handleDeclineModalShow}
+                        >
+                          Decline
+                        </Button>
+                        <DeleteRun
+                          showModal={showDeclineModal}
+                          closeModal={handleDeclineModalClose}
+                          run={run}
+                        />
+                      </div>
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
         </tbody>
       </table>
     </Container>
