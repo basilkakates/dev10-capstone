@@ -27,8 +27,10 @@ function AdminOptionsForRun({ viewModal, setRunId, user, run }) {
   useEffect(() => {
     if (user.userId) {
       getClubUserIsAdminOf();
+    } else {
+      setClubUserIsAdminOf({});
     }
-  }, [user]);
+  }, [run, user.userId]);
 
   return (
     <>

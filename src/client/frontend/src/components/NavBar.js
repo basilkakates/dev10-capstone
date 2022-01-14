@@ -24,6 +24,8 @@ function NavBar({ user }) {
   useEffect(() => {
     if (user.userId) {
       getClubUserAdminOf();
+    } else {
+      setClubUserAdminOf(null);
     }
   }, [user.userId]);
 

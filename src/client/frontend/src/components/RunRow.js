@@ -97,7 +97,7 @@ function RunRow({ run, user, viewModal, setRunId }) {
   useEffect(() => {
     getRunsUserSignedUpFor();
     getUsersSignedUpForRun(run.runId);
-  }, [run]);
+  }, [run, user]);
 
   return (
     <tr key={run.runId} scope="row">
