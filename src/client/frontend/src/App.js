@@ -120,7 +120,7 @@ function App() {
           </Route>
 
           <Route exact path="/runs/pending">
-            {user ? <PendingRuns /> : <Redirect to="../login" />}
+            {user ? <PendingRuns user={userProfile}/> : <Redirect to="../login" />}
           </Route>
 
           <Route path="/runs/approve/:run_id">

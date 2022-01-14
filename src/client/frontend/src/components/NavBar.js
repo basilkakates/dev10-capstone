@@ -27,7 +27,7 @@ function NavBar({ user }) {
     if (user.userId) {
       getClubUserAdminOf();
     }
-  });
+  }, [user.userId]);
 
   return (
     <>
