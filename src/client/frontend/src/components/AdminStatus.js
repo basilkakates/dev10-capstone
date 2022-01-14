@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-function AdminStatus({ clubId }) {
+function AdminStatus({ clubId, user }) {
   const [clubUserIsAdminOf, setClubUserIsAdminOf] = useState([]);
 
   const getClubUserIsAdminOf = () => {
-    fetch("http://localhost:8080/api/member/admins/user/3")
+    fetch(`http://localhost:8080/api/member/admins/user/${user.userId}`)
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
@@ -19,7 +19,7 @@ function AdminStatus({ clubId }) {
 
   useEffect(() => {
     getClubUserIsAdminOf();
-  }, []);
+  }, [user]);
 
   return (
     <Container>

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-function MemberStatus({ clubId }) {
+function MemberStatus({ clubId, user }) {
   const [clubsUserIsMemberOf, setClubsUserIsMemberOf] = useState([]);
 
   const getClubsUserIsMemberOf = () => {
-    fetch("http://localhost:8080/api/member/user/1")
+    fetch(`http://localhost:8080/api/member/user/${user.userId}`)
       .then((response) => {
         if (response.status !== 200) {
           return Promise.reject("runs fetch failed");
@@ -19,7 +19,7 @@ function MemberStatus({ clubId }) {
 
   useEffect(() => {
     getClubsUserIsMemberOf();
-  }, []);
+  }, [user]);
 
   return (
     <Container>

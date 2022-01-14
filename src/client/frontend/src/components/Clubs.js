@@ -4,7 +4,7 @@ import MembershipCount from "./MembershipCount";
 import MemberStatus from "./MemberStatus";
 import AdminStatus from "./AdminStatus";
 
-function Clubs() {
+function Clubs({user}) {
   const [clubs, setClubs] = useState([]);
 
   const getClubs = () => {
@@ -44,8 +44,8 @@ function Clubs() {
               <td>{club.description}</td>
               <MembershipCount clubId={club.clubId} />
 
-              <MemberStatus clubId={club.clubId} />
-              <AdminStatus clubId={club.clubId} />
+              <MemberStatus clubId={club.clubId} user={user}/>
+              <AdminStatus clubId={club.clubId} user={user}/>
             </tr>
           ))}
         </tbody>
