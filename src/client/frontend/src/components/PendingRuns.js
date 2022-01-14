@@ -46,7 +46,7 @@ function PendingRuns({ user }) {
   useEffect(() => {
     getRuns();
     getClubUserIsAdminOf();
-  }, []);
+  }, [user]);
 
   return (
     <Container>
@@ -81,7 +81,7 @@ function PendingRuns({ user }) {
                         <ApproveRun
                           showModal={showApproveModal}
                           closeModal={handleApproveModalClose}
-                          runId={run.runId}
+                          run={run}
                         />
                       </div>
                       <div>
@@ -94,7 +94,7 @@ function PendingRuns({ user }) {
                         <DeleteRun
                           showModal={showDeclineModal}
                           closeModal={handleDeclineModalClose}
-                          runId={run.runId}
+                          run={run}
                         />
                       </div>
                     </td>
